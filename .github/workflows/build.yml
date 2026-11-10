@@ -1,0 +1,57 @@
+name: Build TT9 Chinese Edition (offline APK)
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout project sources
+      uses: actions/checkout@v5
+      with:
+        fetch-depth: 0 # the build scripts read the git history to compute the version
+
+    - name: Setup Java
+      uses: actions/setup-java@v5
+      with:
+        distribution: temurin
+        java-version: 21
+
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v4
+
+    - name: Make gradlew executable
+      run: chmod +x ./gradlew
+
+    # build the dictionaries and bundle Chinese + English + Japanese into the APK
+    - name: Generate Documents
+      run: ./gradlew generateDocs
+    - name: Validate Dictionaries
+      run: ./gradlew validateLanguages
+    - name: Build Languages
+      run: ./gradlew buildDefinition buildDictionaryDownloads
+    - name: Copy Dictionaries Into the APK
+      run: ./gradlew copyDownloadsToAssets
+    - name: Build the 'Full' (offline) APK
+      run: ./gradlew assembleFullRelease
+
+    - name: Sign the APK
+      run: |
+        APK=$(ls app/build/outputs/apk/full/release/*.apk | head -n 1)
+        APKSIGNER=$(ls -d $ANDROID_HOME/build-tools/*/apksigner | sort -V | tail -n 1)
+        mkdir -p dist
+        OUT="dist/$(basename "$APK" .apk)-signed.apk"
+        "$APKSIGNER" sign --ks signing/tt9-release.jks --ks-pass pass:tt9tt9tt9 --key-pass pass:tt9tt9tt9 --ks-key-alias tt9 --out "$OUT" "$APK"
+        "$APKSIGNER" verify "$OUT"
+        ls -lh dist
+
+    - name: Upload the APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: tt9-chinese-offline-apk
+        path: dist/*.apk

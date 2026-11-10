@@ -1,0 +1,43 @@
+ext.generateNgramsMetadata = { definitionsInputDir, dictionariesInputDir, iconsDir, ngramsInputDir, ngramsMetaDir ->
+	def errorStream = fileTree(dir: definitionsInputDir).getFiles().parallelStream().map { definition ->
+		if (!definition.name.endsWith("yml")) {
+			return ""
+		}
+
+		def (ignore1, ignore2, ignore3, ignore4, ignore5, ignore6, ngramFile, ignore7, langFileErrorMsg) = parseLanguageDefintion(definition, dictionariesInputDir, iconsDir, ngramsInputDir)
+		if (!langFileErrorMsg.isEmpty()) {
+			return langFileErrorMsg
+		}
+
+		def errorMessage = generateMetadata(ngramFile, ngramsMetaDir)
+		if (!errorMessage.isEmpty()) {
+			return errorMessage
+		}
+
+		return ""
+	}
+
+	String errorsMsg = errorStream.reduce("", String::concat)
+	if (errorsMsg) {
+		throw new GradleException(errorsMsg)
+	}
+}
+
+// this cannot be static, because it requires access to exec()
+def generateMetadata(File ngramFile, String ngramsMetaDir) {
+	if (ngramFile == null) {
+		return ""
+	}
+
+	def filename = ngramFile.name.replaceFirst("\\.zip\$", ".props.yml")
+
+	try {
+		// fixed upstream commit: online dictionary packs are fetched from sspanak/tt9 at this revision
+		def revision = ngramFile.exists() ? "523fddd713a602c2cbdf446a2b1b09308a634371" : ""
+		new File(ngramsMetaDir, filename).text = "revision: ${revision}"
+
+		return ""
+	} catch (Exception e) {
+		return "Failed writing ngram properties to: '${ngramsMetaDir}/${filename}'. ${e.message}\n"
+	}
+}

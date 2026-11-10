@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name" translatable="false">Traditional T9</string>
+	<string name="app_name_short" translatable="false">TT9</string>
+	<string name="dictionary_url" translatable="false">https://raw.githubusercontent.com/sspanak/tt9/%1$s/downloads/%2$s</string>
+	<string name="system_night_mode" translatable="false">n</string>
+
+	<string name="app_settings">TT9 设置</string>
+	<string name="click_here_for_preview">点此预览</string>
+	<string name="completed">已完成</string>
+	<string name="delete">删除</string>
+	<string name="english_only" translatable="false">English only</string>
+	<string name="language">语言</string>
+	<string name="list_item_none" translatable="false">--</string>
+	<string name="loading">加载中…</string>
+	<string name="search_results">搜索结果</string>
+	<string name="search_results_void">没有结果。</string>
+	<string name="version_info">%1$s\n作者 Dimo Karaivanov，以及来自世界各地的贡献者。</string>
+
+	<string name="error_unexpected">发生意外错误。</string>
+
+	<string name="accessibility_key_left">左箭头</string>
+	<string name="accessibility_key_right">右箭头</string>
+	<string name="accessibility_mode_123">数字</string>
+	<string name="accessibility_mode_predictive">%1$s - 预测输入</string>
+	<string name="accessibility_mode_recomposing">编辑单词：“%1$s”</string>
+	<string name="accessibility_text_case_lower">小写</string>
+	<string name="accessibility_text_case_upper">大写</string>
+	<string name="accessibility_text_case_capital">首字母大写</string>
+
+	<string name="add_word_add">添加</string>
+	<string name="add_word_confirm">将单词“%1$s”添加到 %2$s？</string>
+	<string name="add_word_no_confirmation">无需确认直接添加</string>
+	<string name="add_word_no_selection">请将光标移到单词内部再添加。</string>
+	<string name="add_word_not_available_in_language">此语言不支持添加单词。</string>
+	<string name="add_word_blank">未添加空白单词。</string>
+	<string name="add_word_exist">单词“%1$s”已在词典中。</string>
+	<string name="add_word_invalid_language" translatable="false">Cannot add a word when no language is selected.</string>
+	<string name="add_word_success">已添加“%1$s”。</string>
+	<string name="add_word_title">添加单词</string>
+
+	<string name="edit_word_invalid_characters">当前语言为“%2$s”，无法编辑“%1$s”。</string>
+	<string name="edit_word_not_available_in_language">此语言不支持编辑单词。</string>
+	<string name="edit_word_no_selection">请将光标移到单词内部再编辑。</string>
+
+	<string name="commands_clipboard_is_empty">剪贴板为空。</string>
+	<string name="commands_select_command">选择命令</string>
+
+	<string name="pref_category_about">关于</string>
+	<string name="pref_category_abc_mode">ABC 模式</string>
+	<string name="pref_category_appearance">外观</string>
+	<string name="pref_category_colors">颜色</string>
+	<string name="pref_category_custom_words">已添加的单词</string>
+	<string name="pref_category_geometry">尺寸</string>
+	<string name="pref_category_debug_options" translatable="false">Debug Options</string>
+	<string name="pref_category_delete_words">删除已添加的单词</string>
+	<string name="pref_category_function_keys">选择快捷键</string>
+	<string name="pref_category_fn_key_order">功能键顺序</string>
+	<string name="pref_category_hacks">兼容性</string>
+	<string name="pref_category_key_appearance">按键</string>
+	<string name="pref_category_key_chars">按键字符</string>
+	<string name="pref_category_key_chars_summary">为 2–9 键添加额外字母。调整、添加或删除 0 键和 1 键上的特殊字符。</string>
+	<string name="pref_category_keypad">键盘</string>
+	<string name="pref_category_keypad_hardware">实体按键</string>
+	<string name="pref_category_keypad_onscreen">屏幕按键</string>
+	<string name="pref_category_layout">屏幕布局</string>
+	<string name="pref_category_predictive_mode">预测模式</string>
+	<string name="pref_category_setup">初始设置</string>
+	<string name="pref_category_typing">输入</string>
+	<string name="pref_category_unfolded_appearance">展开状态外观</string>
+	<string name="pref_category_unfolded_appearance_summary">设置设备展开时的外观。</string>
+	<string name="pref_category_usage_stats" translatable="false">Usage Stats</string>
+
+	<string name="pref_abc_auto_accept">自动选字</string>
+	<string name="pref_abc_auto_accept_off">关闭</string>
+	<string name="pref_abc_auto_accept_fastest">极快</string>
+	<string name="pref_abc_auto_accept_fast">快</string>
+	<string name="pref_abc_auto_accept_normal">适中</string>
+	<string name="pref_abc_auto_accept_slow">慢</string>
+	<string name="pref_allow_composing_text">显示组合文本</string>
+	<string name="pref_allow_composing_text_summary">输入时在文本框中显示单词。关闭后，只有按下确认键或空格后才显示。</string>
+	<string name="pref_allow_system_tap_sound">按键时播放 Android 系统音</string>
+	<string name="pref_allow_system_tap_sound_summary">允许 Android 在按下键盘按键时播放声音。</string>
+	<string name="pref_alternative_suggestion_scrolling">备用候选词滚动方式</string>
+	<string name="pref_alternative_suggestion_scrolling_summary">如果有时看不到全部候选词或滚动困难，请开启。</string>
+	<string name="pref_arrows_left_right">左/右箭头</string>
+	<string name="pref_arrows_left_right_summary">显示左/右箭头键，用于滚动候选词或横向移动文本光标。</string>
+	<string name="pref_arrows_up_down">上/下箭头</string>
+	<string name="pref_arrows_up_down_summary">允许上下滑动确认键来筛选候选词或纵向移动文本光标。</string>
+	<string name="pref_auto_capitals_after_newline">每行自动大写</string>
+	<string name="pref_auto_capitals_after_newline_summary">每行都以大写字母开头，即使在句子中间。</string>
+	<string name="pref_auto_mind_reading">读心预测</string>
+	<string name="pref_auto_mind_reading_summary">设置下一个词的预测。（在低端设备上，此功能可能造成输入卡顿并加快耗电）</string>
+	<string name="pref_auto_mind_reading_guess">下一词预测</string>
+	<string name="pref_auto_mind_reading_guess_summary">在开始输入前显示下一个词的预测。（并非所有语言都支持）</string>
+	<string name="pref_auto_mind_reading_complete">自动补全</string>
+	<string name="pref_auto_mind_reading_complete_summary">输入第一个字母后显示补全词。（并非所有语言都支持）</string>
+	<string name="pref_auto_mind_reading_in_all_fields">在所有文本框中启用</string>
+	<string name="pref_auto_mind_reading_in_all_fields_summary">某些应用会要求在特定文本框中不提供词语预测。此选项会忽略这类要求，并在所有文本框中启用预测。</string>
+	<string name="pref_auto_mind_reading_sort_predictions_last">自动补全排在最后</string>
+	<string name="pref_auto_mind_reading_sort_predictions_last_summary_on">将可能的补全词显示在候选列表末尾。</string>
+	<string name="pref_auto_mind_reading_sort_predictions_last_summary_off">将最可能的补全词显示在候选列表开头。</string>
+	<string name="pref_auto_space">自动空格</string>
+	<string name="pref_auto_space_summary">在标点或单词后自动添加空格。</string>
+	<string name="pref_auto_text_case">自动大写</string>
+	<string name="pref_auto_text_case_summary">自动以大写字母开头句子。（并非所有语言都支持）</string>
+	<string name="pref_auto_trim_trailing_space">自动去除末尾空白</string>
+	<string name="pref_auto_trim_trailing_space_summary">向回移动光标时自动删除多余的空格。</string>
+	<string name="pref_backspace_acceleration">快速删除</string>
+	<string name="pref_backspace_acceleration_summary">按住或滑动退格键可删除整个单词。（部分应用不支持）</string>
+	<string name="pref_backspace_recomposing">单词重新组合</string>
+	<string name="pref_backspace_recomposing_summary">在单词末尾按退格键可编辑该单词。（部分应用及混合语言文本中不可用）</string>
+	<string name="pref_choose_languages">语言</string>
+
+	<string name="pref_bottom_padding_portrait">底部间距（竖屏）</string>
+	<string name="pref_drag_resize">拖动调整大小</string>
+	<string name="pref_drag_resize_summary">拖动状态栏或设置键，可最小化键盘或调整其在屏幕上的位置。</string>
+	<string name="pref_double_tap_resize">双击调整大小</string>
+	<string name="pref_double_tap_resize_summary">没有候选词时，双击状态栏可最大化或最小化键盘。</string>
+	<string name="pref_double_zero_char">连按两次 0 键输入的字符</string>
+	<string name="pref_numpad_fn_key_width">字母键宽度</string>
+	<string name="pref_font_size">设置界面字号</string>
+	<string name="pref_font_size_default">默认</string>
+	<string name="pref_font_size_large">大</string>
+	<string name="pref_hack_always_on_top">始终置顶</string>
+	<string name="pref_hack_always_on_top_summary">防止其他应用遮挡 %1$s 或将其挤出屏幕。</string>
+	<string name="pref_hack_auto_disable_composing">自动关闭组合文本</string>
+	<string name="pref_hack_auto_disable_composing_summary">当某个应用导致输入问题时，自动关闭组合文本。</string>
+	<string name="pref_hack_key_pad_debounce_time">防误触重复按键</string>
+	<string name="pref_hack_key_pad_debounce_off">关闭</string>
+	<string name="pref_haptic_feedback">振动</string>
+	<string name="pref_haptic_feedback_summary">按下虚拟按键时振动。（并非所有设备都支持）</string>
+	<string name="pref_haptic_feedback_problematic_summary">振动可能导致您的设备崩溃。开启风险自负。</string>
+	<string name="pref_hardware_key_visual_feedback">显示按键效果</string>
+	<string name="pref_hardware_key_visual_feedback_summary">按下实体按键时，对应的屏幕按键会显示点击效果。</string>
+	<string name="pref_help">帮助</string>
+	<string name="pref_hold_to_type">数字键长按</string>
+	<string name="pref_hold_to_type_summary">允许长按数字键输入数字或运行应用功能。如果设备把短按误判为长按，请关闭。</string>
+	<string name="pref_key_shadows">按键下方阴影</string>
+	<string name="pref_keyboard_preview">预览</string>
+	<string name="pref_layout">布局类型</string>
+	<string name="pref_layout_classic">虚拟数字键盘（复古）</string>
+	<string name="pref_layout_numpad">虚拟数字键盘（现代）</string>
+	<string name="pref_layout_small">功能键</string>
+	<string name="pref_layout_stealth">隐形</string>
+	<string name="pref_layout_tray">仅候选词列表</string>
+	<string name="pref_numpad_alignment">对齐方式</string>
+	<string name="pref_numpad_key_font_size">按键字号</string>
+	<string name="pref_numpad_key_height">高度</string>
+	<string name="pref_numpad_shape">形状</string>
+	<string name="pref_numpad_shape_square">方形</string>
+	<string name="pref_numpad_shape_v">V 形</string>
+	<string name="pref_numpad_shape_long_space">长空格键</string>
+	<string name="pref_numpad_width">宽度</string>
+	<string name="pref_one_key_emoji">表情符号</string>
+	<string name="pref_one_key_emoji_none">禁用</string>
+	<string name="pref_one_key_emoji_simple">简短列表</string>
+	<string name="pref_predict_top_words">学习常用词</string>
+	<string name="pref_predict_top_words_summary">记住常用单词，以提高候选词的准确度。</string>
+	<string name="pref_predict_word_pairs">学习词组搭配</string>
+	<string name="pref_predict_word_pairs_summary">记住常用短语，以提高候选词的准确度。</string>
+	<string name="pref_predictive_auto_accept">自动选词</string>
+	<string name="pref_privacy_policy">隐私政策</string>
+	<string name="pref_quick_switch_language">快速切换语言</string>
+	<string name="pref_quick_switch_language_summary">按语言键时自动切换到下一种语言，而不是弹出包含所有已启用语言的列表。</string>
+	<string name="pref_hack_send_with_enter_in_chat_apps">聊天应用中用确认键发送</string>
+	<string name="pref_hack_send_with_enter_in_chat_apps_summary">在聊天应用中按确认键或方向键中心键发送消息。（部分应用不支持）</string>
+	<string name="pref_show_suggestions_abc">显示字母候选</string>
+	<string name="pref_show_suggestions_abc_summary">按下按键时，在候选栏中显示可输入的字母。</string>
+	<string name="pref_status_icon">状态图标</string>
+	<string name="pref_status_icon_summary">键盘输入激活时显示图标。</string>
+	<string name="pref_suggestion_font_size">候选词字号</string>
+	<string name="pref_suggestion_smooth_scroll">候选词平滑滚动</string>
+	<string name="pref_upside_down_keys">反转按键顺序</string>
+	<string name="pref_upside_down_keys_summary">适用于第一行是 7–8–9 而不是 1–2–3 的电脑数字小键盘。</string>
+
+	<!-- Colors -->
+	<string name="pref_color_scheme">主题</string>
+	<string name="pref_dark_theme_auto">自动</string>
+	<string name="pref_color_scheme_device_dark">系统深色</string>
+	<string name="pref_color_scheme_device_light">系统浅色</string>
+
+	<string name="dictionary_cancel_load">取消加载</string>
+	<string name="dictionary_load_bad_char">加载失败。语言“%2$s”第 %1$d 行存在无效单词。</string>
+	<string name="dictionary_load_error">加载语言“%1$s”的词典失败（%2$s）。</string>
+	<string name="dictionary_load_error_short">加载 %1$s 失败</string>
+	<string name="dictionary_load_no_internet">下载语言“%1$s”的词典失败。请检查网络连接。</string>
+	<string name="dictionary_load_cancelled">已取消加载词典。</string>
+	<string name="dictionary_loaded">词典加载完成。</string>
+	<string name="dictionary_loading">正在加载词典（%1$s）…</string>
+	<string name="dictionary_loading_indeterminate">正在加载词典</string>
+	<string name="dictionary_loading_please_wait">请等待词典加载完成。</string>
+	<string name="dictionary_loading_short">加载 / %1$s… %2$d</string>
+	<string name="dictionary_load_title">加载所选语言</string>
+	<string name="dictionary_not_found">加载失败。未找到“%1$s”的词典。</string>
+	<string name="dictionary_truncate_title">全部删除</string>
+	<string name="dictionary_truncate_unselected">删除未选中的</string>
+	<string name="dictionary_truncated">词典已成功删除。</string>
+	<string name="dictionary_truncating">正在删除…</string>
+
+	<string name="dictionary_export">导出所选语言</string>
+	<string name="dictionary_export_custom_words">导出</string>
+	<string name="dictionary_export_custom_words_summary">将所有已添加的单词导出为 CSV 文件，保存到：“%1$s”。</string>
+	<string name="dictionary_export_failed">导出失败</string>
+	<string name="dictionary_export_failed_more_info">如需更多信息，请开启调试模式并查看日志。</string>
+	<string name="dictionary_export_finished">导出完成</string>
+	<string name="dictionary_export_finished_more_info">单词已导出到：“%1$s”。</string>
+	<string name="dictionary_export_generating_csv">正在导出 CSV…</string>
+	<string name="dictionary_export_generating_csv_for_language">正在导出 CSV（%1$s）…</string>
+
+	<string name="dictionary_import_cancel">取消导入</string>
+	<string name="dictionary_import_canceled">已取消导入。</string>
+	<string name="dictionary_import_custom_words">导入</string>
+	<string name="dictionary_import_custom_words_summary">从之前导出的 CSV 文件导入单词。</string>
+	<string name="dictionary_import_failed">导入失败。</string>
+	<string name="dictionary_import_finished">导入完成。</string>
+	<string name="dictionary_import_error_browsing_error">Android 文件选择器出错。</string>
+	<string name="dictionary_import_error_cannot_read_file">无法打开所选文件。</string>
+	<string name="dictionary_import_error_file_too_long">单词数量超过允许的上限 %1$d。</string>
+	<string name="dictionary_import_error_malformed_line">第 %2$d 行的单词格式不正确：“%1$s”。</string>
+	<string name="dictionary_import_error_too_many_words">已添加单词的存储已满，无法再导入更多单词。</string>
+	<string name="dictionary_import_progress">正在导入 CSV（%1$s）…</string>
+	<string name="dictionary_import_running">正在导入 CSV…</string>
+	<string name="dictionary_import_raise_import_limits">提高导入上限</string>
+	<string name="dictionary_import_raise_import_limits_summary">将每个文件的最大单词数从 %1$d 提高到 %2$d，总单词数从 %3$d 提高到 %4$d。\n警告！导入过多单词可能导致输入卡顿。</string>
+
+	<string name="delete_words_link_summary">查找并删除拼写错误或不需要的单词。</string>
+	<string name="delete_words_deleted_confirm_deletion_title">确认删除</string>
+	<string name="delete_words_deleted_confirm_deletion_question">确定要删除“%1$s”吗？</string>
+	<string name="delete_words_deleted_x">已删除“%1$s”。</string>
+
+	<string name="dictionary_update_message">“%1$s”有可用的词典更新。</string>
+	<string name="dictionary_update_update">加载</string>
+
+	<string name="donate_title">捐赠</string>
+	<string name="donate_summary">如果您喜欢 %1$s，可以请我喝杯啤酒。</string>
+	<string name="donate_hold_to_open">长按可在浏览器中打开。</string>
+
+	<string name="fn_key_order_column_1">第 1 列</string>
+	<string name="fn_key_order_column_2">第 2 列</string>
+	<string name="fn_key_order_error_wrong_key_count">每列最多只能包含 4 个按键。</string>
+	<string name="fn_key_order_error_unsupported_key_code">仅支持下方列出的按键。</string>
+	<string name="fn_key_order_error_key_on_both_sides">同一个按键不能同时放在两列中。</string>
+	<string name="fn_key_order_error_duplicate_key">不允许重复的按键。</string>
+	<string name="fn_key_order_legend">图例：</string>
+	<string name="fn_key_order_preview_tip">提示：调整第 1 列的按键顺序后，点一下第 2 列即可立即看到效果（反之亦然）。</string>
+	<string name="fn_key_order_restore_default">恢复默认顺序</string>
+
+	<string name="function_already_assigned">按键“%1$s”已分配给功能“%2$s”。要改为分配给“%3$s”吗？</string>
+	<string name="function_assign_instructions">* 按下或长按一个按键，将其分配给“%1$s”功能。\n\n* 按 0 取消。\n\n* 按 2 停用该功能。</string>
+	<string name="function_reassign">重新分配</string>
+
+	<string name="function_add_word">添加单词</string>
+	<string name="function_backspace">退格</string>
+	<string name="function_show_command_palette">显示命令列表</string>
+	<string name="function_filter_clear">清除筛选</string>
+	<string name="function_edit_text">显示剪贴板工具</string>
+	<string name="function_edit_word">编辑单词</string>
+	<string name="function_hide_keyboard">隐藏键盘</string>
+	<string name="function_filter_suggestions">筛选候选词</string>
+	<string name="function_filter_suggestions_not_available">此语言不支持筛选。</string>
+	<string name="function_previous_suggestion">上一个候选词</string>
+	<string name="function_next_suggestion">下一个候选词</string>
+	<string name="function_next_language">下一种语言</string>
+	<string name="function_next_mode">下一种输入模式</string>
+	<string name="function_select_keyboard">选择键盘</string>
+	<string name="function_show_emojis">显示表情符号</string>
+	<string name="function_show_settings">显示设置</string>
+	<string name="function_toggle_predictive_mode">切换预测模式</string>
+	<string name="function_txt_select_all">全选</string>
+	<string name="function_txt_select_previous_char">选择上一个字符</string>
+	<string name="function_txt_select_previous_word">选择上一个单词</string>
+	<string name="function_txt_select_next_char">选择下一个字符</string>
+	<string name="function_txt_select_next_word">选择下一个单词</string>
+	<string name="function_txt_select_none">取消选择</string>
+	<string name="function_txt_cut">剪切</string>
+	<string name="function_txt_copy">复制</string>
+	<string name="function_txt_paste">粘贴</string>
+	<string name="function_undo">撤销</string>
+	<string name="function_redo">重做</string>
+	<string name="function_voice_input">语音输入</string>
+	<string name="function_reset_keys_title">恢复默认按键</string>
+	<string name="function_reset_keys_done">已恢复默认按键设置。</string>
+
+	<string name="help_url_copied">已复制网址。</string>
+
+	<string name="key_chars_error_cannot_be_empty">列表不能为空。</string>
+	<string name="key_chars_error_mandatory_char_missing">缺少必需字符：%1$s</string>
+	<string name="key_chars_error_mandatory_chars_missing">缺少必需字符：%1$s</string>
+	<string name="key_chars_error_forbidden_char">不允许的字符：%1$s</string>
+	<string name="key_chars_error_forbidden_chars">不允许的字符：%1$s</string>
+	<string name="key_chars_error_only_letters_allowed">只允许输入字母。</string>
+	<string name="key_chars_error_repeating_letters_not_allowed">不允许重复的字母。</string>
+	<string name="key_chars_restore_default_for">恢复 %1$s 的默认字符</string>
+	<string name="key_chars_save">保存 %1$s 的字符</string>
+	<string name="key_chars_save_error">保存字符列表失败。</string>
+
+	<string name="key_chars_key_0">0 键</string>
+	<string name="key_chars_include_newline">包含换行</string>
+	<string name="key_chars_include_tab">包含制表符</string>
+	<string name="key_chars_whitespace_will_be_added_automatically">空格字符会自动添加到列表开头。</string>
+	<string name="key_chars_key_1">1 键</string>
+	<string name="key_chars_initial_chars">初始字符</string>
+	<string name="key_chars_group">分组字符（可选）</string>
+	<string name="key_chars_after_group">分组之后的字符（可选）</string>
+	<string name="key_chars_key_2_9">2–9 键</string>
+
+	<string name="language_selection_language_loaded">（已加载）</string>
+	<string name="language_selection_title">启用语言</string>
+	<string name="language_selection_words">词</string>
+
+	<string name="language_popup_title">选择语言</string>
+
+	<string name="setup_keyboard_status">状态</string>
+	<string name="setup_default_keyboard">选择默认键盘</string>
+	<string name="setup_tt9_on">%1$s 已启用</string>
+	<string name="setup_tt9_off">%1$s 未启用</string>
+	<string name="setup_click_here_to_enable">点此在 Android 设置中启用 TT9。</string>
+	<string name="setup_spell_checker">系统拼写检查</string>
+	<string name="setup_spell_checker_on">系统拼写检查会用红线标出文字，并可能阻止添加新单词。点按可关闭。</string>
+	<string name="setup_spell_checker_off">已关闭</string>
+
+	<string name="key_key">按键</string>
+	<string name="key_hold_key">（长按）</string>
+	<string name="key_back">返回</string>
+	<string name="key_call">通话</string>
+	<string name="key_channel_down">上一频道</string>
+	<string name="key_channel_up">下一频道</string>
+	<string name="key_dpad_up" translatable="false">▲</string>
+	<string name="key_dpad_down" translatable="false">▼</string>
+	<string name="key_dpad_left" translatable="false">◀</string>
+	<string name="key_dpad_right" translatable="false">▶</string>
+	<string name="key_menu" translatable="false">Menu</string>
+	<string name="key_soft_left" translatable="false">Left Func</string>
+	<string name="key_soft_right" translatable="false">Right Func</string>
+	<string name="key_volume_mute">静音</string>
+	<string name="key_volume_down">音量减</string>
+	<string name="key_volume_up">音量加</string>
+	<string name="key_red">红色按钮</string>
+	<string name="key_green">绿色按钮</string>
+	<string name="key_yellow">黄色按钮</string>
+	<string name="key_blue">蓝色按钮</string>
+
+	<string name="char_newline">换行</string>
+	<string name="char_space">空格</string>
+
+	<string name="tutorial_close">知道了！</string>
+	<string name="tutorial_classic_title">快速上手</string>
+	<string name="tutorial_classic_OK_swipe">没有候选词时，上下滑动可移动光标。\n\n有候选词时，向上滑动可筛选，向下滑动可清除筛选。</string>
+	<string name="tutorial_classic_add_word">向左滑动可添加单词。</string>
+	<string name="tutorial_classic_voice_input">向右滑动可启动语音输入。</string>
+
+	<string name="virtual_numpad_alignment_center">居中</string>
+	<string name="virtual_numpad_alignment_left">靠左</string>
+	<string name="virtual_numpad_alignment_right">靠右</string>
+
+	<string name="virtual_key_command_palette" translatable="false">Cmd</string>
+	<string name="virtual_key_del" translatable="false">Del</string>
+	<string name="virtual_key_input_mode" translatable="false">Mode</string>
+	<string name="virtual_key_shift" translatable="false">Shift</string>
+	<string name="virtual_key_space_korean">空格</string>
+
+	<string name="voice_input_listening">请说话</string>
+	<string name="voice_input_stopping">正在关闭麦克风…</string>
+	<string name="voice_input_mic_permission_is_needed">您必须授予麦克风权限才能使用语音输入。</string>
+	<string name="voice_input_error_incompatible_voice_service">语音助手不兼容</string>
+	<string name="voice_input_error_generic">语音输入出错</string>
+	<string name="voice_input_error_no_permissions">没有麦克风权限</string>
+	<string name="voice_input_error_language_not_supported">不支持该语言</string>
+	<string name="voice_input_error_language_missing">设备上缺少该语言</string>
+	<string name="voice_input_error_network_failed">网络连接失败</string>
+	<string name="voice_input_error_no_network">没有网络连接</string>
+	<string name="voice_input_error_not_available">语音输入不可用</string>
+</resources>
