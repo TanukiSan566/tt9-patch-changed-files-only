@@ -162,6 +162,7 @@ abstract public class SuggestionHandler extends TypingHandler {
 		}
 
 		final ArrayList<String> suggestions = mInputMode.getSuggestions();
+		textField.setComposingForLanguage(mLanguage != null && mLanguage.isTranscribed());
 		suggestionOps.set(suggestions, mInputMode.getRecommendedSuggestionIdx(), mInputMode.containsGeneratedSuggestions());
 
 		// either accept the first one automatically (when switching from punctuation to text

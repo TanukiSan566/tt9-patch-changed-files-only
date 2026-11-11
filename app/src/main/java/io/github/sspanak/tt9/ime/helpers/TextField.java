@@ -19,6 +19,8 @@ public class TextField extends InputField {
 	@NonNull private CharSequence composingText = "";
 
 	private boolean isComposingSupported;
+	private final boolean composingAllowedByField;
+	private final boolean isChromeAddressBar;
 	private final boolean isNonText;
 	private final boolean isUs;
 
@@ -27,11 +29,12 @@ public class TextField extends InputField {
 		super(ims, inputField);
 
 		InputType inputType = new InputType(ims, inputField);
-		isComposingSupported =
+		composingAllowedByField =
 			!inputType.isNumeric() && !inputType.isLimited() // unsupported input fields
 			&& !inputType.isRustDesk() // not fixed by settings.getAutoDisableComposing()
-			&& !inputType.isChromeAddressBar() // customized build: it leaks the previous words when switching Pinyin
 			&& (settings == null || settings.getAllowComposingText()); // disabled in settings
+		isComposingSupported = composingAllowedByField;
+		isChromeAddressBar = inputType.isChromeAddressBar();
 		isNonText = !inputType.isText();
 		isUs = inputType.isUs();
 	}
@@ -239,6 +242,18 @@ public class TextField extends InputField {
 
 	public void disableComposing() {
 		isComposingSupported = false;
+	}
+
+
+	/**
+	 * Customized build: the Chrome address bar leaks the previous Chinese or Japanese words, when the
+	 * sounds are switched. So, for these languages, nothing is written until a word is accepted. For
+	 * the Latin languages, the composing text works fine, and it shows what we are typing.
+	 */
+	public void setComposingForLanguage(boolean isTranscribedLanguage) {
+		if (isChromeAddressBar && composingText.length() == 0) {
+			isComposingSupported = composingAllowedByField && !isTranscribedLanguage;
+		}
 	}
 
 

@@ -203,7 +203,8 @@ abstract class KeyPadHandler extends UiHandler {
 		if (Key.isBackspace(settings, keyCode) && Key.isHandled(KeyEvent.KEYCODE_DEL)) {
 			if (Key.isBack(keyCode) && isBackPending()) {
 				pendingBackSince = 0;
-				sendDownUpKeyEvents(KeyEvent.KEYCODE_BACK);
+				// Hide the keyboard, like the system does. The next "Back" goes to the application as a real key.
+				requestHideSelf(0);
 			}
 			return true;
 		}
