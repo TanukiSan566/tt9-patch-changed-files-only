@@ -182,6 +182,12 @@ abstract public class SuggestionHandler extends TypingHandler {
 			// highlight the current letter, when editing a word
 			trimmedWord = mInputMode.getWordStem() + suggestionOps.getCurrent();
 			appHacks.setComposingTextPartsWithHighlightedJoining(trimmedWord, mInputMode.getRecomposingSuffix());
+		} else if (mInputMode.isShowingSounds()) {
+			// Customized build: the list shows Pinyin sounds. They are only a filter, so we keep them out of
+			// the text field. Otherwise, apps like the Chrome address bar, which re-read the text on every
+			// change, end up with the sound typed as regular text: "大家发家FAJIA".
+			trimmedWord = suggestionOps.getCurrent(mLanguage, mInputMode.getSequenceLength());
+			appHacks.setComposingText("");
 		} else {
 			// or highlight the stem, when filtering
 			trimmedWord = suggestionOps.getCurrent(mLanguage, mInputMode.getSequenceLength());

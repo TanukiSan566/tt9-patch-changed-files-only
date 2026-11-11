@@ -303,6 +303,12 @@ abstract public class InputMode {
 	public boolean clearWordStem() { return setWordStem("", true); }
 	public boolean isStemFilterFuzzy() { return false; }
 	public String getWordStem() { return ""; }
+
+	/**
+	 * Customized build: true when the suggestion list contains sounds (e.g. Pinyin), instead of words.
+	 * Sounds are only a way to filter the words, so they must never be placed in the text field.
+	 */
+	public boolean isShowingSounds() { return false; }
 	public boolean setWordStem(String stem, boolean exact) { return false; }
 	public boolean supportsFiltering() { return false; }
 }

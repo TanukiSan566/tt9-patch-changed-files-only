@@ -240,6 +240,12 @@ public class ModeIdeograms extends ModeWords {
 
 
 	@Override
+	public boolean isShowingSounds() {
+		return isFiltering;
+	}
+
+
+	@Override
 	public boolean isStemFilterFuzzy() {
 		return isFiltering;
 	}
