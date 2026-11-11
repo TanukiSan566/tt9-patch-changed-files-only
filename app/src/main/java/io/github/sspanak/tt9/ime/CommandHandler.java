@@ -76,7 +76,8 @@ abstract public class CommandHandler extends TextEditingHandler {
 		mInputMode = InputMode.getInstance(settings, mLanguage, inputType, textField, modeId);
 		determineTextCase();
 
-		if (modeId != InputMode.MODE_RECOMPOSING) {
+		// Customized build: the Symbols mode is temporary ("*"), so the next text field must not start in it
+		if (modeId != InputMode.MODE_RECOMPOSING && modeId != InputMode.MODE_SYMBOLS) {
 			settings.saveInputMode(mInputMode.getId());
 		}
 

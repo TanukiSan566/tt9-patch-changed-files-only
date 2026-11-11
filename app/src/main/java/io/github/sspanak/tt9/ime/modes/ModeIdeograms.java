@@ -16,7 +16,7 @@ public class ModeIdeograms extends ModeWords {
 	private static final String LOG_TAG = ModeIdeograms.class.getSimpleName();
 	protected String NAME;
 
-	private boolean isFiltering = false;
+	protected boolean isFiltering = false;
 	@NonNull private String lastAcceptedSequence = "";
 	@NonNull private String lastAcceptedWord = "";
 	@NonNull private String lastTextBeforeDelete = "";
@@ -57,6 +57,10 @@ public class ModeIdeograms extends ModeWords {
 	@Override
 	protected void onPredictions() {
 		if (language.hasTranscriptionsEmbedded()) {
+			if (!isFiltering) {
+				filterPredictions((IdeogramPredictions) predictions);
+			}
+
 			if (isFiltering) {
 				((IdeogramPredictions) predictions).stripNativeWords();
 			} else {
@@ -72,6 +76,13 @@ public class ModeIdeograms extends ModeWords {
 
 		super.onPredictions();
 	}
+
+
+	/**
+	 * Customized build: a chance for the language-specific modes to drop words that do not match what
+	 * the user typed. Called with the transcriptions still attached to the words, e.g. "BIAN币安".
+	 */
+	protected void filterPredictions(@NonNull IdeogramPredictions ideogramPredictions) {}
 
 
 	@Override

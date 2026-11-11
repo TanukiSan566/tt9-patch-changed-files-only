@@ -66,8 +66,14 @@ abstract class KeyPadHandler extends UiHandler {
 
 //		Logger.d("onKeyDown", "Key: " + event + " repeat?: " + event.getRepeatCount() + " long-time: " + event.isLongPress());
 
+		// Customized build: when the command popup is open, "Back" closes it, instead of deleting text.
+		final boolean backClosesPanel = Key.isBack(keyCode) && isFnPanelVisible();
+		if (backClosesPanel) {
+			Key.setHandled(KeyEvent.KEYCODE_DEL, false);
+		}
+
 		// "backspace" key must repeat its function when held down, so we handle it in a special way
-		if (Key.isBackspace(settings, keyCode)) {
+		if (Key.isBackspace(settings, keyCode) && !backClosesPanel) {
 			boolean nothingToDelete = false;
 			if (Key.isBack(keyCode) && event.getRepeatCount() == 0) {
 				nothingToDelete = isNothingToDelete();

@@ -55,6 +55,21 @@ public class CmdSuggestionNext implements Command {
 	}
 
 
+	/**
+	 * Customized build: the "Up" key. Jumps to the previous page of suggestions.
+	 * @return false, when we are already on the first page and nothing has changed.
+	 */
+	public static boolean scrollSuggestionsPagePrevious(@NonNull TraditionalT9 tt9) {
+		tt9.getSuggestionOps().cancelDelayedAccept();
+		if (!tt9.getSuggestionOps().scrollPagePrevious()) {
+			return false;
+		}
+
+		applyCurrentSuggestion(tt9);
+		return true;
+	}
+
+
 	private static void applyCurrentSuggestion(@NonNull TraditionalT9 tt9) {
 		tt9.getInputMode().setWordStem(tt9.getSuggestionOps().getCurrent(), true);
 		if (InputModeKind.isRecomposing(tt9.getInputMode())) {

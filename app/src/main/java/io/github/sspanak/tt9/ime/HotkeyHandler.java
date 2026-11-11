@@ -2,6 +2,8 @@ package io.github.sspanak.tt9.ime;
 
 import android.view.KeyEvent;
 
+import java.util.ArrayList;
+
 import io.github.sspanak.tt9.commands.CmdEditAdjacentLetter;
 import io.github.sspanak.tt9.commands.CmdEditDuplicateLetter;
 import io.github.sspanak.tt9.commands.CmdFilterSuggestions;
@@ -13,6 +15,7 @@ import io.github.sspanak.tt9.commands.CommandCollection;
 import io.github.sspanak.tt9.ime.helpers.InputConnectionAsync;
 import io.github.sspanak.tt9.ime.helpers.Key;
 import io.github.sspanak.tt9.ime.helpers.TextField;
+import io.github.sspanak.tt9.ime.modes.InputMode;
 import io.github.sspanak.tt9.ime.modes.InputModeKind;
 import io.github.sspanak.tt9.util.Ternary;
 import io.github.sspanak.tt9.util.chars.Characters;
@@ -24,6 +27,9 @@ public abstract class HotkeyHandler extends CommandHandler {
 	private final CmdSpaceKorean spaceKorean = new CmdSpaceKorean();
 
 	private boolean waitingForSpaceTrim = false;
+
+	// Customized build: the typing mode we return to, when "*" closes the Symbols mode
+	private int modeBeforeSymbols = InputMode.MODE_PREDICTIVE;
 
 
 	protected boolean isHoldHotkey(int keyCode) {
@@ -149,6 +155,17 @@ public abstract class HotkeyHandler extends CommandHandler {
 			return true;
 		}
 
+		// Customized build: "Up" jumps to the previous page of suggestions. On the first page, it is
+		// not handled here, so it continues as the "Filter" hotkey, which is the Pinyin (sound) selection.
+		if (Key.isArrowUp(keyCode) && onPreviousSuggestionPage(validateOnly)) {
+			return true;
+		}
+
+		// Customized build: "*" turns the Symbols mode on and off
+		if (keyCode == KeyEvent.KEYCODE_STAR && onToggleSymbols(validateOnly)) {
+			return true;
+		}
+
 		if (Key.isArrowLeft(-keyCode) || Key.isArrowRight(-keyCode)) {
 			if (editAdjacentLetter.runFromHotkey(getFinalContext(), validateOnly, Key.isArrowLeft(-keyCode))) {
 				return true;
@@ -175,18 +192,79 @@ public abstract class HotkeyHandler extends CommandHandler {
 	}
 
 
+	private boolean onPreviousSuggestionPage(boolean validateOnly) {
+		if (shouldBeOff() || isFnPanelVisible() || suggestionOps.isEmpty() || !suggestionOps.canScrollPagePrevious()) {
+			return false;
+		}
+
+		if (!validateOnly) {
+			CmdSuggestionNext.scrollSuggestionsPagePrevious(getFinalContext());
+			if (mainView != null) {
+				mainView.renderDynamicKeys();
+			}
+		}
+
+		return true;
+	}
+
+
+	/**
+	 * Customized build: "*" switches to the Symbols mode and back to the mode we were in before.
+	 * In the numeric mode, it remains a regular "*" character.
+	 */
+	private boolean onToggleSymbols(boolean validateOnly) {
+		if (shouldBeOff() || isFnPanelVisible() || isVoiceInputActive() || InputModeKind.isNumeric(mInputMode)) {
+			return false;
+		}
+
+		final ArrayList<Integer> allowedModes = getAllowedInputModes();
+		final boolean inSymbols = InputModeKind.isSymbols(mInputMode);
+		if (!inSymbols && !allowedModes.contains(InputMode.MODE_SYMBOLS)) {
+			return false;
+		}
+
+		if (validateOnly) {
+			return true;
+		}
+
+		if (inSymbols) {
+			int previousMode = modeBeforeSymbols;
+			if (!allowedModes.contains(previousMode)) {
+				previousMode = allowedModes.contains(InputMode.MODE_PREDICTIVE) ? InputMode.MODE_PREDICTIVE : InputMode.MODE_ABC;
+			}
+			setInputMode(previousMode);
+		} else {
+			modeBeforeSymbols = mInputMode.getId();
+			setInputMode(InputMode.MODE_SYMBOLS);
+		}
+
+		return true;
+	}
+
+
+	/**
+	 * Customized build: "#" is the case key. In the modes where there is no text case (Chinese,
+	 * Symbols...), it must do nothing, instead of typing "#". In the numeric mode, it is a regular "#".
+	 */
+	private boolean isCaseKeyToSwallow(int keyCode) {
+		return keyCode == KeyEvent.KEYCODE_POUND && !shouldBeOff() && !isInputModeNumeric();
+	}
+
+
 	private boolean onDynamicKey(int keyCode, boolean repeat, boolean validateOnly) {
 		if (keyCode == settings.getKeyShift()) {
 			return
 				shift.runFromHotkey(getFinalContext(), validateOnly)
 				// when "Shift" and "Korean Space" share the same key, allow typing a space, when there
 				// are no special characters to shift
-				|| (keyCode == settings.getKeySpaceKorean() && spaceKorean.runFromHotkey(getFinalContext(), validateOnly));
+				|| (keyCode == settings.getKeySpaceKorean() && spaceKorean.runFromHotkey(getFinalContext(), validateOnly))
+				|| isCaseKeyToSwallow(keyCode);
 		}
 
 		final Command cmd = CommandCollection.getByHotkey(settings, keyCode);
 		if (cmd instanceof CmdFilterSuggestions) {
-			return ((CmdFilterSuggestions) cmd).runFromHotkey(getFinalContext(), validateOnly, repeat);
+			// "Up" is also the "Page Up" key, so it must never be treated as a repeated "Filter" press
+			return ((CmdFilterSuggestions) cmd).runFromHotkey(getFinalContext(), validateOnly, repeat && !Key.isArrowUp(keyCode));
 		} else {
 			return cmd.runFromHotkey(getFinalContext(), validateOnly);
 		}

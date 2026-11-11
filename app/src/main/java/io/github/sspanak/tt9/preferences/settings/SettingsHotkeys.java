@@ -1,7 +1,6 @@
 package io.github.sspanak.tt9.preferences.settings;
 
 import android.content.Context;
-import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 
 import io.github.sspanak.tt9.commands.CmdAddWord;
@@ -31,7 +30,7 @@ import io.github.sspanak.tt9.ime.helpers.Hotkey;
 import io.github.sspanak.tt9.util.Logger;
 
 public class SettingsHotkeys extends SettingsVirtualNumpad {
-	private static final String HOTKEY_VERSION = "hotkeys_v7";
+	private static final String HOTKEY_VERSION = "hotkeys_v8";
 
 
 	SettingsHotkeys(Context context) { super(context); }
@@ -66,11 +65,10 @@ public class SettingsHotkeys extends SettingsVirtualNumpad {
 	 * experience. Instead, the on-screen "Backspace" key can be used.
 	 */
 	private void setDefaultBackspace() {
-		if (
-			KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_CLEAR)
-			|| KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_DEL)
-			|| isMainLayoutLarge()
-		) {
+		// Customized build: many Android devices report a DEL key in their key map, even when the phone
+		// has no such button. This used to leave "Backspace" unassigned, so "Back" could not delete anything.
+		// Now, on a keypad phone, "Back" is always "Backspace". When the text field is empty, it works as "Back" again.
+		if (isMainLayoutLarge()) {
 			getPrefsEditor().putString(CmdBackspace.ID, String.valueOf(KeyEvent.KEYCODE_UNKNOWN));
 		} else {
 			getPrefsEditor().putString(CmdBackspace.ID, String.valueOf(KeyEvent.KEYCODE_BACK));

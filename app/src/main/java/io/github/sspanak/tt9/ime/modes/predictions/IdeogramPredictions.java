@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.function.Predicate;
 
 import io.github.sspanak.tt9.db.DataStore;
 import io.github.sspanak.tt9.languages.Language;
@@ -187,8 +188,10 @@ public class IdeogramPredictions extends WordPredictions {
 			uniqueTranscriptions.add(stripNativeWord(transcriptions.get((i))));
 		}
 
+		// Customized build: the sounds that fit the pressed keys exactly (e.g. "DA", "FA" for 3-2) come first,
+		// then the longer ones that only begin with them (e.g. "DAI", "FAN").
 		ArrayList<String> transcriptionList = new ArrayList<>(uniqueTranscriptions);
-		Collections.sort(transcriptionList);
+		Collections.sort(transcriptionList, (a, b) -> a.length() != b.length() ? Integer.compare(a.length(), b.length()) : a.compareTo(b));
 		words = transcriptionList;
 	}
 
@@ -244,6 +247,30 @@ public class IdeogramPredictions extends WordPredictions {
 		}
 
 		return "";
+	}
+
+
+	/**
+	 * Customized build: keeps only the words, for which the given test is true. The test receives the
+	 * word with its transcription in front, e.g. "BIAN币安". When nothing passes, the list is left
+	 * as-is, so a wrong hint never leaves the user without any words.
+	 */
+	public void filterTranscriptions(@NonNull Predicate<String> keep) {
+		if (!areThereDbWords) {
+			return;
+		}
+
+		final ArrayList<String> kept = new ArrayList<>(transcriptions.size());
+		for (String word : transcriptions) {
+			if (keep.test(word)) {
+				kept.add(word);
+			}
+		}
+
+		if (!kept.isEmpty()) {
+			transcriptions = kept;
+			words = new ArrayList<>(kept);
+		}
 	}
 
 

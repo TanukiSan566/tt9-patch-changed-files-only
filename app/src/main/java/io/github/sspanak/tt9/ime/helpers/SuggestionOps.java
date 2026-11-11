@@ -167,6 +167,16 @@ public class SuggestionOps {
 	}
 
 
+	public boolean canScrollPagePrevious() {
+		return suggestionBar != null && suggestionBar.canScrollToSuggestionPagePrevious();
+	}
+
+
+	public boolean scrollPagePrevious() {
+		return suggestionBar != null && suggestionBar.scrollToSuggestionPagePrevious();
+	}
+
+
 	public String acceptCurrent() {
 		final String current = getCurrent();
 		if (Characters.PLACEHOLDER.equals(current)) {

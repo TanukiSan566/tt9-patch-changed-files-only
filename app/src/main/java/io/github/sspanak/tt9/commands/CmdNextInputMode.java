@@ -44,8 +44,9 @@ public class CmdNextInputMode implements Command {
 
 
 	/**
-	 * Customized build: "#" cycles through Numbers -> English -> Chinese -> (other enabled languages) -> Symbols.
-	 * Languages are the ones enabled in the settings, so adding Japanese there also adds it to the "#" cycle.
+	 * Customized build: hold "#" cycles through Numbers -> English -> Chinese -> (other enabled languages).
+	 * Languages are the ones enabled in the settings, so adding Japanese there also adds it to the cycle.
+	 * The Symbols mode is not part of it. It has its own key: "*".
 	 */
 	public boolean run(@Nullable TraditionalT9 tt9) {
 		if (tt9 == null || !isAvailable(tt9)) {
@@ -60,7 +61,14 @@ public class CmdNextInputMode implements Command {
 		final ArrayList<Integer> slots = getSlots(tt9);
 		if (!slots.isEmpty()) {
 			final int currentSlot = getCurrentSlot(tt9);
-			final int nextSlot = slots.get((slots.indexOf(currentSlot) + 1) % slots.size());
+			final int languageSlot = tt9.getLanguage() != null ? tt9.getLanguage().getId() : SLOT_123;
+			final int nextSlot;
+			if (slots.contains(currentSlot)) {
+				nextSlot = slots.get((slots.indexOf(currentSlot) + 1) % slots.size());
+			} else {
+				// e.g. we are in the Symbols mode: go back to the typing mode of the current language
+				nextSlot = slots.contains(languageSlot) ? languageSlot : slots.get(0);
+			}
 			applySlot(tt9, nextSlot);
 		}
 
@@ -86,10 +94,6 @@ public class CmdNextInputMode implements Command {
 				return rankA != rankB ? Integer.compare(rankA, rankB) : Integer.compare(a, b);
 			});
 			slots.addAll(languageIds);
-		}
-
-		if (allowedModes.contains(InputMode.MODE_SYMBOLS)) {
-			slots.add(SLOT_SYMBOLS);
 		}
 
 		return slots;
@@ -141,7 +145,10 @@ public class CmdNextInputMode implements Command {
 		}
 
 		final ArrayList<Integer> allowedModes = tt9.getAllowedInputModes();
-		final boolean abcFirst = !tt9.getSettings().getPredictiveMode() && allowedModes.contains(InputMode.MODE_ABC);
+		// Chinese, Japanese, etc. can only be typed in the predictive mode, so for them the setting does not apply.
+		final Language newLanguage = tt9.getLanguage();
+		final boolean predictiveOnly = newLanguage != null && newLanguage.isTranscribed();
+		final boolean abcFirst = !predictiveOnly && !tt9.getSettings().getPredictiveMode() && allowedModes.contains(InputMode.MODE_ABC);
 		if (!abcFirst && allowedModes.contains(InputMode.MODE_PREDICTIVE)) {
 			tt9.setInputMode(InputMode.MODE_PREDICTIVE);
 		} else if (allowedModes.contains(InputMode.MODE_ABC)) {

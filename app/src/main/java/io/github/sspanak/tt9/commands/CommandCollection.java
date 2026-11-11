@@ -155,6 +155,7 @@ public class CommandCollection {
 			addPaletteCommand(new CmdUndo());
 			addPaletteCommand(new CmdEditText());
 			addPaletteCommand(new CmdRedo());
+			addPaletteCommand(new CmdTypingModeCycle());
 			addPaletteCommand(new CmdSelectKeyboard());
 			addPaletteCommand(new CmdShowSettings());
 		}

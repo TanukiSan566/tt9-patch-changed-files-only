@@ -461,6 +461,37 @@ public class SuggestionsBar {
 	}
 
 
+	/**
+	 * Customized build: true when there is a previous "page" to go back to (the "Up" key). On the
+	 * first page, this is false, so the "Up" key can start the Pinyin (sound) selection instead.
+	 */
+	public boolean canScrollToSuggestionPagePrevious() {
+		if (visibleSuggestions.size() <= 1) {
+			return false;
+		}
+
+		final int first = containsStem() ? 1 : 0;
+		return selectedIndex - first >= SUGGESTIONS_PAGE_SIZE;
+	}
+
+
+	/**
+	 * Customized build: jumps one "page" back (the "Up" key). Does nothing on the first page.
+	 */
+	public boolean scrollToSuggestionPagePrevious() {
+		if (!canScrollToSuggestionPagePrevious()) {
+			return false;
+		}
+
+		final int first = containsStem() ? 1 : 0;
+		final int target = Math.max(selectedIndex - SUGGESTIONS_PAGE_SIZE, first);
+
+		calculateScrollIndex(target - selectedIndex);
+		scrollToSelected();
+		return true;
+	}
+
+
 	private void calculateScrollIndex(int increment) {
 		if (visibleSuggestions.isEmpty()) {
 			selectedIndex = 0;

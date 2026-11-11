@@ -441,7 +441,8 @@ public abstract class TypingHandler extends KeyPadHandler {
 		// reachable with the mode hotkey and "#", otherwise Chinese (and other predictive-only languages)
 		// could not be typed at all.
 		int savedMode = settings.getInputMode();
-		if (!settings.getPredictiveMode()) {
+		final boolean predictiveOnlyLanguage = mLanguage != null && mLanguage.isTranscribed();
+		if (!settings.getPredictiveMode() && !predictiveOnlyLanguage) {
 			if (allowedInputModes.contains(InputMode.MODE_ABC)) {
 				if (savedMode == InputMode.MODE_PREDICTIVE) {
 					savedMode = InputMode.MODE_ABC;
