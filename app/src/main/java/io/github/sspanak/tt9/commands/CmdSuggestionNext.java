@@ -74,7 +74,8 @@ public class CmdSuggestionNext implements Command {
 		tt9.getInputMode().setWordStem(tt9.getSuggestionOps().getCurrent(), true);
 		if (InputModeKind.isRecomposing(tt9.getInputMode())) {
 			tt9.getAppHacks().setComposingTextPartsWithHighlightedJoining(tt9.getInputMode().getWordStem() + tt9.getSuggestionOps().getCurrent(), tt9.getInputMode().getRecomposingSuffix());
-		} else {
+		} else if (!tt9.getInputMode().isShowingSounds()) {
+			// Customized build: sounds (Pinyin) are never written to the text field
 			tt9.getAppHacks().setComposingTextWithHighlightedStem(tt9.getSuggestionOps().getCurrent(), tt9.getInputMode().getWordStem(), tt9.getInputMode().isStemFilterFuzzy());
 		}
 	}

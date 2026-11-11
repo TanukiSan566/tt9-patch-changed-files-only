@@ -79,6 +79,19 @@ public abstract class TypingHandler extends KeyPadHandler {
 	 * selected or displayed. Used to give the "Back" key its original function back, when it is also
 	 * the "Backspace" key. When the field state is unknown (timeout), we say "false", to be safe.
 	 */
+	private Object backspaceFieldRef = null;
+	private boolean fieldReportsText = false;
+	private boolean typedInField = false;
+
+	// a new text field: forget what we knew about the previous one
+	private void syncBackspaceField() {
+		if (backspaceFieldRef != inputType) {
+			backspaceFieldRef = inputType;
+			fieldReportsText = false;
+			typedInField = false;
+		}
+	}
+
 	@Override
 	protected boolean isNothingToDelete() {
 		if (shouldBeOff() || isFnPanelVisible() || mInputMode == null) {
@@ -91,15 +104,26 @@ public abstract class TypingHandler extends KeyPadHandler {
 			return false;
 		}
 
+		syncBackspaceField();
+
+		final String before = textField.getStringBeforeCursor(1);
+		final String after = textField.getStringAfterCursor(1);
+		if (InputConnectionAsync.TIMEOUT_SENTINEL.equals(before) || InputConnectionAsync.TIMEOUT_SENTINEL.equals(after)) {
+			return false;
+		}
+
+		if (!before.isEmpty() || !after.isEmpty()) {
+			fieldReportsText = true;
+			return false;
+		}
+
 		if (!suggestionOps.isEmpty() || mInputMode.isTyping() || !textSelection.isEmpty()) {
 			return false;
 		}
 
-		final String before = textField.getStringBeforeCursor(1);
-		final String after = textField.getStringAfterCursor(1);
-		return
-			before.isEmpty() && !before.equals(InputConnectionAsync.TIMEOUT_SENTINEL)
-			&& after.isEmpty() && !after.equals(InputConnectionAsync.TIMEOUT_SENTINEL);
+		// Some fields (e.g. the Bilibili search) never tell us their text. When we have typed in such a
+		// field, but it has never reported anything, "empty" cannot be trusted, so Back stays Backspace.
+		return fieldReportsText || !typedInField;
 	}
 
 
@@ -243,6 +267,8 @@ public abstract class TypingHandler extends KeyPadHandler {
 	 */
 	protected boolean onNumber(int key, boolean hold, int repeat) {
 		suggestionOps.cancelDelayedAccept();
+		syncBackspaceField();
+		typedInField = true;
 
 		hold = hold && settings.getHoldToType();
 		String[] surroundingChars = textField.getSurroundingStringForAutoAssistance(settings, mInputMode);

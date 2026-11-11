@@ -186,8 +186,8 @@ abstract public class SuggestionHandler extends TypingHandler {
 			// Customized build: the list shows Pinyin sounds. They are only a filter, so we keep them out of
 			// the text field. Otherwise, apps like the Chrome address bar, which re-read the text on every
 			// change, end up with the sound typed as regular text: "大家发家FAJIA".
+			// The field is left as it is, until a sound is chosen and the words for it are displayed.
 			trimmedWord = suggestionOps.getCurrent(mLanguage, mInputMode.getSequenceLength());
-			appHacks.setComposingText("");
 		} else {
 			// or highlight the stem, when filtering
 			trimmedWord = suggestionOps.getCurrent(mLanguage, mInputMode.getSequenceLength());
