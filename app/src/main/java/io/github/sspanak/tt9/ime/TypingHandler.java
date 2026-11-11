@@ -74,6 +74,35 @@ public abstract class TypingHandler extends KeyPadHandler {
 	}
 
 
+	/**
+	 * Customized build: true only when the whole text field is empty and nothing is being typed,
+	 * selected or displayed. Used to give the "Back" key its original function back, when it is also
+	 * the "Backspace" key. When the field state is unknown (timeout), we say "false", to be safe.
+	 */
+	@Override
+	protected boolean isNothingToDelete() {
+		if (shouldBeOff() || isFnPanelVisible() || mInputMode == null) {
+			return false;
+		}
+
+		// Some fields do not report their text reliably, and passwords may be hidden from us. In these,
+		// we cannot know the field is really empty, so Back must keep working as Backspace.
+		if (inputType == null || inputType.isPassword() || inputType.isPasswordNumeric() || inputType.isDefectiveText() || inputType.isLimited()) {
+			return false;
+		}
+
+		if (!suggestionOps.isEmpty() || mInputMode.isTyping() || !textSelection.isEmpty()) {
+			return false;
+		}
+
+		final String before = textField.getStringBeforeCursor(1);
+		final String after = textField.getStringAfterCursor(1);
+		return
+			before.isEmpty() && !before.equals(InputConnectionAsync.TIMEOUT_SENTINEL)
+			&& after.isEmpty() && !after.equals(InputConnectionAsync.TIMEOUT_SENTINEL);
+	}
+
+
 	@Override
 	protected void onInit() {
 		super.onInit();
@@ -404,9 +433,9 @@ public abstract class TypingHandler extends KeyPadHandler {
 			determineJapaneseInputModes();
 		}
 
-		if (!mLanguage.hasABC()) {
-			allowedInputModes.remove((Integer) InputMode.MODE_ABC);
-		}
+		// Customized build: languages without letters of their own (Chinese Pinyin...) keep the keypad-only
+		// "abc" / "ABC" mode. ModeABC types Latin letters for them. Otherwise, turning the predictive
+		// mode off would leave nothing but 123 and Symbols.
 
 		if (!settings.getPredictiveMode()) {
 			allowedInputModes.remove((Integer) InputMode.MODE_PREDICTIVE);

@@ -41,6 +41,21 @@ public class CmdSuggestionNext implements Command {
 	public static void scrollSuggestions(@NonNull TraditionalT9 tt9, boolean backward) {
 		tt9.getSuggestionOps().cancelDelayedAccept();
 		tt9.getSuggestionOps().scrollTo(backward ? -1 : 1);
+		applyCurrentSuggestion(tt9);
+	}
+
+
+	/**
+	 * Customized build: the "Down" key. Jumps to the next page of suggestions.
+	 */
+	public static void scrollSuggestionsPage(@NonNull TraditionalT9 tt9) {
+		tt9.getSuggestionOps().cancelDelayedAccept();
+		tt9.getSuggestionOps().scrollPage();
+		applyCurrentSuggestion(tt9);
+	}
+
+
+	private static void applyCurrentSuggestion(@NonNull TraditionalT9 tt9) {
 		tt9.getInputMode().setWordStem(tt9.getSuggestionOps().getCurrent(), true);
 		if (InputModeKind.isRecomposing(tt9.getInputMode())) {
 			tt9.getAppHacks().setComposingTextPartsWithHighlightedJoining(tt9.getInputMode().getWordStem() + tt9.getSuggestionOps().getCurrent(), tt9.getInputMode().getRecomposingSuffix());

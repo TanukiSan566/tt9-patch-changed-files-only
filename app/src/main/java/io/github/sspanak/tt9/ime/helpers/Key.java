@@ -62,6 +62,11 @@ public class Key {
 	}
 
 
+	public static boolean isArrowDown(int keyCode) {
+		return keyCode == KeyEvent.KEYCODE_DPAD_DOWN;
+	}
+
+
 	public static boolean isArrowRight(int keyCode) {
 		return keyCode == KeyEvent.KEYCODE_DPAD_RIGHT;
 	}

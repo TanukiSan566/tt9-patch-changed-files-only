@@ -6,6 +6,7 @@ import io.github.sspanak.tt9.commands.CmdEditAdjacentLetter;
 import io.github.sspanak.tt9.commands.CmdEditDuplicateLetter;
 import io.github.sspanak.tt9.commands.CmdFilterSuggestions;
 import io.github.sspanak.tt9.commands.CmdShift;
+import io.github.sspanak.tt9.commands.CmdSuggestionNext;
 import io.github.sspanak.tt9.commands.CmdSpaceKorean;
 import io.github.sspanak.tt9.commands.Command;
 import io.github.sspanak.tt9.commands.CommandCollection;
@@ -142,6 +143,12 @@ public abstract class HotkeyHandler extends CommandHandler {
 			return true;
 		}
 
+		// Customized build: "Down" jumps to the next page of suggestions. When there are none,
+		// it is not handled, so the application receives it as a regular arrow key.
+		if (Key.isArrowDown(keyCode) && onNextSuggestionPage(validateOnly)) {
+			return true;
+		}
+
 		if (Key.isArrowLeft(-keyCode) || Key.isArrowRight(-keyCode)) {
 			if (editAdjacentLetter.runFromHotkey(getFinalContext(), validateOnly, Key.isArrowLeft(-keyCode))) {
 				return true;
@@ -149,6 +156,22 @@ public abstract class HotkeyHandler extends CommandHandler {
 		}
 
 		return Key.isArrowLeft(keyCode) && onTrimTrailingSpace(validateOnly);
+	}
+
+
+	private boolean onNextSuggestionPage(boolean validateOnly) {
+		if (shouldBeOff() || isFnPanelVisible() || suggestionOps.isEmpty()) {
+			return false;
+		}
+
+		if (!validateOnly) {
+			CmdSuggestionNext.scrollSuggestionsPage(getFinalContext());
+			if (mainView != null) {
+				mainView.renderDynamicKeys();
+			}
+		}
+
+		return true;
 	}
 
 

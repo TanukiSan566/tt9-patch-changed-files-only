@@ -184,13 +184,20 @@ class ModeABC extends InputMode {
 
 	@Override
 	public boolean setLanguage(@Nullable Language newLanguage) {
+		// Customized build: languages without letters of their own (Chinese Pinyin, Bopomofo...) borrow
+		// the English layout, so the keypad-only abc / ABC mode types Latin letters, digits and punctuation.
+		Language abcLanguage = newLanguage;
 		if (newLanguage != null && !newLanguage.hasABC()) {
-			return false;
+			final Language english = LanguageCollection.getByLocale("en");
+			if (english != null) {
+				abcLanguage = english;
+				settings.setDefaultChars(english, false); // initialize the default order, if missing
+			}
 		}
 
-		super.setLanguage(newLanguage);
+		super.setLanguage(abcLanguage);
 
-		autoSpace.setLanguage(newLanguage);
+		autoSpace.setLanguage(language);
 
 		allowedTextCases.clear();
 		allowedTextCases.add(CASE_LOWER);

@@ -160,6 +160,13 @@ public class SuggestionOps {
 	}
 
 
+	public void scrollPage() {
+		if (suggestionBar != null) {
+			suggestionBar.scrollToSuggestionPage();
+		}
+	}
+
+
 	public String acceptCurrent() {
 		final String current = getCurrent();
 		if (Characters.PLACEHOLDER.equals(current)) {

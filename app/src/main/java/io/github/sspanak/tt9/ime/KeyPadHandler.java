@@ -1,5 +1,6 @@
 package io.github.sspanak.tt9.ime;
 
+import android.os.SystemClock;
 import android.view.KeyEvent;
 
 import io.github.sspanak.tt9.ime.helpers.Key;
@@ -20,6 +21,13 @@ abstract class KeyPadHandler extends UiHandler {
 
 	private int lastNumKeyCode = 0;
 	private int numKeyRepeatCounter = 0;
+
+	// Customized build: when "Back" is also the "Backspace" key and the text field is empty, the next
+	// "Back" press does its original job (go back / leave the app). To avoid leaving the app by
+	// accident after quickly deleting the last characters, this must happen at least this long after
+	// the last real deletion.
+	private static final long BACK_AFTER_DELETE_COOLDOWN_MS = 800;
+	private long lastBackspaceDeletionTime = 0;
 
 
 	/**
@@ -60,7 +68,19 @@ abstract class KeyPadHandler extends UiHandler {
 
 		// "backspace" key must repeat its function when held down, so we handle it in a special way
 		if (Key.isBackspace(settings, keyCode)) {
-			if (onBackspace(event.getRepeatCount())) {
+			boolean nothingToDelete = false;
+			if (Key.isBack(keyCode) && event.getRepeatCount() == 0) {
+				nothingToDelete = isNothingToDelete();
+				if (!nothingToDelete) {
+					lastBackspaceDeletionTime = SystemClock.uptimeMillis();
+				}
+			}
+
+			if (nothingToDelete && SystemClock.uptimeMillis() - lastBackspaceDeletionTime > BACK_AFTER_DELETE_COOLDOWN_MS) {
+				// Nothing to delete: do not handle it as "Backspace". The regular "Back" handling below
+				// takes over. We never generate a key event on our own, so there is no loop.
+				Key.setHandled(KeyEvent.KEYCODE_DEL, false);
+			} else if (onBackspace(event.getRepeatCount())) {
 				return Key.setHandled(KeyEvent.KEYCODE_DEL, true);
 			} else {
 				Key.setHandled(KeyEvent.KEYCODE_DEL, false);
@@ -182,6 +202,14 @@ abstract class KeyPadHandler extends UiHandler {
 			|| handleHotkey(keyCode, false, keyRepeatCounter > 0, false)
 			|| Key.isPoundOrStar(keyCode) && onText(String.valueOf((char) event.getUnicodeChar()), false)
 			|| super.onKeyUp(keyCode, event); // let the system handle the keys we don't care about (usually, the touch "buttons")
+	}
+
+
+	/**
+	 * Customized build: true when pressing "Backspace" would do nothing at all. Overridden in TypingHandler.
+	 */
+	protected boolean isNothingToDelete() {
+		return false;
 	}
 
 

@@ -33,6 +33,7 @@ public class SuggestionsBar {
 	public static final String CLIPBOARD_SUGGESTION_SUFFIX = "\u200B...\u200B";
 	public static final String SHOW_GROUP_0_SUGGESTION = "(…\u200A)";
 	public static final String SHOW_GROUP_1_SUGGESTION = "(…\u200B)";
+	private static final int SUGGESTIONS_PAGE_SIZE = 5;
 
 	private final String SHOW_MORE_SUGGESTION = "(...)";
 	private final String STEM_SUFFIX = "… +";
@@ -433,6 +434,27 @@ public class SuggestionsBar {
 
 		calculateScrollIndex(increment);
 		if (appendHiddenSuggestionsIfNeeded(increment < 0)) {
+			render();
+		}
+		scrollToSelected();
+	}
+
+
+	/**
+	 * Customized build: jumps one "page" forward (the "Down" key). When already at the end of the list,
+	 * it goes back to the first suggestion.
+	 */
+	public void scrollToSuggestionPage() {
+		if (visibleSuggestions.size() <= 1) {
+			return;
+		}
+
+		final int first = containsStem() ? 1 : 0;
+		final int last = visibleSuggestions.size() - 1;
+		final int target = selectedIndex >= last ? first : Math.min(selectedIndex + SUGGESTIONS_PAGE_SIZE, last);
+
+		calculateScrollIndex(target - selectedIndex);
+		if (appendHiddenSuggestionsIfNeeded(false)) {
 			render();
 		}
 		scrollToSelected();
