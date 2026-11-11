@@ -213,11 +213,11 @@ public abstract class HotkeyHandler extends CommandHandler {
 	 * In the numeric mode, it remains a regular "*" character.
 	 */
 	private boolean onToggleSymbols(boolean validateOnly) {
-		if (shouldBeOff() || isFnPanelVisible() || isVoiceInputActive() || InputModeKind.isNumeric(mInputMode)) {
+		if (shouldBeOff() || isFnPanelVisible() || getFinalContext().isVoiceInputActive() || InputModeKind.isNumeric(mInputMode)) {
 			return false;
 		}
 
-		final ArrayList<Integer> allowedModes = getAllowedInputModes();
+		final ArrayList<Integer> allowedModes = getFinalContext().getAllowedInputModes();
 		final boolean inSymbols = InputModeKind.isSymbols(mInputMode);
 		if (!inSymbols && !allowedModes.contains(InputMode.MODE_SYMBOLS)) {
 			return false;
@@ -247,7 +247,7 @@ public abstract class HotkeyHandler extends CommandHandler {
 	 * Symbols...), it must do nothing, instead of typing "#". In the numeric mode, it is a regular "#".
 	 */
 	private boolean isCaseKeyToSwallow(int keyCode) {
-		return keyCode == KeyEvent.KEYCODE_POUND && !shouldBeOff() && !isInputModeNumeric();
+		return keyCode == KeyEvent.KEYCODE_POUND && !shouldBeOff() && !getFinalContext().isInputModeNumeric();
 	}
 
 
