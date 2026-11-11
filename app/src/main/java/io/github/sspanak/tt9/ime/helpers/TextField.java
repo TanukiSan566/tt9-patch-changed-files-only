@@ -30,6 +30,7 @@ public class TextField extends InputField {
 		isComposingSupported =
 			!inputType.isNumeric() && !inputType.isLimited() // unsupported input fields
 			&& !inputType.isRustDesk() // not fixed by settings.getAutoDisableComposing()
+			&& !inputType.isChromeAddressBar() // customized build: it leaks the previous words when switching Pinyin
 			&& (settings == null || settings.getAllowComposingText()); // disabled in settings
 		isNonText = !inputType.isText();
 		isUs = inputType.isUs();

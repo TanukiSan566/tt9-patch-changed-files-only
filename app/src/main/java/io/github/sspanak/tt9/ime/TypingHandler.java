@@ -226,6 +226,13 @@ public abstract class TypingHandler extends KeyPadHandler {
 
 		mindReader.clearContext();
 
+		// Customized build: Back / Backspace first leaves the list of Pinyin sounds, and shows the words again.
+		if (repeat == 0 && mInputMode.isShowingSounds() && mInputMode.cancelSounds()) {
+			suggestionOps.cancelDelayedAccept();
+			getSuggestions(0, null, null);
+			return true;
+		}
+
 		if (appHacks.onBackspace(settings, mInputMode)) {
 			mInputMode.reset();
 			mainView.renderDynamicKeys();

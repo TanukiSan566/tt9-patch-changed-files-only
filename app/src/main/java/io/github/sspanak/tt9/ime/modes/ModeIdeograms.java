@@ -249,6 +249,18 @@ public class ModeIdeograms extends ModeWords {
 
 
 	@Override
+	public boolean cancelSounds() {
+		if (!isFiltering) {
+			return false;
+		}
+
+		isFiltering = false;
+		stem = "";
+		return true;
+	}
+
+
+	@Override
 	public boolean isStemFilterFuzzy() {
 		return isFiltering;
 	}

@@ -309,6 +309,12 @@ abstract public class InputMode {
 	 * Sounds are only a way to filter the words, so they must never be placed in the text field.
 	 */
 	public boolean isShowingSounds() { return false; }
+
+	/**
+	 * Customized build: leaves the list of sounds, so the words for the typed keys can be loaded again.
+	 * @return false when there was nothing to leave.
+	 */
+	public boolean cancelSounds() { return false; }
 	public boolean setWordStem(String stem, boolean exact) { return false; }
 	public boolean supportsFiltering() { return false; }
 }

@@ -197,6 +197,23 @@ public class InputType extends StandardInputType {
 	}
 
 
+	/**
+	 * Customized build: the Chrome address bar removes or commits the composing text on its own, while
+	 * the suggestions below it update. This leaves the previous words in the field, for example when
+	 * switching the Pinyin. So there, nothing is written until a word is accepted.
+	 */
+	public boolean isChromeAddressBar() {
+		if (field == null || field.packageName == null || (field.inputType & EditorInfo.TYPE_TEXT_VARIATION_URI) != EditorInfo.TYPE_TEXT_VARIATION_URI) {
+			return false;
+		}
+
+		return isAnyOfApps(new String[]{
+			"com.android.chrome", "com.chrome.beta", "com.chrome.dev", "com.chrome.canary",
+			"org.chromium.chrome", "com.google.android.apps.chrome"
+		});
+	}
+
+
 	public boolean isGmailComposeMail() {
 		final String GMAIL = "com.google.android.gm";
 		return
