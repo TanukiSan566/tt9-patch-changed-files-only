@@ -141,7 +141,8 @@ public class CmdNextInputMode implements Command {
 		}
 
 		final ArrayList<Integer> allowedModes = tt9.getAllowedInputModes();
-		if (allowedModes.contains(InputMode.MODE_PREDICTIVE)) {
+		final boolean abcFirst = !tt9.getSettings().getPredictiveMode() && allowedModes.contains(InputMode.MODE_ABC);
+		if (!abcFirst && allowedModes.contains(InputMode.MODE_PREDICTIVE)) {
 			tt9.setInputMode(InputMode.MODE_PREDICTIVE);
 		} else if (allowedModes.contains(InputMode.MODE_ABC)) {
 			tt9.setInputMode(InputMode.MODE_ABC);

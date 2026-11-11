@@ -437,11 +437,21 @@ public abstract class TypingHandler extends KeyPadHandler {
 		// "abc" / "ABC" mode. ModeABC types Latin letters for them. Otherwise, turning the predictive
 		// mode off would leave nothing but 123 and Symbols.
 
+		// Customized build: turning the predictive mode off only makes abc the starting mode. T9 remains
+		// reachable with the mode hotkey and "#", otherwise Chinese (and other predictive-only languages)
+		// could not be typed at all.
+		int savedMode = settings.getInputMode();
 		if (!settings.getPredictiveMode()) {
-			allowedInputModes.remove((Integer) InputMode.MODE_PREDICTIVE);
+			if (allowedInputModes.contains(InputMode.MODE_ABC)) {
+				if (savedMode == InputMode.MODE_PREDICTIVE) {
+					savedMode = InputMode.MODE_ABC;
+				}
+			} else {
+				allowedInputModes.remove((Integer) InputMode.MODE_PREDICTIVE);
+			}
 		}
 
-		return InputModeValidator.validateMode(settings.getInputMode(), allowedInputModes);
+		return InputModeValidator.validateMode(savedMode, allowedInputModes);
 	}
 
 

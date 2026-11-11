@@ -77,9 +77,11 @@ abstract class KeyPadHandler extends UiHandler {
 			}
 
 			if (nothingToDelete && SystemClock.uptimeMillis() - lastBackspaceDeletionTime > BACK_AFTER_DELETE_COOLDOWN_MS) {
-				// Nothing to delete: do not handle it as "Backspace". The regular "Back" handling below
-				// takes over. We never generate a key event on our own, so there is no loop.
-				Key.setHandled(KeyEvent.KEYCODE_DEL, false);
+				// Nothing to delete: send "Back" straight to the application. The event goes to the
+				// application's input connection, not back to us, so there is no loop. Without this, the
+				// default handling would only hide the keyboard first.
+				sendDownUpKeyEvents(KeyEvent.KEYCODE_BACK);
+				return Key.setHandled(KeyEvent.KEYCODE_DEL, true); // also makes onKeyUp() swallow the release
 			} else if (onBackspace(event.getRepeatCount())) {
 				return Key.setHandled(KeyEvent.KEYCODE_DEL, true);
 			} else {
