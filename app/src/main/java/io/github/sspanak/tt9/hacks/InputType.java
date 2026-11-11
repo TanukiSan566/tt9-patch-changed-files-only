@@ -399,6 +399,15 @@ public class InputType extends StandardInputType {
 
 
 	/**
+	 * Customized build: the Bilibili search field does not report the text it contains, so we can never
+	 * know whether it is empty. "Back" must always delete there.
+	 */
+	public boolean isBilibili() {
+		return isAnyOfApps(new String[]{"tv.danmaku.bili", "com.bilibili.app.in", "com.bilibili.app.blue"});
+	}
+
+
+	/**
 	 * isAnyOfApps
 	 * Checks if we are currently connected to one of the listed apps.
 	 */

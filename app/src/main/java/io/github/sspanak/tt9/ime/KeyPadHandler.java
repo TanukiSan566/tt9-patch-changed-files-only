@@ -29,6 +29,14 @@ abstract class KeyPadHandler extends UiHandler {
 	private static final long BACK_AFTER_DELETE_COOLDOWN_MS = 800;
 	private long lastBackspaceDeletionTime = 0;
 
+	// Customized build: the synthetic "Back" for the application is sent when the key is released, not when
+	// it is pressed. Otherwise, the keyboard hides while the physical key is still down, and the application
+	// receives the rest of the hold as a long "Back" (Chrome shows its tab history menu).
+	private long pendingBackSince = 0;
+	private boolean isBackPending() {
+		return pendingBackSince > 0 && SystemClock.uptimeMillis() - pendingBackSince < 5000;
+	}
+
 
 	/**
 	 * Main initialization of the input method component. Be sure to call to
@@ -72,6 +80,10 @@ abstract class KeyPadHandler extends UiHandler {
 			Key.setHandled(KeyEvent.KEYCODE_DEL, false);
 		}
 
+		if (Key.isBack(keyCode) && Key.isBackspace(settings, keyCode) && isBackPending()) {
+			return true; // the key is being held, after we have decided to send "Back" to the application
+		}
+
 		// "backspace" key must repeat its function when held down, so we handle it in a special way
 		if (Key.isBackspace(settings, keyCode) && !backClosesPanel) {
 			boolean nothingToDelete = false;
@@ -86,7 +98,7 @@ abstract class KeyPadHandler extends UiHandler {
 				// Nothing to delete: send "Back" straight to the application. The event goes to the
 				// application's input connection, not back to us, so there is no loop. Without this, the
 				// default handling would only hide the keyboard first.
-				sendDownUpKeyEvents(KeyEvent.KEYCODE_BACK);
+				pendingBackSince = SystemClock.uptimeMillis(); // sent in onKeyUp()
 				return Key.setHandled(KeyEvent.KEYCODE_DEL, true); // also makes onKeyUp() swallow the release
 			} else if (onBackspace(event.getRepeatCount())) {
 				return Key.setHandled(KeyEvent.KEYCODE_DEL, true);
@@ -189,6 +201,10 @@ abstract class KeyPadHandler extends UiHandler {
 		}
 
 		if (Key.isBackspace(settings, keyCode) && Key.isHandled(KeyEvent.KEYCODE_DEL)) {
+			if (Key.isBack(keyCode) && isBackPending()) {
+				pendingBackSince = 0;
+				sendDownUpKeyEvents(KeyEvent.KEYCODE_BACK);
+			}
 			return true;
 		}
 

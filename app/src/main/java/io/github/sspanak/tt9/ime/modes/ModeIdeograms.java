@@ -224,6 +224,9 @@ public class ModeIdeograms extends ModeWords {
 		}
 
 		if (!fromScrolling) {
+			// Customized build: forget the previously chosen sound, so all the sounds for the typed keys are
+			// listed again, e.g. both "DA" and "FA", not only the one we have already chosen.
+			stem = "";
 			isFiltering = true;
 		} else if (isFiltering) {
 			stem = newStem;

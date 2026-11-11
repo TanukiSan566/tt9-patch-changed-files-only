@@ -100,7 +100,7 @@ public abstract class TypingHandler extends KeyPadHandler {
 
 		// Some fields do not report their text reliably, and passwords may be hidden from us. In these,
 		// we cannot know the field is really empty, so Back must keep working as Backspace.
-		if (inputType == null || inputType.isPassword() || inputType.isPasswordNumeric() || inputType.isDefectiveText() || inputType.isLimited()) {
+		if (inputType == null || inputType.isPassword() || inputType.isPasswordNumeric() || inputType.isDefectiveText() || inputType.isLimited() || inputType.isBilibili()) {
 			return false;
 		}
 
