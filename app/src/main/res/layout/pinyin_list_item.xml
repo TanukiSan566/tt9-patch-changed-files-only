@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:gravity="center"
+	android:paddingLeft="@dimen/main_small_suggestion_spacing_horizontal"
+	android:paddingRight="@dimen/main_small_suggestion_spacing_horizontal"
+	android:paddingTop="3dp"
+	android:paddingBottom="3dp"
+	android:textSize="@dimen/status_bar_text_size"
+	android:defaultFocusHighlightEnabled="false"
+	android:focusable="false"
+	android:focusableInTouchMode="false" />

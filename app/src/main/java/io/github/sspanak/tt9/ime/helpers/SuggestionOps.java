@@ -167,6 +167,19 @@ public class SuggestionOps {
 	}
 
 
+	public boolean hasSoundRow() {
+		return suggestionBar != null && suggestionBar.hasSoundRow();
+	}
+
+
+	public void setSoundRow(@Nullable java.util.List<String> sounds, int selected, boolean isSelecting) {
+		if (suggestionBar != null) {
+			suggestionBar.setSoundRow(sounds, selected);
+			suggestionBar.setSelectionVisible(!isSelecting);
+		}
+	}
+
+
 	public boolean canScrollPagePrevious() {
 		return suggestionBar != null && suggestionBar.canScrollToSuggestionPagePrevious();
 	}

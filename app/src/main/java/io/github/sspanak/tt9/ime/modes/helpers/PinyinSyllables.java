@@ -94,6 +94,81 @@ public class PinyinSyllables {
 
 
 	/**
+	 * Customized build: the text for the Pinyin row. Puts an apostrophe at the separators typed by the user
+	 * and cuts the remaining parts into syllables, when possible: "dajia" -> "da'jia", "bian" -> "bian".
+	 */
+	@NonNull
+	public static String format(@NonNull String sound, @NonNull List<Integer> breaks) {
+		final String upper = sound.toUpperCase(Locale.ROOT);
+		final StringBuilder out = new StringBuilder();
+
+		int start = 0;
+		final ArrayList<Integer> cuts = new ArrayList<>(breaks);
+		java.util.Collections.sort(cuts);
+		cuts.add(upper.length());
+
+		for (int cut : cuts) {
+			if (cut <= start || cut > upper.length()) {
+				continue;
+			}
+
+			if (out.length() > 0) {
+				out.append('\'');
+			}
+			out.append(autoSplit(upper.substring(start, cut)));
+			start = cut;
+		}
+
+		return out.length() == 0 ? sound : out.toString().toLowerCase(Locale.ROOT);
+	}
+
+
+	@NonNull
+	private static String autoSplit(@NonNull String part) {
+		final int n = part.length();
+		final int none = Integer.MAX_VALUE;
+		final int[] best = new int[n + 1];
+		final int[] previous = new int[n + 1];
+		java.util.Arrays.fill(best, none);
+		best[0] = 0;
+
+		for (int i = 1; i <= n; i++) {
+			for (int len = 1; len <= Math.min(MAX_SYLLABLE_LENGTH, i); len++) {
+				final int from = i - len;
+				if (best[from] == none || !SYLLABLES.contains(part.substring(from, i))) {
+					continue;
+				}
+
+				final int candidate = best[from] + 1;
+				if (candidate < best[i] || (candidate == best[i] && from < previous[i])) {
+					best[i] = candidate;
+					previous[i] = from;
+				}
+			}
+		}
+
+		if (best[n] == none) {
+			return part;
+		}
+
+		final ArrayList<String> pieces = new ArrayList<>();
+		for (int i = n; i > 0; i = previous[i]) {
+			pieces.add(0, part.substring(previous[i], i));
+		}
+
+		final StringBuilder joined = new StringBuilder();
+		for (String piece : pieces) {
+			if (joined.length() > 0) {
+				joined.append('\'');
+			}
+			joined.append(piece);
+		}
+
+		return joined.toString();
+	}
+
+
+	/**
 	 * All the possible numbers of syllables the given text can be split into. For example:
 	 * "XIAN" -> [2] (XI + AN), "AN" -> [1, ...]. Returns an empty set when the text is not made of syllables.
 	 */

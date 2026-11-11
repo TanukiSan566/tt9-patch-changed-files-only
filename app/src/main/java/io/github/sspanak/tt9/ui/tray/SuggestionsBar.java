@@ -61,6 +61,7 @@ public class SuggestionsBar {
 	private Vibration vibration;
 
 	private final Handler displayHandler = new Handler(Looper.getMainLooper());
+	@Nullable private PinyinBar pinyinBar;
 
 
 	public SuggestionsBar(@NonNull SettingsStore settings, @NonNull ResizableMainView mainView, @NonNull Runnable onItemClick, @NonNull Runnable onItemLongClick) {
@@ -69,6 +70,7 @@ public class SuggestionsBar {
 		this.settings = settings;
 
 		mView = mainView.getView() != null ? mainView.getView().findViewById(R.id.suggestions_bar) : null;
+		pinyinBar = mainView.getView() != null ? new PinyinBar(settings, mainView.getView()) : null;
 		if (mView != null) {
 			Context context = mainView.getView().getContext();
 
@@ -287,7 +289,33 @@ public class SuggestionsBar {
 
 		selectedIndex = Math.max(Math.min(selectedIndex, visibleSuggestions.size() - 1), 0);
 
+		if (pinyinBar != null && (newSuggestions == null || newSuggestions.isEmpty())) {
+			pinyinBar.set(null, -1);
+		}
+
 		render();
+	}
+
+
+	/**
+	 * Customized build: the row of Pinyin sounds above the words. It is available only in some layouts.
+	 */
+	public boolean hasSoundRow() {
+		return pinyinBar != null && pinyinBar.isAvailable();
+	}
+
+
+	public void setSoundRow(@Nullable List<String> sounds, int selected) {
+		if (pinyinBar != null) {
+			pinyinBar.set(sounds, selected);
+		}
+	}
+
+
+	public void setSelectionVisible(boolean visible) {
+		if (mSuggestionsAdapter != null) {
+			mSuggestionsAdapter.setSelectionVisible(visible);
+		}
 	}
 
 

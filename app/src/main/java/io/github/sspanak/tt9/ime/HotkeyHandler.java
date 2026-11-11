@@ -90,7 +90,10 @@ public abstract class HotkeyHandler extends CommandHandler {
 			onAcceptSuggestionManually(suggestionOps.acceptCurrent(), fromKey);
 			return true;
 		} else if (!suggestionOps.isEmpty()) {
-			if (mInputMode.shouldReplacePreviousSuggestion(suggestionOps.getCurrent())) {
+			if (mInputMode.isSelectingSound()) {
+				// Customized build: "OK" confirms the Pinyin sound and goes to its words
+				mInputMode.confirmSound();
+			} else if (mInputMode.shouldReplacePreviousSuggestion(suggestionOps.getCurrent())) {
 				mInputMode.onReplaceSuggestion(suggestionOps.getCurrentRaw());
 			} else if (InputModeKind.isRecomposing(mInputMode)) {
 				onAcceptSuggestionManually(suggestionOps.acceptEdited(), fromKey);
@@ -181,6 +184,18 @@ public abstract class HotkeyHandler extends CommandHandler {
 			return false;
 		}
 
+		// Customized build: "Down" leaves the Pinyin sounds and goes to the words
+		if (mInputMode.isSelectingSound()) {
+			if (!validateOnly) {
+				suggestionOps.cancelDelayedAccept();
+				mInputMode.confirmSound();
+				if (mainView != null) {
+					mainView.renderDynamicKeys();
+				}
+			}
+			return true;
+		}
+
 		if (!validateOnly) {
 			CmdSuggestionNext.scrollSuggestionsPage(getFinalContext());
 			if (mainView != null) {
@@ -193,18 +208,40 @@ public abstract class HotkeyHandler extends CommandHandler {
 
 
 	private boolean onPreviousSuggestionPage(boolean validateOnly) {
-		if (shouldBeOff() || isFnPanelVisible() || suggestionOps.isEmpty() || !suggestionOps.canScrollPagePrevious()) {
+		if (shouldBeOff() || isFnPanelVisible() || suggestionOps.isEmpty()) {
 			return false;
 		}
 
-		if (!validateOnly) {
-			CmdSuggestionNext.scrollSuggestionsPagePrevious(getFinalContext());
-			if (mainView != null) {
-				mainView.renderDynamicKeys();
-			}
+		// already selecting the Pinyin sounds: "Up" has nowhere else to go
+		if (mInputMode.isSelectingSound()) {
+			return true;
 		}
 
-		return true;
+		if (suggestionOps.canScrollPagePrevious()) {
+			if (!validateOnly) {
+				CmdSuggestionNext.scrollSuggestionsPagePrevious(getFinalContext());
+				if (mainView != null) {
+					mainView.renderDynamicKeys();
+				}
+			}
+
+			return true;
+		}
+
+		// the first page: select the Pinyin sound, when there is a row for it
+		if (suggestionOps.hasSoundRow() && mInputMode.getSoundRow() != null) {
+			if (!validateOnly) {
+				suggestionOps.cancelDelayedAccept();
+				mInputMode.enterSoundSelection();
+				if (mainView != null) {
+					mainView.renderDynamicKeys();
+				}
+			}
+
+			return true;
+		}
+
+		return false;
 	}
 
 

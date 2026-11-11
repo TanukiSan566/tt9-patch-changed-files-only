@@ -255,6 +255,45 @@ public class IdeogramPredictions extends WordPredictions {
 	 * word with its transcription in front, e.g. "BIAN币安". When nothing passes, the list is left
 	 * as-is, so a wrong hint never leaves the user without any words.
 	 */
+	/**
+	 * Customized build: all the different sounds of the current words. The ones that fit the pressed keys
+	 * exactly come first.
+	 */
+	@NonNull
+	public ArrayList<String> getSoundList() {
+		final HashSet<String> unique = new HashSet<>();
+		for (String entry : transcriptions) {
+			unique.add(stripNativeWord(entry));
+		}
+
+		final ArrayList<String> list = new ArrayList<>(unique);
+		Collections.sort(list, (a, b) -> a.length() != b.length() ? Integer.compare(a.length(), b.length()) : a.compareTo(b));
+		return list;
+	}
+
+
+	/**
+	 * Customized build: displays only the words that have the given sound. Does nothing, if there are none.
+	 */
+	public void showTranscription(@NonNull String sound) {
+		if (!areThereDbWords) {
+			return;
+		}
+
+		final ArrayList<String> shown = new ArrayList<>();
+		for (String entry : transcriptions) {
+			if (sound.equals(stripNativeWord(entry))) {
+				final int firstNative = TextTools.lastIndexOfLatin(entry) + 1;
+				shown.add(firstNative >= entry.length() ? entry : entry.substring(firstNative));
+			}
+		}
+
+		if (!shown.isEmpty()) {
+			words = shown;
+		}
+	}
+
+
 	public void filterTranscriptions(@NonNull Predicate<String> keep) {
 		if (!areThereDbWords) {
 			return;

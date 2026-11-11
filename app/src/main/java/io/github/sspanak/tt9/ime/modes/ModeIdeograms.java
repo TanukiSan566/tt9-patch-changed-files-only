@@ -72,6 +72,10 @@ public class ModeIdeograms extends ModeWords {
 			// We can reorder by pairs only after stripping the transcriptions, if any.
 			// Otherwise, the input field words will not match with any pair.
 			((IdeogramPredictions) predictions).orderByPairs();
+
+			if (language.hasTranscriptionsEmbedded()) {
+				onSoundsReady((IdeogramPredictions) predictions);
+			}
 		}
 
 		super.onPredictions();
@@ -83,6 +87,13 @@ public class ModeIdeograms extends ModeWords {
 	 * the user typed. Called with the transcriptions still attached to the words, e.g. "BIAN币安".
 	 */
 	protected void filterPredictions(@NonNull IdeogramPredictions ideogramPredictions) {}
+
+
+	/**
+	 * Customized build: called when the words are ready for display. The transcriptions are still
+	 * available in the predictions, so the language-specific modes can build a list of sounds.
+	 */
+	protected void onSoundsReady(@NonNull IdeogramPredictions ideogramPredictions) {}
 
 
 	@Override

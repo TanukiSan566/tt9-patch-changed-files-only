@@ -39,6 +39,13 @@ public class CmdSuggestionNext implements Command {
 
 
 	public static void scrollSuggestions(@NonNull TraditionalT9 tt9, boolean backward) {
+		// Customized build: while the Pinyin sounds are being selected, Left / Right move between the sounds
+		if (tt9.getInputMode().isSelectingSound()) {
+			tt9.getSuggestionOps().cancelDelayedAccept();
+			tt9.getInputMode().moveSound(backward ? -1 : 1);
+			return;
+		}
+
 		tt9.getSuggestionOps().cancelDelayedAccept();
 		tt9.getSuggestionOps().scrollTo(backward ? -1 : 1);
 		applyCurrentSuggestion(tt9);

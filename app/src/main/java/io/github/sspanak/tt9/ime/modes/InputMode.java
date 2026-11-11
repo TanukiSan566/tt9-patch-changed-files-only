@@ -315,6 +315,14 @@ abstract public class InputMode {
 	 * @return false when there was nothing to leave.
 	 */
 	public boolean cancelSounds() { return false; }
+
+	/** Customized build: the Pinyin sound row, displayed above the words. */
+	public boolean isSelectingSound() { return false; }
+	@Nullable public ArrayList<String> getSoundRow() { return null; }
+	public int getSoundRowSelected() { return -1; }
+	public boolean enterSoundSelection() { return false; }
+	public boolean moveSound(int direction) { return false; }
+	public boolean confirmSound() { return false; }
 	public boolean setWordStem(String stem, boolean exact) { return false; }
 	public boolean supportsFiltering() { return false; }
 }

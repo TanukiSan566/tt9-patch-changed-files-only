@@ -29,6 +29,7 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
 	private int colorHighlight;
 	private int backgroundHighlight;
 	private int selectedIndex = 0;
+	private boolean selectionVisible = true;
 
 
 	public SuggestionsAdapter(Context context, @NonNull Consumer<Integer> onItemClick, @NonNull Consumer<Integer> onItemLongClick, int layout, int textViewResourceId, List<String> suggestions) {
@@ -55,8 +56,9 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
 		holder.suggestionItem.setText(scaledText);
 
 		holder.suggestionItem.setTag(position);
-		holder.suggestionItem.setTextColor(selectedIndex == position ? colorHighlight : colorDefault);
-		holder.suggestionItem.setBackgroundColor(selectedIndex == position ? backgroundHighlight : Color.TRANSPARENT);
+		final boolean isSelected = selectionVisible && selectedIndex == position;
+		holder.suggestionItem.setTextColor(isSelected ? colorHighlight : colorDefault);
+		holder.suggestionItem.setBackgroundColor(isSelected ? backgroundHighlight : Color.TRANSPARENT);
 		holder.suggestionItem.setOnClickListener(v -> onItemClick.accept((int) v.getTag()));
 		holder.suggestionItem.setOnLongClickListener(v -> {
 			onItemLongClick.accept((int) v.getTag());
@@ -68,6 +70,18 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
 	@Override
 	public int getItemCount() {
 		return mSuggestions.size();
+	}
+
+
+	/**
+	 * Customized build: hides the highlight of the selected word, while the Pinyin sounds are being selected.
+	 */
+	@SuppressLint("NotifyDataSetChanged")
+	public void setSelectionVisible(boolean visible) {
+		if (selectionVisible != visible) {
+			selectionVisible = visible;
+			notifyDataSetChanged();
+		}
 	}
 
 

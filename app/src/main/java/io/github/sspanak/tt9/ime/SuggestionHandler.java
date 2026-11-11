@@ -164,6 +164,7 @@ abstract public class SuggestionHandler extends TypingHandler {
 		final ArrayList<String> suggestions = mInputMode.getSuggestions();
 		textField.setComposingForLanguage(mLanguage != null && mLanguage.isTranscribed());
 		suggestionOps.set(suggestions, mInputMode.getRecommendedSuggestionIdx(), mInputMode.containsGeneratedSuggestions());
+		suggestionOps.setSoundRow(mInputMode.getSoundRow(), mInputMode.getSoundRowSelected(), mInputMode.isSelectingSound());
 
 		// either accept the first one automatically (when switching from punctuation to text
 		// or vice versa), or schedule auto-accept in N seconds (in ABC mode)
