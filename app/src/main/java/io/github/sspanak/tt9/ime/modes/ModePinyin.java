@@ -285,7 +285,7 @@ public class ModePinyin extends ModeIdeograms {
 	public boolean cancelSounds() {
 		if (selectingSound) {
 			if (adjustingSound) {
-				adjustingSound = false;
+				deleteAtSoundCursor();
 			} else {
 				selectingSound = false;
 			}
@@ -294,6 +294,43 @@ public class ModePinyin extends ModeIdeograms {
 		}
 
 		return super.cancelSounds();
+	}
+
+
+	/**
+	 * Back / Backspace while the "|" cursor is shown. It fixes a mistyped sound: the separator at the cursor
+	 * is removed first, otherwise the letter before the cursor is deleted. Then the words are loaded again.
+	 */
+	private void deleteAtSoundCursor() {
+		selectingSound = false;
+		adjustingSound = false;
+
+		if (syllableBreaks != null && syllableBreaks.contains(soundCursor)) {
+			syllableBreaks.remove(Integer.valueOf(soundCursor));
+			return;
+		}
+
+		if (soundCursor < 1 || soundCursor > digitSequence.length()) {
+			return;
+		}
+
+		final int deleted = soundCursor - 1;
+		digitSequence = digitSequence.substring(0, deleted) + digitSequence.substring(soundCursor);
+
+		if (syllableBreaks != null) {
+			final ArrayList<Integer> shifted = new ArrayList<>();
+			for (int position : syllableBreaks) {
+				final int newPosition = position > deleted ? position - 1 : position;
+				if (newPosition > 0 && newPosition <= digitSequence.length() && !shifted.contains(newPosition)) {
+					shifted.add(newPosition);
+				}
+			}
+			syllableBreaks = shifted;
+		}
+
+		if (digitSequence.isEmpty()) {
+			reset();
+		}
 	}
 
 
