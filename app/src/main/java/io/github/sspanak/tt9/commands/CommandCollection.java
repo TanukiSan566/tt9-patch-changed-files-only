@@ -158,6 +158,7 @@ public class CommandCollection {
 			addPaletteCommand(new CmdTypingModeCycle());
 			addPaletteCommand(new CmdSelectKeyboard());
 			addPaletteCommand(new CmdShowSettings());
+			addPaletteCommand(new CmdHideKeyboard());
 		}
 
 		return palette;

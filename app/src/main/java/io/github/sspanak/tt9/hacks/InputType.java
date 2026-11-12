@@ -419,6 +419,12 @@ public class InputType extends StandardInputType {
 	 * Customized build: the Bilibili search field does not report the text it contains, so we can never
 	 * know whether it is empty. "Back" must always delete there.
 	 */
+	@androidx.annotation.Nullable
+	public String getPackageName() {
+		return field != null ? field.packageName : null;
+	}
+
+
 	public boolean isBilibili() {
 		if (isAnyOfApps(new String[]{"tv.danmaku.bili", "tv.danmaku.bilj", "com.bilibili.app.in", "com.bilibili.app.blue"})) {
 			return true;

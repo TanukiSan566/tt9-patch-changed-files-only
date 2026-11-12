@@ -40,4 +40,9 @@
 	<io.github.sspanak.tt9.ui.main.keys.SoftKeyTextEditingSmall
 		style="@style/TTheme.CommandPalette.Key"
 		android:id="@+id/soft_key_9" />
+
+	<!-- Customized build: "0" hides the keyboard -->
+	<io.github.sspanak.tt9.ui.main.keys.SoftKeyTextEditingSmall
+		style="@style/TTheme.CommandPalette.Key"
+		android:id="@+id/soft_key_0" />
 </merge>

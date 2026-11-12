@@ -28,6 +28,11 @@
 		app:title="@string/pref_category_keypad" />
 
 	<Preference
+		app:fragment="io.github.sspanak.tt9.preferences.BackKeyAppsScreen"
+		app:key="screen_back_key_apps"
+		app:title="@string/pref_back_key_apps" />
+
+	<Preference
 		app:fragment="io.github.sspanak.tt9.preferences.SetupScreen"
 		app:key="screen_setup"
 		app:title="@string/pref_category_setup" />

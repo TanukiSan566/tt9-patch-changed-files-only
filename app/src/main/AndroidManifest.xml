@@ -12,6 +12,10 @@
 		<intent>
 			<action android:name="android.speech.RecognitionService" /> <!-- allows voice input on Android >= 11 -->
 		</intent>
+		<intent>
+			<action android:name="android.intent.action.MAIN" />
+			<category android:name="android.intent.category.LAUNCHER" /> <!-- customized build: lets us list the apps for the "Back key apps" list -->
+		</intent>
 	</queries>
 
 	<application
@@ -63,6 +67,12 @@
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
+
+		<activity
+			android:label="@string/pref_back_key_apps_add"
+			android:name="io.github.sspanak.tt9.preferences.screens.backKeyApps.BackKeyAppPickerActivity"
+			android:exported="false"
+			android:theme="@style/TTheme.Preferences" />
 
 		<activity
 			android:label="Test Input"

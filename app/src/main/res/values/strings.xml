@@ -61,6 +61,16 @@
 	<string name="pref_category_key_chars">按键字符</string>
 	<string name="pref_category_key_chars_summary">为 2–9 键添加额外字母。调整、添加或删除 0 键和 1 键上的特殊字符。</string>
 	<string name="pref_category_keypad">键盘</string>
+	<string name="pref_back_key_apps">返回键应用名单</string>
+	<string name="pref_back_key_apps_summary">名单里的应用中，返回键始终是删除一个字符，不会退出界面。适合输入框里按返回容易直接退出的应用。</string>
+	<string name="pref_back_key_apps_add">添加应用…</string>
+	<string name="pref_back_key_apps_list">已添加的应用</string>
+	<string name="pref_back_key_apps_remove">把这个应用从名单中移除？</string>
+	<string name="pref_back_key_apps_remove_yes">移除</string>
+	<string name="pref_back_key_apps_search">输入名称 / 拼音 / 包名</string>
+	<string name="pref_back_key_apps_loading">正在读取应用…</string>
+	<string name="pref_back_key_apps_none">没有找到应用</string>
+	<string name="pref_back_key_apps_added">已添加：%1$s</string>
 	<string name="pref_category_keypad_hardware">实体按键</string>
 	<string name="pref_category_keypad_onscreen">屏幕按键</string>
 	<string name="pref_category_layout">屏幕布局</string>

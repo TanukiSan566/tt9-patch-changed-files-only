@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto" app:orderingFromXml="true">
+
+	<Preference
+		app:key="back_key_apps_add"
+		app:title="@string/pref_back_key_apps_add"
+		app:summary="@string/pref_back_key_apps_summary" />
+
+	<PreferenceCategory
+		app:key="back_key_apps_list"
+		app:title="@string/pref_back_key_apps_list"
+		app:singleLineTitle="true" />
+
+</PreferenceScreen>

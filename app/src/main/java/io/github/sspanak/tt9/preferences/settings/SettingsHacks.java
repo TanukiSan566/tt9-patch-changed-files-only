@@ -18,6 +18,48 @@ class SettingsHacks extends SettingsAddedWords {
 
 	/************* debugging settings *************/
 
+	/************* Back key app list (customized build) *************/
+
+	private static final String BACK_KEY_APPS = "pref_back_key_apps";
+
+	/**
+	 * Apps in which "Back" is always "Backspace" and never leaves the screen. Package names, in the order they were added.
+	 */
+	public java.util.ArrayList<String> getBackKeyApps() {
+		final java.util.ArrayList<String> apps = new java.util.ArrayList<>();
+		final String saved = prefs.getString(BACK_KEY_APPS, "");
+		for (String app : saved.split(",")) {
+			final String name = app.trim();
+			if (!name.isEmpty() && !apps.contains(name)) {
+				apps.add(name);
+			}
+		}
+		return apps;
+	}
+
+	public boolean isBackKeyApp(String packageName) {
+		return packageName != null && !packageName.isEmpty() && getBackKeyApps().contains(packageName);
+	}
+
+	public void addBackKeyApp(String packageName) {
+		final java.util.ArrayList<String> apps = getBackKeyApps();
+		if (packageName != null && !packageName.isEmpty() && !apps.contains(packageName)) {
+			apps.add(packageName);
+			saveBackKeyApps(apps);
+		}
+	}
+
+	public void removeBackKeyApp(String packageName) {
+		final java.util.ArrayList<String> apps = getBackKeyApps();
+		if (apps.remove(packageName)) {
+			saveBackKeyApps(apps);
+		}
+	}
+
+	private void saveBackKeyApps(java.util.ArrayList<String> apps) {
+		getPrefsEditor().putString(BACK_KEY_APPS, android.text.TextUtils.join(",", apps)).apply();
+	}
+
 	public boolean getDemoMode() {
 		return demoMode;
 	}

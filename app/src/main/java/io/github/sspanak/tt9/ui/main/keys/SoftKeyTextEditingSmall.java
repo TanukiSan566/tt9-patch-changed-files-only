@@ -17,7 +17,8 @@ public class SoftKeyTextEditingSmall extends SoftKeyFnSmall {
 
 	@Override
 	protected boolean isVisible() {
-		return (isTextEditingOn() && getId() != R.id.soft_key_0) || super.isVisible();
+		// the "0" key is only for the command popup (hide keyboard). There is no text editing command for it.
+		return isTextEditingOn() ? getId() != R.id.soft_key_0 : super.isVisible();
 	}
 
 	@Override
