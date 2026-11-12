@@ -37,6 +37,35 @@ abstract class KeyPadHandler extends UiHandler {
 		return pendingBackSince > 0 && SystemClock.uptimeMillis() - pendingBackSince < 5000;
 	}
 
+	// Customized build: whether our keyboard window is currently hidden (collapsed by the app, by the user, or by us).
+	private boolean keyboardWindowHidden = false;
+
+	@Override
+	public void onWindowHidden() {
+		super.onWindowHidden();
+		keyboardWindowHidden = true;
+		pendingBackSince = 0;
+	}
+
+	@Override
+	public void onWindowShown() {
+		super.onWindowShown();
+		keyboardWindowHidden = false;
+	}
+
+	/**
+	 * Customized build: in Bilibili and the apps from the "Back key apps" list, once the keyboard is collapsed (no matter who
+	 * did it), "Back" belongs to the application again: it must not be used as "Backspace" any more. Applications that are
+	 * not in the list keep the default behavior. The stealth layout has no visible keyboard at all, so it is not affected.
+	 */
+	private boolean isBackKeyAppKeyboardCollapsed(int keyCode) {
+		return Key.isBack(keyCode)
+			&& keyboardWindowHidden
+			&& !isFnPanelVisible()
+			&& !settings.isMainLayoutStealth()
+			&& isBackKeyApp();
+	}
+
 
 	/**
 	 * Main initialization of the input method component. Be sure to call to
@@ -69,6 +98,14 @@ abstract class KeyPadHandler extends UiHandler {
 		}
 
 		if (shouldBeOff()) {
+			return false;
+		}
+
+		// Customized build: the keyboard is collapsed in a listed application. Give "Back" to the application untouched.
+		if (isBackKeyAppKeyboardCollapsed(keyCode)) {
+			pendingBackSince = 0;
+			Key.setHandled(KeyEvent.KEYCODE_DEL, false);
+			Key.setHandled(KeyEvent.KEYCODE_BACK, false);
 			return false;
 		}
 
@@ -205,6 +242,10 @@ abstract class KeyPadHandler extends UiHandler {
 //			Logger.d("onKeyUp", "Ignored: " + keyCode);
 			ignoreNextKeyUp = 0;
 			return true;
+		}
+
+		if (isBackKeyAppKeyboardCollapsed(keyCode)) {
+			return false; // the application handles "Back" itself
 		}
 
 		if (Key.isBackspace(settings, keyCode) && Key.isHandled(KeyEvent.KEYCODE_DEL)) {
