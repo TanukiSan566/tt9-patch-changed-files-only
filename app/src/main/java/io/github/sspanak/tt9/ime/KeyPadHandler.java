@@ -6,6 +6,7 @@ import android.view.KeyEvent;
 import io.github.sspanak.tt9.ime.helpers.Key;
 import io.github.sspanak.tt9.preferences.screens.debug.DropDownInputHandlingMode;
 import io.github.sspanak.tt9.preferences.settings.SettingsStore;
+import io.github.sspanak.tt9.util.Logger;
 import io.github.sspanak.tt9.util.Timer;
 
 
@@ -48,6 +49,17 @@ abstract class KeyPadHandler extends UiHandler {
 		}
 	}
 
+	// Customized build: "Back" was taken as "Backspace" on key down, so the matching key up must be swallowed too.
+	private boolean forcedBackDown = false;
+
+	/**
+	 * Customized build: in Bilibili and the apps from the "Back key apps" list, "Back" is ALWAYS "Backspace",
+	 * no matter what the "Backspace" hotkey setting is. The only exception is a manually collapsed keyboard.
+	 */
+	private boolean isForcedBackspaceBack(int keyCode) {
+		return Key.isBack(keyCode) && !keyboardCollapsedByUser && !isFnPanelVisible() && isBackKeyApp();
+	}
+
 	/**
 	 * Customized build: in Bilibili and the apps from the "Back key apps" list, "Back" is always "Backspace", except
 	 * when the user has collapsed the keyboard manually. Applications that are not in the list keep the default behavior.
@@ -80,6 +92,10 @@ abstract class KeyPadHandler extends UiHandler {
 	 */
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (Key.isBack(keyCode)) {
+			Logger.i("KeyPadHandler", "Back DOWN reached the IME. repeat: " + event.getRepeatCount() + " shouldBeOff: " + shouldBeOff() + " listedApp: " + isBackKeyApp() + " collapsedByUser: " + keyboardCollapsedByUser + " fnPanel: " + isFnPanelVisible() + " isBackspaceHotkey: " + Key.isBackspace(settings, keyCode) + " inputMode: " + settings.getInputHandlingMode());
+		}
+
 		if (debounceKey(keyCode, event)) {
 			return true;
 		}
@@ -104,6 +120,16 @@ abstract class KeyPadHandler extends UiHandler {
 			Key.setHandled(KeyEvent.KEYCODE_DEL, false);
 			Key.setHandled(KeyEvent.KEYCODE_BACK, false);
 			return false;
+		}
+
+		// Customized build: forced "Back" = "Backspace" in listed applications, regardless of the hotkey settings.
+		if (isForcedBackspaceBack(keyCode)) {
+			forcedBackDown = true;
+			pendingBackSince = 0;
+			if (!onBackspace(event.getRepeatCount())) {
+				sendDownUpKeyEvents(KeyEvent.KEYCODE_DEL);
+			}
+			return true;
 		}
 
 //		Logger.d("onKeyDown", "Key: " + event + " repeat?: " + event.getRepeatCount() + " long-time: " + event.isLongPress());
@@ -219,6 +245,10 @@ abstract class KeyPadHandler extends UiHandler {
 	 */
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
+		if (Key.isBack(keyCode)) {
+			Logger.i("KeyPadHandler", "Back UP. forcedDown: " + forcedBackDown + " listedApp: " + isBackKeyApp() + " collapsedByUser: " + keyboardCollapsedByUser);
+		}
+
 		if (debounceKey(keyCode, event)) {
 			return true;
 		}
@@ -234,6 +264,11 @@ abstract class KeyPadHandler extends UiHandler {
 		}
 
 //		Logger.d("onKeyUp", "Key: " + keyCode + " repeat?: " + event.getRepeatCount());
+
+		if (Key.isBack(keyCode) && forcedBackDown) {
+			forcedBackDown = false;
+			return true;
+		}
 
 		if (keyCode == ignoreNextKeyUp) {
 //			Logger.d("onKeyUp", "Ignored: " + keyCode);
