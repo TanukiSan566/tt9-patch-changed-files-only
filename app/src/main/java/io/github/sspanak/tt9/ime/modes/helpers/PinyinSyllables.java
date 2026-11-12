@@ -119,6 +119,11 @@ public class PinyinSyllables {
 			start = cut;
 		}
 
+		// a separator typed right after the sound: "bi'"
+		if (out.length() > 0 && breaks.contains(upper.length())) {
+			out.append('\'');
+		}
+
 		return out.length() == 0 ? sound : out.toString().toLowerCase(Locale.ROOT);
 	}
 

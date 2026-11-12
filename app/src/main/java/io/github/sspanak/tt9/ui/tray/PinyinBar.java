@@ -28,11 +28,15 @@ public class PinyinBar {
 	@NonNull private final ArrayList<String> items = new ArrayList<>();
 	private int selected = -1;
 	private final SoundsAdapter adapter = new SoundsAdapter();
+	@Nullable private final TextView arrowLeft;
+	@Nullable private final TextView arrowRight;
 
 
 	public PinyinBar(@NonNull SettingsStore settings, @NonNull View root) {
 		this.settings = settings;
 		view = root.findViewById(R.id.pinyin_bar);
+		arrowLeft = root.findViewById(R.id.suggestions_arrow_left);
+		arrowRight = root.findViewById(R.id.suggestions_arrow_right);
 
 		if (view != null) {
 			view.setLayoutManager(new LinearLayoutManager(view.getContext(), RecyclerView.HORIZONTAL, false));
@@ -48,6 +52,18 @@ public class PinyinBar {
 	}
 
 
+	private void showArrows(boolean visible) {
+		for (TextView arrow : new TextView[] { arrowLeft, arrowRight }) {
+			if (arrow != null) {
+				// always black background and white icon, the same as the unselected words
+				arrow.setBackgroundColor(settings.getKeyboardBackground());
+				arrow.setTextColor(settings.getKeyboardTextColor());
+				arrow.setVisibility(visible ? View.VISIBLE : View.GONE);
+			}
+		}
+	}
+
+
 	@SuppressLint("NotifyDataSetChanged")
 	public void set(@Nullable List<String> rows, int newSelected) {
 		if (view == null) {
@@ -60,6 +76,7 @@ public class PinyinBar {
 			selected = -1;
 			adapter.notifyDataSetChanged();
 			view.setVisibility(View.GONE);
+			showArrows(false);
 			return;
 		}
 
@@ -67,6 +84,7 @@ public class PinyinBar {
 		selected = newSelected;
 		adapter.notifyDataSetChanged();
 		view.setVisibility(View.VISIBLE);
+		showArrows(true);
 
 		if (selected >= 0 && selected < items.size()) {
 			view.scrollToPosition(selected);

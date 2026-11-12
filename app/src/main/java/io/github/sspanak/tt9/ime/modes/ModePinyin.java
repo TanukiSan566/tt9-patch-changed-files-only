@@ -200,7 +200,19 @@ public class ModePinyin extends ModeIdeograms {
 			final String sound = sounds.get(i).toLowerCase(Locale.ROOT);
 			if (selectingSound && adjustingSound && i == soundIdx) {
 				final int cursor = Math.max(0, Math.min(soundCursor, sound.length()));
-				row.add(sound.substring(0, cursor) + "|" + sound.substring(cursor));
+				final StringBuilder editable = new StringBuilder();
+				for (int c = 0; c <= sound.length(); c++) {
+					if (c > 0 && c < sound.length() && c != cursor && syllableBreaks != null && syllableBreaks.contains(c)) {
+						editable.append('\'');
+					}
+					if (c == cursor) {
+						editable.append('|');
+					}
+					if (c < sound.length()) {
+						editable.append(sound.charAt(c));
+					}
+				}
+				row.add(editable.toString());
 			} else {
 				row.add(PinyinSyllables.format(sound, syllableBreaks));
 			}
