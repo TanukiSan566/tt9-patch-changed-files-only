@@ -1,0 +1,16 @@
+Words added by the automatic dictionary update (.github/workflows/update-dictionaries.yml).
+The sources below were merged into the dictionaries of the listed languages. Last run: 2026-11-12
+
+[en]
+en: FrequencyWords (OpenSubtitles), https://github.com/hermitdave/FrequencyWords
+  license: see the repository README (content is CC-BY-SA-4.0 at the time of writing)
+  spelling filter: https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt
+
+[ja]
+Japanese: Mozc open-source dictionary, https://github.com/google/mozc (src/data/dictionary_oss)
+  license: BSD-3-Clause; the dictionary also carries the notices of its upstream sources, see Mozc's LICENSE
+
+[zh]
+Simplified Chinese: rime-ice (雾凇拼音), https://github.com/iDvel/rime-ice
+  versions: 8105 2026-08-16, base 2026-11-01, others 2026-08-08, ext 2026-11-01
+  license: GPL-3.0 (see the repository for details)
