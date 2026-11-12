@@ -270,6 +270,15 @@ abstract class KeyPadHandler extends UiHandler {
 			return true;
 		}
 
+		// Customized build: on some devices (Android 13+ back handling) the IME gets only the key UP of "Back", never
+		// the key DOWN. Then the deletion must be done here, when the key is released.
+		if (isForcedBackspaceBack(keyCode)) {
+			if (!onBackspace(0)) {
+				sendDownUpKeyEvents(KeyEvent.KEYCODE_DEL);
+			}
+			return true;
+		}
+
 		if (keyCode == ignoreNextKeyUp) {
 //			Logger.d("onKeyUp", "Ignored: " + keyCode);
 			ignoreNextKeyUp = 0;
