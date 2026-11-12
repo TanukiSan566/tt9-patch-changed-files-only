@@ -420,7 +420,14 @@ public class InputType extends StandardInputType {
 	 * know whether it is empty. "Back" must always delete there.
 	 */
 	public boolean isBilibili() {
-		return isAnyOfApps(new String[]{"tv.danmaku.bili", "com.bilibili.app.in", "com.bilibili.app.blue"});
+		if (isAnyOfApps(new String[]{"tv.danmaku.bili", "tv.danmaku.bilj", "com.bilibili.app.in", "com.bilibili.app.blue"})) {
+			return true;
+		}
+
+		// Bilibili has many builds with different package names (tv.danmaku.bilj, com.bilibili.*...),
+		// so anything that looks like one of them is treated the same way.
+		return field != null && field.packageName != null
+			&& (field.packageName.startsWith("tv.danmaku.bil") || field.packageName.startsWith("com.bilibili."));
 	}
 
 
