@@ -312,6 +312,13 @@ public class SuggestionsBar {
 	}
 
 
+	public void flashArrow(boolean left) {
+		if (pinyinBar != null) {
+			pinyinBar.flashArrow(left);
+		}
+	}
+
+
 	public void setSelectionVisible(boolean visible) {
 		if (mSuggestionsAdapter != null) {
 			mSuggestionsAdapter.setSelectionVisible(visible);

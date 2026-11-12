@@ -30,6 +30,8 @@ public class PinyinBar {
 	private final SoundsAdapter adapter = new SoundsAdapter();
 	@Nullable private final TextView arrowLeft;
 	@Nullable private final TextView arrowRight;
+	@Nullable private final RecyclerView wordList;
+	private boolean arrowsVisible = false;
 
 
 	public PinyinBar(@NonNull SettingsStore settings, @NonNull View root) {
@@ -37,6 +39,7 @@ public class PinyinBar {
 		view = root.findViewById(R.id.pinyin_bar);
 		arrowLeft = root.findViewById(R.id.suggestions_arrow_left);
 		arrowRight = root.findViewById(R.id.suggestions_arrow_right);
+		wordList = root.findViewById(R.id.suggestions_bar);
 
 		if (view != null) {
 			view.setLayoutManager(new LinearLayoutManager(view.getContext(), RecyclerView.HORIZONTAL, false));
@@ -52,7 +55,18 @@ public class PinyinBar {
 	}
 
 
+	/**
+	 * The arrows take their own space, so the words are always fully visible between them.
+	 */
 	private void showArrows(boolean visible) {
+		arrowsVisible = visible;
+
+		if (wordList != null) {
+			final int side = visible ? Math.round(28 * wordList.getResources().getDisplayMetrics().density) : 0;
+			wordList.setClipToPadding(true);
+			wordList.setPadding(side, wordList.getPaddingTop(), side, wordList.getPaddingBottom());
+		}
+
 		for (TextView arrow : new TextView[] { arrowLeft, arrowRight }) {
 			if (arrow != null) {
 				// always black background and white icon, the same as the unselected words
@@ -89,6 +103,24 @@ public class PinyinBar {
 		if (selected >= 0 && selected < items.size()) {
 			view.scrollToPosition(selected);
 		}
+	}
+
+
+	/**
+	 * Lights up the arrow of the direction we have just scrolled to: white background, dark icon.
+	 */
+	public void flashArrow(boolean left) {
+		final TextView arrow = left ? arrowLeft : arrowRight;
+		if (arrow == null || !arrowsVisible) {
+			return;
+		}
+
+		arrow.setBackgroundColor(settings.getKeyboardTextColor());
+		arrow.setTextColor(settings.getKeyboardBackground());
+		arrow.postDelayed(() -> {
+			arrow.setBackgroundColor(settings.getKeyboardBackground());
+			arrow.setTextColor(settings.getKeyboardTextColor());
+		}, 180);
 	}
 
 

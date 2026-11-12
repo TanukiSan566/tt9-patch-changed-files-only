@@ -10,12 +10,10 @@
 	<!-- Customized build: the left / right indicators of the word row, shown together with the Pinyin row -->
 	<TextView
 		android:id="@+id/suggestions_arrow_left"
-		android:layout_width="wrap_content"
+		android:layout_width="28dp"
 		android:layout_height="match_parent"
 		android:layout_gravity="start|center_vertical"
 		android:gravity="center"
-		android:paddingLeft="10dp"
-		android:paddingRight="10dp"
 		android:text="&#x25C0;&#xFE0E;"
 		android:textSize="@dimen/status_bar_text_size"
 		android:visibility="gone"
@@ -24,12 +22,10 @@
 
 	<TextView
 		android:id="@+id/suggestions_arrow_right"
-		android:layout_width="wrap_content"
+		android:layout_width="28dp"
 		android:layout_height="match_parent"
 		android:layout_gravity="end|center_vertical"
 		android:gravity="center"
-		android:paddingLeft="10dp"
-		android:paddingRight="10dp"
 		android:text="&#x25B6;&#xFE0E;"
 		android:textSize="@dimen/status_bar_text_size"
 		android:visibility="gone"

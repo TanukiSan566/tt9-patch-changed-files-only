@@ -167,6 +167,13 @@ public class SuggestionOps {
 	}
 
 
+	public void flashArrow(boolean left) {
+		if (suggestionBar != null) {
+			suggestionBar.flashArrow(left);
+		}
+	}
+
+
 	public boolean hasSoundRow() {
 		return suggestionBar != null && suggestionBar.hasSoundRow();
 	}

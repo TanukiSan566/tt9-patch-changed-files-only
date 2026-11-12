@@ -47,6 +47,7 @@ public class CmdSuggestionNext implements Command {
 		}
 
 		tt9.getSuggestionOps().cancelDelayedAccept();
+		tt9.getSuggestionOps().flashArrow(backward);
 		tt9.getSuggestionOps().scrollTo(backward ? -1 : 1);
 		applyCurrentSuggestion(tt9);
 	}
@@ -57,6 +58,7 @@ public class CmdSuggestionNext implements Command {
 	 */
 	public static void scrollSuggestionsPage(@NonNull TraditionalT9 tt9) {
 		tt9.getSuggestionOps().cancelDelayedAccept();
+		tt9.getSuggestionOps().flashArrow(false);
 		tt9.getSuggestionOps().scrollPage();
 		applyCurrentSuggestion(tt9);
 	}
@@ -71,6 +73,8 @@ public class CmdSuggestionNext implements Command {
 		if (!tt9.getSuggestionOps().scrollPagePrevious()) {
 			return false;
 		}
+
+		tt9.getSuggestionOps().flashArrow(true);
 
 		applyCurrentSuggestion(tt9);
 		return true;
