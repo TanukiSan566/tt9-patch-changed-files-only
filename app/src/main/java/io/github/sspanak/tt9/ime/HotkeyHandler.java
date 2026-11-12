@@ -165,15 +165,14 @@ public abstract class HotkeyHandler extends CommandHandler {
 			return true;
 		}
 
-		// Customized build: in Japanese, "*" switches between Kanji (T9), Hiragana and Katakana. In all other
-		// cases (or when no kana mode is available), it turns the Symbols mode on and off.
-		if (keyCode == KeyEvent.KEYCODE_STAR && (onNextKanaMode(validateOnly) || onToggleSymbols(validateOnly))) {
+		// Customized build: "*" turns the Symbols mode on and off. This is the same in all languages.
+		if (keyCode == KeyEvent.KEYCODE_STAR && onToggleSymbols(validateOnly)) {
 			return true;
 		}
 
-		// Customized build: in Japanese, "*" is busy with the kana modes, so the Symbols mode is on "#".
-		// There is no text case in Japanese, so "#" has nothing else to do there.
-		if (keyCode == KeyEvent.KEYCODE_POUND && LanguageKind.isJapanese(mLanguage) && onToggleSymbols(validateOnly)) {
+		// Customized build: "#" is the case key. In Japanese, which has no text case, it switches the script
+		// instead: Kanji (T9) -> Hiragana -> Katakana. In the other modes, it remains the case key.
+		if (keyCode == KeyEvent.KEYCODE_POUND && onNextKanaMode(validateOnly)) {
 			return true;
 		}
 
@@ -254,11 +253,11 @@ public abstract class HotkeyHandler extends CommandHandler {
 
 
 	/**
-	 * Customized build: in Japanese, "*" cycles Kanji (T9) -> Hiragana (あ) -> Katakana (ア) -> Kanji...
+	 * Customized build: in Japanese, "#" cycles Kanji (T9) -> Hiragana (あ) -> Katakana (ア) -> Kanji...
 	 * The modes that are not allowed in the current field are skipped.
 	 *
 	 * @return false when this is not Japanese, we are in another mode (Symbols, 123, abc...), or there
-	 * is no other kana mode to switch to. Then "*" does its usual job.
+	 * is no other kana mode to switch to. Then "#" does its usual job (the case key).
 	 */
 	private boolean onNextKanaMode(boolean validateOnly) {
 		if (shouldBeOff() || isFnPanelVisible() || getFinalContext().isVoiceInputActive() || !LanguageKind.isJapanese(mLanguage)) {
