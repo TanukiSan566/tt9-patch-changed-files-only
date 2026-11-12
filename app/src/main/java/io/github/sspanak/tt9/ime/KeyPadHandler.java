@@ -102,6 +102,13 @@ abstract class KeyPadHandler extends UiHandler {
 				return Key.setHandled(KeyEvent.KEYCODE_DEL, true); // also makes onKeyUp() swallow the release
 			} else if (onBackspace(event.getRepeatCount())) {
 				return Key.setHandled(KeyEvent.KEYCODE_DEL, true);
+			} else if (Key.isBack(keyCode) && !nothingToDelete && isBackKeyApp()) {
+				// Customized build: Bilibili and the apps from the "Back key apps" list do not tell us what is in
+				// their text field, so onBackspace() sees it as empty and does nothing. Then "Back" would go straight
+				// to the application and leave the screen. The on-screen Backspace does the same fallback (CmdBackspace):
+				// it sends a real DEL key. Here we do it for the hardware "Back", and the application never sees "Back".
+				sendDownUpKeyEvents(KeyEvent.KEYCODE_DEL);
+				return Key.setHandled(KeyEvent.KEYCODE_DEL, true);
 			} else {
 				Key.setHandled(KeyEvent.KEYCODE_DEL, false);
 			}
@@ -234,6 +241,15 @@ abstract class KeyPadHandler extends UiHandler {
 	 * Customized build: true when pressing "Backspace" would do nothing at all. Overridden in TypingHandler.
 	 */
 	protected boolean isNothingToDelete() {
+		return false;
+	}
+
+
+	/**
+	 * Customized build: true when the current application is Bilibili or is in the "Back key apps" list. In such an
+	 * application, "Back" must always work as "Backspace". Overridden in TypingHandler.
+	 */
+	protected boolean isBackKeyApp() {
 		return false;
 	}
 

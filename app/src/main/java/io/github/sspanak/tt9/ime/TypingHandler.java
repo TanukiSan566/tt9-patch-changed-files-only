@@ -93,6 +93,12 @@ public abstract class TypingHandler extends KeyPadHandler {
 	}
 
 	@Override
+	protected boolean isBackKeyApp() {
+		return inputType != null && (inputType.isBilibili() || settings.isBackKeyApp(inputType.getPackageName()));
+	}
+
+
+	@Override
 	protected boolean isNothingToDelete() {
 		if (shouldBeOff() || isFnPanelVisible() || mInputMode == null) {
 			return false;
