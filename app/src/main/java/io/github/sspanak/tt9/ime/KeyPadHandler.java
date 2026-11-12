@@ -37,32 +37,25 @@ abstract class KeyPadHandler extends UiHandler {
 		return pendingBackSince > 0 && SystemClock.uptimeMillis() - pendingBackSince < 5000;
 	}
 
-	// Customized build: whether our keyboard window is currently hidden (collapsed by the app, by the user, or by us).
-	private boolean keyboardWindowHidden = false;
+	// Customized build: true only after the user collapsed the keyboard on purpose with the "Hide keyboard" command
+	// (hold "*", then "0"). Until the user types again or a new input starts, "Back" belongs to the application.
+	private boolean keyboardCollapsedByUser = false;
 
-	@Override
-	public void onWindowHidden() {
-		super.onWindowHidden();
-		keyboardWindowHidden = true;
-		pendingBackSince = 0;
-	}
-
-	@Override
-	public void onWindowShown() {
-		super.onWindowShown();
-		keyboardWindowHidden = false;
+	public void setKeyboardCollapsedByUser(boolean collapsed) {
+		keyboardCollapsedByUser = collapsed;
+		if (collapsed) {
+			pendingBackSince = 0;
+		}
 	}
 
 	/**
-	 * Customized build: in Bilibili and the apps from the "Back key apps" list, once the keyboard is collapsed (no matter who
-	 * did it), "Back" belongs to the application again: it must not be used as "Backspace" any more. Applications that are
-	 * not in the list keep the default behavior. The stealth layout has no visible keyboard at all, so it is not affected.
+	 * Customized build: in Bilibili and the apps from the "Back key apps" list, "Back" is always "Backspace", except
+	 * when the user has collapsed the keyboard manually. Applications that are not in the list keep the default behavior.
 	 */
 	private boolean isBackKeyAppKeyboardCollapsed(int keyCode) {
 		return Key.isBack(keyCode)
-			&& keyboardWindowHidden
+			&& keyboardCollapsedByUser
 			&& !isFnPanelVisible()
-			&& !settings.isMainLayoutStealth()
 			&& isBackKeyApp();
 	}
 
@@ -99,6 +92,10 @@ abstract class KeyPadHandler extends UiHandler {
 
 		if (shouldBeOff()) {
 			return false;
+		}
+
+		if (!Key.isBack(keyCode) && keyboardCollapsedByUser && !isFnPanelVisible()) {
+			keyboardCollapsedByUser = false;
 		}
 
 		// Customized build: the keyboard is collapsed in a listed application. Give "Back" to the application untouched.

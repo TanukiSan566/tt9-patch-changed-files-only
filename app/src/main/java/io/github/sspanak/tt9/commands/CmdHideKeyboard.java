@@ -35,6 +35,8 @@ public class CmdHideKeyboard implements Command {
 		// the popup must not be still open the next time the keyboard shows up
 		new CmdCommandPalette().hideCommandPalette(tt9);
 
+		// Customized build: from now on, "Back" goes to the application (in Bilibili and the "Back key apps" list)
+		tt9.setKeyboardCollapsedByUser(true);
 		tt9.requestHideSelf(0);
 
 		return true;

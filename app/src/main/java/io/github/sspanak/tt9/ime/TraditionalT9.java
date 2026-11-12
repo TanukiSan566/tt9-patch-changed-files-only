@@ -69,6 +69,7 @@ public class TraditionalT9 extends PremiumHandler {
 			LOG_TAG,
 			"===> Start Up; packageName: " + inputField.packageName + " inputType: " + inputField.inputType + " actionId: " + inputField.actionId + " imeOptions: " + inputField.imeOptions + " privateImeOptions: " + inputField.privateImeOptions + " extras: " + inputField.extras
 		);
+		setKeyboardCollapsedByUser(false);
 		onStart(inputField, restarting);
 	}
 
