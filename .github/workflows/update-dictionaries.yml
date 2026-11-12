@@ -1,0 +1,114 @@
+name: Update dictionaries (Chinese / English / Japanese)
+
+# Every week, fetch the newest open-source word lists, merge them into the TT9 dictionaries, check them,
+# commit the result and start the APK build. Run it by hand from the "Actions" tab whenever you want.
+on:
+  schedule:
+    - cron: '23 3 * * 1'        # every Monday, 03:23 UTC
+  workflow_dispatch:
+    inputs:
+      languages:
+        description: 'Languages to update, comma separated (e.g. zh,en,ja). Empty = all enabled in scripts/dict-update/config.json'
+        required: false
+        default: ''
+      force:
+        description: 'Update even when the upstream sources have not changed since the last run'
+        type: boolean
+        default: false
+      dry_run:
+        description: 'Only show what would change; do not commit anything'
+        type: boolean
+        default: false
+      build_apk:
+        description: 'Start the APK build after committing new dictionaries'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write     # commit the updated dictionaries
+  actions: write      # start the APK build workflow
+
+concurrency:
+  group: update-dictionaries
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout project sources
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0   # the Gradle scripts read the git history to compute the version
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # The updater only needs the Python standard library.
+      - name: Fetch the newest word lists and merge them into the dictionaries
+        id: update
+        continue-on-error: true
+        env:
+          LANGUAGES: ${{ github.event.inputs.languages }}
+          FORCE: ${{ github.event.inputs.force }}
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
+        run: |
+          ARGS="--report $RUNNER_TEMP/report.md"
+          [ -n "$LANGUAGES" ] && ARGS="$ARGS --languages $LANGUAGES"
+          [ "$FORCE" = "true" ] && ARGS="$ARGS --force"
+          [ "$DRY_RUN" = "true" ] && ARGS="$ARGS --dry-run"
+          python scripts/dict-update/update_dictionaries.py $ARGS
+
+      - name: Show the report
+        if: always()
+        run: |
+          if [ -f "$RUNNER_TEMP/report.md" ]; then cat "$RUNNER_TEMP/report.md" >> "$GITHUB_STEP_SUMMARY"; fi
+
+      # Second, independent check: the very same validation the APK build runs. A broken dictionary is never committed.
+      - name: Setup Java
+        if: steps.update.outputs.changed == 'true' && github.event.inputs.dry_run != 'true'
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Setup Gradle
+        if: steps.update.outputs.changed == 'true' && github.event.inputs.dry_run != 'true'
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Validate the updated dictionaries with Gradle
+        if: steps.update.outputs.changed == 'true' && github.event.inputs.dry_run != 'true'
+        run: |
+          chmod +x ./gradlew
+          ./gradlew validateLanguages
+
+      - name: Commit the updated dictionaries
+        id: commit
+        if: steps.update.outputs.changed == 'true' && github.event.inputs.dry_run != 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app/languages/dictionaries scripts/dict-update/state.json docs/dictionaries/auto-update-sources.txt
+          if git diff --cached --quiet; then
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "Update dictionaries ($(date -u +%F))"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # A push made with the default token does not start other workflows, so the build is started explicitly.
+      - name: Start the APK build
+        if: steps.commit.outputs.pushed == 'true' && github.event.inputs.build_apk != 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run build.yml --ref "${GITHUB_REF_NAME}"
+
+      - name: Fail the job when a language could not be updated
+        if: steps.update.outputs.failed == 'true' || steps.update.outcome == 'failure'
+        run: |
+          echo "At least one language failed, see the report above. The languages that succeeded were still committed."
+          exit 1

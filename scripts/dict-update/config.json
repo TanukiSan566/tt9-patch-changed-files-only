@@ -1,0 +1,100 @@
+{
+  "_comment": "Which languages the weekly GitHub Action refreshes, and from where. Set \"enabled\" to true to switch a language on. See README.md.",
+  "guards": {
+    "_comment": "Safety nets only: the updater refuses to write a dictionary that shrinks, or that grows by more than this factor in one run. 'max_new_words' of each language is a safety cap per run as well; what really decides how many words are taken are the thresholds in 'params' (weight_floor, min_count, max_cost).",
+    "max_growth_ratio": 1.6
+  },
+  "languages": {
+    "zh": {
+      "enabled": true,
+      "definition": "ChineseSimplifiedPinyin.yml",
+      "source": "zh",
+      "frequency_policy": "max",
+      "max_new_words": 100000,
+      "params": {
+        "repo": "iDvel/rime-ice",
+        "branch": "main",
+        "files": [
+          "8105",
+          "base",
+          "others",
+          "ext"
+        ],
+        "max_word_length": 10,
+        "weight_floor": 100,
+        "max_frequency": 255,
+        "curated_files": [
+          "8105",
+          "others"
+        ]
+      }
+    },
+    "en": {
+      "enabled": true,
+      "definition": "English.yml",
+      "source": "frequencywords",
+      "frequency_policy": "fill-missing",
+      "max_new_words": 40000,
+      "params": {
+        "lang": "en",
+        "year": 2018,
+        "size": "full",
+        "min_count": 60,
+        "min_word_length": 2,
+        "max_frequency": 200,
+        "reference_wordlist_url": "https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt",
+        "exclude_profanity": true,
+        "exclude_words": [
+          "didn",
+          "doesn",
+          "isn",
+          "wasn",
+          "wouldn",
+          "couldn",
+          "aren",
+          "shouldn",
+          "hasn",
+          "hadn",
+          "haven",
+          "weren",
+          "mustn",
+          "needn",
+          "ain",
+          "ll",
+          "ve",
+          "em"
+        ]
+      }
+    },
+    "ja": {
+      "enabled": true,
+      "definition": "Japanese.yml",
+      "source": "ja",
+      "frequency_policy": "max",
+      "max_new_words": 300000,
+      "params": {
+        "repo": "google/mozc",
+        "branch": "master",
+        "max_cost": 6000,
+        "best_cost": 2500,
+        "max_word_length": 12,
+        "max_frequency": 200
+      }
+    },
+    "de": {
+      "_comment": "EXAMPLE of an extra language. Alphabetic languages only need a FrequencyWords entry. Turn on after checking German.yml.",
+      "enabled": false,
+      "definition": "German.yml",
+      "source": "frequencywords",
+      "frequency_policy": "fill-missing",
+      "max_new_words": 20000,
+      "params": {
+        "lang": "de",
+        "year": 2018,
+        "size": "full",
+        "min_count": 300,
+        "max_frequency": 200
+      }
+    }
+  }
+}
