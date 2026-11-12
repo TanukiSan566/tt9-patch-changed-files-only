@@ -11,10 +11,10 @@ import io.github.sspanak.tt9.ime.modes.InputModeKind;
 import io.github.sspanak.tt9.ui.StatusIcon;
 
 /**
- * Customized build: key "7" of the command popup (hold "*"). It cycles the typing modes of the current
- * language: Predictive (T9) -> abc -> ABC -> 123, so letters and digits can be typed directly from
- * the keypad, for example in account names and passwords. It closes the popup and then does exactly
- * what the old "Toggle predictive mode" hotkey did.
+ * Customized build: key "7" of the command popup. It switches the typing mode of the current language:
+ * Predictive (T9) <-> ABC. ABC types letters, capital letters ("1" after the letter) and digits (long press)
+ * directly from the keypad, for example in account names and passwords. It closes the popup and then does
+ * exactly what a short "#" does.
  */
 public class CmdTypingModeCycle implements Command {
 	public static final String ID = "key_typing_mode_cycle";

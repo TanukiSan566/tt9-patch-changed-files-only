@@ -40,6 +40,15 @@ abstract public class CommandHandler extends TextEditingHandler {
 			return true;
 		}
 
+		// Customized build: in ABC, "1" after a letter makes that letter upper case (2+1 = "A")
+		if (!hold && !shouldBeOff() && !suggestionOps.isEmpty() && mInputMode.isTyping() && mInputMode.shouldChangeCaseOnNumber(key, suggestionOps.getCurrent())) {
+			suggestionOps.cancelDelayedAccept();
+			if (nextTextCase()) {
+				suggestionOps.scheduleDelayedAccept(mInputMode.getAutoAcceptTimeout());
+				return true;
+			}
+		}
+
 		return super.onNumber(key, hold, repeat);
 	}
 

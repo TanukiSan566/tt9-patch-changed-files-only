@@ -25,6 +25,11 @@ class ModeABC extends InputMode {
 
 	private boolean shouldSelectNextLetter = false;
 
+	// Customized build: ABC has no separate lower / upper case modes any more. The letter on the screen
+	// is always lower case, unless the user presses "1" after it (2+1 = "A", 2+2+1 = "B"...).
+	// This is that one-letter override. It is cleared when the next key is pressed.
+	private int pendingCase = CASE_UNDEFINED;
+
 	// text analysis
 	@NonNull private final AutoSpace autoSpace;
 	@NonNull private final AutoTextCase autoTextCase;
@@ -115,11 +120,12 @@ class ModeABC extends InputMode {
 	/******** TEXT CASE ********/
 	@Override
 	protected String adjustSuggestionTextCase(String word, int newTextCase) {
-		if (language.hasUpperCase()) {
-			return newTextCase == CASE_LOWER ? word.toLowerCase(language.getLocale()) : word.toUpperCase(language.getLocale());
-		} else {
+		if (!language.hasUpperCase()) {
 			return word;
 		}
+
+		final int effectiveCase = pendingCase != CASE_UNDEFINED ? pendingCase : newTextCase;
+		return effectiveCase == CASE_LOWER ? word.toLowerCase(language.getLocale()) : word.toUpperCase(language.getLocale());
 	}
 
 
@@ -131,20 +137,44 @@ class ModeABC extends InputMode {
 	}
 
 
+	/**
+	 * Customized build: this is how the "1" key (or the on-screen "Shift") turns the letter that is
+	 * being typed into an upper case one and back. For example, 2 -> "a", 2+1 -> "A", 2+2+1 -> "B".
+	 * Without a letter to change, there is nothing to do.
+	 */
 	@Override
 	public boolean nextTextCase(@Nullable String currentWord, int displayTextCase) {
-		if (suggestions.isEmpty()) {
-			return super.nextTextCase(currentWord, displayTextCase);
+		if (!isTypingLetter(currentWord)) {
+			return false;
 		}
 
-		for (int newTextCase : allowedTextCases) {
-			if (newTextCase != textCase && newTextCase != InputMode.CASE_CAPITALIZE) {
-				textCase = newTextCase;
-				return true;
-			}
+		final boolean isUpper = !currentWord.equals(currentWord.toLowerCase(language.getLocale()));
+		pendingCase = isUpper ? CASE_LOWER : CASE_UPPER;
+		return true;
+	}
+
+
+	@Override
+	public boolean shouldChangeCaseOnNumber(int number, @Nullable String currentWord) {
+		return number == Sequences.CHARS_1_KEY && isTypingLetter(currentWord);
+	}
+
+
+	/**
+	 * True when we are in the middle of typing a letter with one of the keys 2-9 and that letter
+	 * has an upper case variant. In any other case (punctuation, a digit, no input yet), "1" must
+	 * keep doing its usual job.
+	 */
+	private boolean isTypingLetter(@Nullable String currentWord) {
+		if (currentWord == null || currentWord.isEmpty() || suggestions.isEmpty() || !language.hasUpperCase() || shouldDisplayEmojis()) {
+			return false;
 		}
 
-		return false;
+		if (digitSequence.length() != 1 || digitSequence.charAt(0) < '2' || digitSequence.charAt(0) > '9') {
+			return false;
+		}
+
+		return Character.isLetter(currentWord.codePointAt(0));
 	}
 
 
@@ -199,14 +229,9 @@ class ModeABC extends InputMode {
 
 		autoSpace.setLanguage(language);
 
+		// Customized build: lower case only. The upper case is typed with "1", after the letter.
 		allowedTextCases.clear();
 		allowedTextCases.add(CASE_LOWER);
-		if (language.hasUpperCase()) {
-			if (settings.getAutoTextCaseAbc() && inputType != null && !inputType.isSpecialized()) {
-				allowedTextCases.add(CASE_CAPITALIZE);
-			}
-			allowedTextCases.add(CASE_UPPER);
-		}
 
 		KEY_CHARACTERS.clear();
 		if (isEmailMode) {
@@ -261,6 +286,7 @@ class ModeABC extends InputMode {
 		super.reset();
 		digitSequence = "";
 		shouldSelectNextLetter = false;
+		pendingCase = CASE_UNDEFINED;
 	}
 
 

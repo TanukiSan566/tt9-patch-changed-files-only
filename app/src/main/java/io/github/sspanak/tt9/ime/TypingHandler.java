@@ -474,6 +474,13 @@ public abstract class TypingHandler extends KeyPadHandler {
 		// reachable with the mode hotkey and "#", otherwise Chinese (and other predictive-only languages)
 		// could not be typed at all.
 		int savedMode = settings.getInputMode();
+
+		// Customized build: 123 is no longer a mode to switch to (digits are typed with a long press in ABC),
+		// so a text field must not start in it, because of an old saved setting.
+		if (savedMode == InputMode.MODE_123 && (allowedInputModes.contains(InputMode.MODE_PREDICTIVE) || allowedInputModes.contains(InputMode.MODE_ABC))) {
+			savedMode = InputMode.MODE_PREDICTIVE;
+		}
+
 		final boolean predictiveOnlyLanguage = mLanguage != null && mLanguage.isTranscribed();
 		if (!settings.getPredictiveMode() && !predictiveOnlyLanguage) {
 			if (allowedInputModes.contains(InputMode.MODE_ABC)) {

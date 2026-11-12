@@ -170,9 +170,10 @@ public abstract class HotkeyHandler extends CommandHandler {
 			return true;
 		}
 
-		// Customized build: "#" is the case key. In Japanese, which has no text case, it switches the script
-		// instead: Kanji (T9) -> Hiragana -> Katakana. In the other modes, it remains the case key.
-		if (keyCode == KeyEvent.KEYCODE_POUND && onNextKanaMode(validateOnly)) {
+		// Customized build: a short "#" switches the typing mode of the current language:
+		// Predictive (T9 / Pinyin...) -> ABC (letters, capital letters and digits) -> Predictive.
+		// Japanese has Hiragana and Katakana in between. A long "#" switches the language.
+		if (keyCode == KeyEvent.KEYCODE_POUND && onNextTypingMode(validateOnly)) {
 			return true;
 		}
 
@@ -253,18 +254,28 @@ public abstract class HotkeyHandler extends CommandHandler {
 
 
 	/**
-	 * Customized build: in Japanese, "#" cycles Kanji (T9) -> Hiragana (あ) -> Katakana (ア) -> Kanji...
+	 * Customized build: a short "#" cycles the typing modes of the current language:
+	 * Predictive (T9, Pinyin...) -> ABC -> Predictive... In Japanese it is Kanji (T9) -> Hiragana -> Katakana -> ABC.
+	 * ABC is the merged mode: letters with a short press, capital letters with "1" after the letter and
+	 * digits with a long press, so there are no separate abc / ABC / 123 modes to go through any more.
 	 * The modes that are not allowed in the current field are skipped.
 	 *
-	 * @return false when this is not Japanese, we are in another mode (Symbols, 123, abc...), or there
-	 * is no other kana mode to switch to. Then "#" does its usual job (the case key).
+	 * The key is always consumed when typing text, so it never types a "#". In the numeric modes it
+	 * remains a regular "#" and we return false.
 	 */
-	private boolean onNextKanaMode(boolean validateOnly) {
-		if (shouldBeOff() || isFnPanelVisible() || getFinalContext().isVoiceInputActive() || !LanguageKind.isJapanese(mLanguage)) {
+	private boolean onNextTypingMode(boolean validateOnly) {
+		if (shouldBeOff() || isFnPanelVisible() || getFinalContext().isVoiceInputActive() || InputModeKind.isNumeric(mInputMode)) {
 			return false;
 		}
 
-		final int[] cycle = {InputMode.MODE_PREDICTIVE, InputMode.MODE_HIRAGANA, InputMode.MODE_KATAKANA};
+		if (validateOnly) {
+			return true;
+		}
+
+		final int[] cycle = LanguageKind.isJapanese(mLanguage)
+			? new int[] {InputMode.MODE_PREDICTIVE, InputMode.MODE_HIRAGANA, InputMode.MODE_KATAKANA, InputMode.MODE_ABC}
+			: new int[] {InputMode.MODE_PREDICTIVE, InputMode.MODE_ABC};
+
 		int current = -1;
 		for (int i = 0; i < cycle.length; i++) {
 			if (mInputMode.getId() == cycle[i]) {
@@ -273,22 +284,21 @@ public abstract class HotkeyHandler extends CommandHandler {
 			}
 		}
 
+		// Symbols or editing a word: "#" has nothing to switch.
 		if (current < 0 || InputModeKind.isRecomposing(mInputMode)) {
-			return false;
+			return true;
 		}
 
 		final ArrayList<Integer> allowedModes = getFinalContext().getAllowedInputModes();
 		for (int step = 1; step < cycle.length; step++) {
 			final int nextMode = cycle[(current + step) % cycle.length];
 			if (allowedModes.contains(nextMode)) {
-				if (!validateOnly) {
-					setInputMode(nextMode);
-				}
-				return true;
+				setInputMode(nextMode);
+				break;
 			}
 		}
 
-		return false;
+		return true;
 	}
 
 
@@ -326,23 +336,13 @@ public abstract class HotkeyHandler extends CommandHandler {
 	}
 
 
-	/**
-	 * Customized build: "#" is the case key. In the modes where there is no text case (Chinese,
-	 * Symbols...), it must do nothing, instead of typing "#". In the numeric mode, it is a regular "#".
-	 */
-	private boolean isCaseKeyToSwallow(int keyCode) {
-		return keyCode == KeyEvent.KEYCODE_POUND && !shouldBeOff() && !getFinalContext().isInputModeNumeric();
-	}
-
-
 	private boolean onDynamicKey(int keyCode, boolean repeat, boolean validateOnly) {
 		if (keyCode == settings.getKeyShift()) {
 			return
 				shift.runFromHotkey(getFinalContext(), validateOnly)
 				// when "Shift" and "Korean Space" share the same key, allow typing a space, when there
 				// are no special characters to shift
-				|| (keyCode == settings.getKeySpaceKorean() && spaceKorean.runFromHotkey(getFinalContext(), validateOnly))
-				|| isCaseKeyToSwallow(keyCode);
+				|| (keyCode == settings.getKeySpaceKorean() && spaceKorean.runFromHotkey(getFinalContext(), validateOnly));
 		}
 
 		final Command cmd = CommandCollection.getByHotkey(settings, keyCode);

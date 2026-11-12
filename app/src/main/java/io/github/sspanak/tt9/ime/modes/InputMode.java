@@ -249,6 +249,12 @@ abstract public class InputMode {
 		return true;
 	}
 
+	/**
+	 * Customized build: true when pressing this number key must not type anything, but change the
+	 * text case of the word (letter) that is being typed. Used by ABC: 2+1 = "A".
+	 */
+	public boolean shouldChangeCaseOnNumber(int number, @Nullable String currentWord) { return false; }
+
 	public void determineNextWordTextCase(@Nullable String beforeCursor, int nextDigit) {}
 	public void skipNextTextCaseDetection() {}
 

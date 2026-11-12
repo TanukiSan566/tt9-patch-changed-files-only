@@ -16,6 +16,7 @@ import io.github.sspanak.tt9.util.chars.Characters;
 /**
  * Symbols mode (customized build). Press a key to get a group of symbols, press it again to
  * cycle through them. English, Chinese and "numeric" symbols are available at the same time.
+ * Key 1 also has the emoticons (kaomoji) and the emoji, after the Chinese punctuation.
  * Long-press a key to type the digit.
  */
 class ModeSymbols extends InputMode {
@@ -30,6 +31,12 @@ class ModeSymbols extends InputMode {
 		/* 7 */ {"\\", "|", "/", "&", "^", "~", "§", "¶", "†", "‡"},
 		/* 8 */ {"“", "”", "‘", "’", "\"", "'", "«", "»"},
 		/* 9 */ {"©", "®", "™", "°", "²", "³", "№", "·", "•"}
+	};
+
+	private static final String[] KAOMOJI = {
+		"(^_^)", "(^o^)", "(≧▽≦)", "(*^▽^*)", "(｡◕‿◕｡)", "(´▽`)", "(｡･ω･｡)", "(^_−)☆",
+		"(T_T)", "(；へ；)", "(ಥ_ಥ)", "(╥﹏╥)", "(>_<)", "(¬_¬)", "(－_－)zzz", "(╯°□°）╯︵ ┻━┻",
+		"ヽ(✿ﾟ▽ﾟ)ノ", "\\(^o^)/", "(ง •̀_•́)ง", "(^人^)", "orz", "¯\\_(ツ)_/¯", "( ﾟдﾟ)", "(◔◡◔)"
 	};
 
 	private boolean shouldSelectNextSymbol = false;
@@ -87,6 +94,14 @@ class ModeSymbols extends InputMode {
 			shouldSelectNextSymbol = false;
 
 			ArrayList<String> newSuggestions = new ArrayList<>(Arrays.asList(KEY_SYMBOLS[number]));
+			if (number == 1 && !isEmailMode) {
+				newSuggestions.addAll(Arrays.asList(KAOMOJI));
+				if (settings.areEmojisEnabled()) {
+					for (int group = 0; group < Characters.getMaxEmojiLevel(); group++) {
+						newSuggestions.addAll(Characters.getEmoji(group));
+					}
+				}
+			}
 			newSuggestions.add(String.valueOf(number));
 			suggestions = newSuggestions;
 		}

@@ -12,7 +12,8 @@ import io.github.sspanak.tt9.ime.modes.InputModeKind;
 import io.github.sspanak.tt9.ui.StatusIcon;
 
 /**
- * Customized build: cycles the typing modes: Predictive (T9) -> abc -> ABC -> 123 -> Predictive...
+ * Customized build: switches between Predictive (T9) and ABC. ABC is the merged mode, which also has the
+ * capital letters ("1" after the letter) and the digits (long press), so there is no abc -> ABC -> 123 any more.
  * Modes that are not allowed in the current field (or are disabled in the settings) are skipped.
  * The ID is kept as-is, so the existing hotkey and swipe settings continue to work.
  */
@@ -59,23 +60,21 @@ public class CmdTogglePredictiveMode implements Command {
 		final InputMode mode = tt9.getInputMode();
 
 		if (InputModeKind.isPredictive(mode)) {
-			// T9 -> abc
+			// T9 -> ABC
 			if (hasAbc) {
 				switchToAbc(tt9);
 			} else if (has123) {
 				tt9.setInputMode(InputMode.MODE_123);
 			}
 		} else if (InputModeKind.isABC(mode)) {
-			// abc -> ABC -> 123
-			if (!switchToUpperCase(tt9)) {
-				if (has123) {
-					tt9.setInputMode(InputMode.MODE_123);
-				} else if (hasPredictive) {
-					tt9.setInputMode(InputMode.MODE_PREDICTIVE);
-				}
+			// ABC -> T9
+			if (hasPredictive) {
+				tt9.setInputMode(InputMode.MODE_PREDICTIVE);
+			} else if (has123) {
+				tt9.setInputMode(InputMode.MODE_123);
 			}
 		} else if (InputModeKind.is123(mode)) {
-			// 123 -> T9
+			// 123 (only reachable from a saved setting or a numeric field) -> T9
 			if (hasPredictive) {
 				tt9.setInputMode(InputMode.MODE_PREDICTIVE);
 			} else if (hasAbc) {
@@ -89,50 +88,5 @@ public class CmdTogglePredictiveMode implements Command {
 
 	private void switchToAbc(@NonNull TraditionalT9 tt9) {
 		tt9.setInputMode(InputMode.MODE_ABC);
-		final InputMode abc = tt9.getInputMode();
-		if (InputModeKind.isABC(abc) && abc.getTextCase() != InputMode.CASE_LOWER && abc.setTextCase(InputMode.CASE_LOWER)) {
-			tt9.getSettings().saveTextCase(InputMode.CASE_LOWER);
-			refresh(tt9);
-		}
-	}
-
-
-	/**
-	 * @return true when the mode was changed from abc to ABC. false, when it is already ABC (or ABC is not allowed).
-	 */
-	private boolean switchToUpperCase(@NonNull TraditionalT9 tt9) {
-		final InputMode abc = tt9.getInputMode();
-		if (abc.getTextCase() == InputMode.CASE_UPPER) {
-			return false;
-		}
-
-		tt9.getSuggestionOps().cancelDelayedAccept();
-		abc.onAcceptSuggestion(tt9.getSuggestionOps().acceptIncomplete());
-
-		if (!abc.setTextCase(InputMode.CASE_UPPER)) {
-			return false;
-		}
-
-		abc.skipNextTextCaseDetection();
-		tt9.getSettings().saveTextCase(InputMode.CASE_UPPER);
-		refresh(tt9);
-		return true;
-	}
-
-
-	private void refresh(@NonNull TraditionalT9 tt9) {
-		final InputMode mode = tt9.getInputMode();
-
-		tt9.getDisplayTextCase(tt9.getLanguage(), mode.getTextCase());
-		tt9.setStatusIcon(mode, tt9.getLanguage());
-
-		if (tt9.getStatusBar() != null) {
-			tt9.getStatusBar().setText(mode);
-			tt9.getStatusBar().setAccessibilityTextCase(mode);
-		}
-
-		if (tt9.getMainView() != null) {
-			tt9.getMainView().render();
-		}
 	}
 }

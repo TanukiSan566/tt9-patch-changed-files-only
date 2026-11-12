@@ -44,9 +44,10 @@ public class CmdNextInputMode implements Command {
 
 
 	/**
-	 * Customized build: hold "#" cycles through Numbers -> English -> Chinese -> (other enabled languages).
+	 * Customized build: hold "#" cycles through English -> Chinese -> (other enabled languages).
 	 * Languages are the ones enabled in the settings, so adding Japanese there also adds it to the cycle.
-	 * The Symbols mode is not part of it. It has its own key: "*".
+	 * ABC and 123 are not part of it any more. ABC (letters, capital letters and digits) is a mode of each
+	 * language and a short "#" switches to it. The Symbols mode has its own key: "*".
 	 */
 	public boolean run(@Nullable TraditionalT9 tt9) {
 		if (tt9 == null || !isAvailable(tt9)) {
@@ -69,7 +70,9 @@ public class CmdNextInputMode implements Command {
 				// e.g. we are in the Symbols mode: go back to the typing mode of the current language
 				nextSlot = slots.contains(languageSlot) ? languageSlot : slots.get(0);
 			}
-			applySlot(tt9, nextSlot);
+			if (nextSlot != currentSlot) {
+				applySlot(tt9, nextSlot);
+			}
 		}
 
 		tt9.forceShowWindow();
@@ -81,10 +84,6 @@ public class CmdNextInputMode implements Command {
 	private ArrayList<Integer> getSlots(@NonNull TraditionalT9 tt9) {
 		final ArrayList<Integer> allowedModes = tt9.getAllowedInputModes();
 		final ArrayList<Integer> slots = new ArrayList<>();
-
-		if (allowedModes.contains(InputMode.MODE_123)) {
-			slots.add(SLOT_123);
-		}
 
 		if (allowedModes.contains(InputMode.MODE_PREDICTIVE) || allowedModes.contains(InputMode.MODE_ABC)) {
 			final ArrayList<Integer> languageIds = tt9.getSettings().getEnabledLanguageIds();
