@@ -48,6 +48,26 @@ public class ModeKanji extends ModePinyin {
 		return LanguageKind.isJapanese(newLanguage);
 	}
 
+
+	/**
+	 * Customized build: "1" types "ー" in Japanese. It is not a Pinyin syllable separator.
+	 */
+	@Override
+	protected boolean usesSyllableSeparator() {
+		return false;
+	}
+
+
+	/**
+	 * Customized build: Japanese sounds are romaji, so they must not be cut into Pinyin syllables.
+	 * "Ql" is the technical transcription of "ー" (see Japanese.yml), so show it as such: "kaql" -> "kaー".
+	 */
+	@NonNull
+	@Override
+	protected String formatSound(@NonNull String sound) {
+		return sound.replace("ql", "ー");
+	}
+
 	@NonNull
 	@Override
 	public String toAccessibilityString(@NonNull Context c) {

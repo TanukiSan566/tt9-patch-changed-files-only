@@ -66,7 +66,7 @@ public class ModePinyin extends ModeIdeograms {
 	@Override
 	public boolean onNumber(int number, boolean hold, int repeat, @NonNull String[] surroundingChars) {
 		if (selectingSound) {
-			if (number == 1 && !hold) {
+			if (number == 1 && !hold && usesSyllableSeparator()) {
 				onSyllableKeyWhileSelecting();
 				return true;
 			}
@@ -76,12 +76,31 @@ public class ModePinyin extends ModeIdeograms {
 			adjustingSound = false;
 		}
 
-		if (number == 1 && !hold && canAddSyllableBreak()) {
+		if (number == 1 && !hold && usesSyllableSeparator() && canAddSyllableBreak()) {
 			syllableBreaks.add(digitSequence.length());
 			return true;
 		}
 
 		return super.onNumber(number, hold, repeat, surroundingChars);
+	}
+
+
+	/**
+	 * Customized build: Pinyin uses "1" as the syllable separator. Japanese (ModeKanji and the kana modes)
+	 * extends this class, but there "1" is a real key of the romaji layout: the long vowel mark "ー"
+	 * (the dictionary sequence of "カー" is 5-2-1), so it must be typed, not swallowed.
+	 */
+	protected boolean usesSyllableSeparator() {
+		return true;
+	}
+
+
+	/**
+	 * Customized build: the text of one sound in the sound row. The sound is already lower case.
+	 */
+	@NonNull
+	protected String formatSound(@NonNull String sound) {
+		return PinyinSyllables.format(sound, syllableBreaks);
 	}
 
 
@@ -214,7 +233,7 @@ public class ModePinyin extends ModeIdeograms {
 				}
 				row.add(editable.toString());
 			} else {
-				row.add(PinyinSyllables.format(sound, syllableBreaks));
+				row.add(formatSound(sound));
 			}
 		}
 

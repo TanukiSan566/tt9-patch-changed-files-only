@@ -17,6 +17,7 @@ import io.github.sspanak.tt9.ime.helpers.Key;
 import io.github.sspanak.tt9.ime.helpers.TextField;
 import io.github.sspanak.tt9.ime.modes.InputMode;
 import io.github.sspanak.tt9.ime.modes.InputModeKind;
+import io.github.sspanak.tt9.languages.LanguageKind;
 import io.github.sspanak.tt9.util.Ternary;
 import io.github.sspanak.tt9.util.chars.Characters;
 
@@ -164,8 +165,15 @@ public abstract class HotkeyHandler extends CommandHandler {
 			return true;
 		}
 
-		// Customized build: "*" turns the Symbols mode on and off
-		if (keyCode == KeyEvent.KEYCODE_STAR && onToggleSymbols(validateOnly)) {
+		// Customized build: in Japanese, "*" switches between Kanji (T9), Hiragana and Katakana. In all other
+		// cases (or when no kana mode is available), it turns the Symbols mode on and off.
+		if (keyCode == KeyEvent.KEYCODE_STAR && (onNextKanaMode(validateOnly) || onToggleSymbols(validateOnly))) {
+			return true;
+		}
+
+		// Customized build: in Japanese, "*" is busy with the kana modes, so the Symbols mode is on "#".
+		// There is no text case in Japanese, so "#" has nothing else to do there.
+		if (keyCode == KeyEvent.KEYCODE_POUND && LanguageKind.isJapanese(mLanguage) && onToggleSymbols(validateOnly)) {
 			return true;
 		}
 
@@ -239,6 +247,46 @@ public abstract class HotkeyHandler extends CommandHandler {
 			}
 
 			return true;
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * Customized build: in Japanese, "*" cycles Kanji (T9) -> Hiragana (あ) -> Katakana (ア) -> Kanji...
+	 * The modes that are not allowed in the current field are skipped.
+	 *
+	 * @return false when this is not Japanese, we are in another mode (Symbols, 123, abc...), or there
+	 * is no other kana mode to switch to. Then "*" does its usual job.
+	 */
+	private boolean onNextKanaMode(boolean validateOnly) {
+		if (shouldBeOff() || isFnPanelVisible() || getFinalContext().isVoiceInputActive() || !LanguageKind.isJapanese(mLanguage)) {
+			return false;
+		}
+
+		final int[] cycle = {InputMode.MODE_PREDICTIVE, InputMode.MODE_HIRAGANA, InputMode.MODE_KATAKANA};
+		int current = -1;
+		for (int i = 0; i < cycle.length; i++) {
+			if (mInputMode.getId() == cycle[i]) {
+				current = i;
+				break;
+			}
+		}
+
+		if (current < 0 || InputModeKind.isRecomposing(mInputMode)) {
+			return false;
+		}
+
+		final ArrayList<Integer> allowedModes = getFinalContext().getAllowedInputModes();
+		for (int step = 1; step < cycle.length; step++) {
+			final int nextMode = cycle[(current + step) % cycle.length];
+			if (allowedModes.contains(nextMode)) {
+				if (!validateOnly) {
+					setInputMode(nextMode);
+				}
+				return true;
+			}
 		}
 
 		return false;
