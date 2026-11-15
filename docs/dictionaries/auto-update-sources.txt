@@ -1,16 +1,27 @@
 Words added by the automatic dictionary update (.github/workflows/update-dictionaries.yml).
-The sources below were merged into the dictionaries of the listed languages. Last run: 2026-11-12
+The sources below were merged into the dictionaries of the listed languages. Last run: 2026-11-15
 
 [en]
 en: FrequencyWords (OpenSubtitles), https://github.com/hermitdave/FrequencyWords
   license: see the repository README (content is CC-BY-SA-4.0 at the time of writing)
   spelling filter: https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt
+en: wordfreq 3.1.1, https://github.com/rspeer/wordfreq
+  license: code Apache-2.0, data CC-BY-SA-4.0 (see the repository for the sources it combines)
+  spelling filter: https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt
 
 [ja]
 Japanese: Mozc open-source dictionary, https://github.com/google/mozc (src/data/dictionary_oss)
   license: BSD-3-Clause; the dictionary also carries the notices of its upstream sources, see Mozc's LICENSE
+Japanese (extra): SudachiDict 20261015 (small+core+notcore), https://github.com/WorksApplications/SudachiDict
+  license: Apache-2.0 (code), the dictionary data is under the Sudachi / UniDic / NEologd notices, see the repository
 
 [zh]
 Simplified Chinese: rime-ice (雾凇拼音), https://github.com/iDvel/rime-ice
   versions: 8105 2026-08-16, base 2026-11-01, others 2026-08-08, ext 2026-11-01
   license: GPL-3.0 (see the repository for details)
+Simplified Chinese (extra): THUOCL, https://github.com/thunlp/THUOCL
+  domain lists: IT, animal, caijing, car, chengyu, diming, food, law, lishimingren, medical, poem; pinyin generated with pypinyin
+  license: see the THUOCL repository
+Simplified Chinese (extra): rime-ice tencent.dict.yaml (Tencent AI Lab vocabulary), https://github.com/iDvel/rime-ice
+  pinyin generated with pypinyin; only words made of the 8105 common characters, no frequency
+  license: GPL-3.0 (rime-ice); Tencent AI Lab embedding data: see https://ai.tencent.com/ailab/nlp/zh/embedding.html

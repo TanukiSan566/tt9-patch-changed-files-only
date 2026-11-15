@@ -48,7 +48,7 @@ El
 EO
 dm	93
 do	155
-em
+em	80
 fm	136
 Dr	132
 es	68
@@ -1200,7 +1200,7 @@ MCU	66
 Nat	66
 mat	97
 mau	36
-obv
+obv	7
 Max	92
 Maz
 OCZ
@@ -1451,7 +1451,7 @@ plc	94
 ski	118
 pls
 ply	89
-rly
+rly	8
 sky	120
 sly	80
 RoC	99
@@ -1809,7 +1809,7 @@ abbr	81
 abcs	61
 baas	34
 cabs	87
-acct
+acct	6
 babu	55
 bact
 Abby	85
@@ -1889,7 +1889,7 @@ caky
 calx
 Bama
 Bana
-banc
+banc	3
 camb
 cana	47
 canc
@@ -2929,7 +2929,7 @@ bury	97
 busy	131
 bute	4
 cute	92
-auth
+auth	17
 ATTN	21
 ATTO
 auto	114
@@ -3230,7 +3230,7 @@ FDNY	70
 demy	35
 deny	58
 Dera
-desc
+desc	4
 ferd
 fere
 Desi	54
@@ -4504,7 +4504,7 @@ grok
 Ismo
 iron	132
 IPOs	62
-gros
+gros	5
 isms	59
 grot	33
 grow	130
@@ -5649,7 +5649,7 @@ memo	100
 meno	43
 neon	95
 OEMS	18
-mems
+mems	3
 odor	96
 MDOT	74
 Nent
@@ -7132,7 +7132,7 @@ PSFS	61
 Pres	51
 prep	96
 pret	4
-prev
+prev	15
 Spex
 prey	119
 spew	60
@@ -7157,7 +7157,7 @@ SPLA	75
 SQLs	1
 proa
 prob	33
-proc
+proc	27
 rRNA	80
 PSOE	82
 Prof	67
@@ -7204,7 +7204,7 @@ quai	55
 stag	85
 such	170
 Puck	73
-publ
+publ	3
 ruck	77
 subj	28
 suck	89
@@ -7237,7 +7237,7 @@ Sven	82
 stem	120
 STDs	63
 puds
-ques
+ques	5
 rues	40
 step	132
 ster	3
@@ -7780,7 +7780,7 @@ togs	35
 unis
 Vogt
 unit	143
-univ
+univ	23
 UNIX	94
 tola
 Volf
@@ -9674,7 +9674,7 @@ allow	142
 alloy	108
 Allum
 alkyd	45
-alkyl
+alkyl	12
 allyl
 allyn
 Bloch	80
@@ -9756,7 +9756,7 @@ bluet	1
 bluey	35
 Alvie	30
 Alvin	91
-altho
+altho	6
 Alvis	60
 alula
 clung	77
@@ -10604,7 +10604,7 @@ array	120
 assay	89
 Aprea
 arsed
-appel
+appel	1
 Appen
 Aspen	80
 assen	15
@@ -10941,7 +10941,7 @@ cutup	21
 butut
 butty	43
 cutty	24
-butyl
+butyl	1
 Cuzco	67
 Buxar
 Buzby
@@ -12233,7 +12233,7 @@ Ernie	92
 droid	75
 froid	47
 frogs	103
-droit
+droit	1
 Ernle
 droll	65
 Frome
@@ -12299,7 +12299,7 @@ erupt	83
 Drury	85
 Drusy	1
 Druva
-druze
+druze	3
 dryad	50
 Dryas
 dryer	83
@@ -13072,7 +13072,7 @@ gigas	70
 Iggie	18
 Higgs
 highs	99
-hight
+hight	1
 gigli	15
 gigot	28
 gigue	52
@@ -14468,7 +14468,7 @@ libel	101
 Libes	15
 jibes	60
 kibes	1
-liber
+liber	12
 Khady
 Licia
 libia
@@ -16108,7 +16108,7 @@ nobly	65
 Omani
 moans	67
 omasa
-ombre
+ombre	3
 moats	77
 Oneal
 modal	98
@@ -17031,7 +17031,7 @@ pasta	90
 scrub	100
 parve
 paste	102
-parti
+parti	10
 Pasto	15
 Sarto	51
 Sarum	63
@@ -21774,7 +21774,7 @@ acting	137
 bating	37
 caving	76
 action	147
-cation
+cation	11
 actins
 bathos	46
 Cavite
@@ -22509,7 +22509,7 @@ chimps	71
 bigots	57
 chintz	50
 chirac	75
-chiral
+chiral	7
 chisel	82
 aigret
 chipit
@@ -24854,7 +24854,7 @@ Buress
 curers	42
 cupful	18
 Atreus	41
-aureus
+aureus	11
 curets
 curiae	71
 Cusick
@@ -27598,7 +27598,7 @@ gadfly	64
 Hadera
 gadget	77
 hading	14
-hadith
+hadith	19
 hadjes
 Hadley	81
 Gaelic	104
@@ -28612,7 +28612,7 @@ hobble	57
 gobang
 incant	15
 Hobard	1
-incase
+incase	15
 Hobart	93
 goaded	71
 imbeds	27
@@ -30592,7 +30592,7 @@ kimchi	71
 Kimble	66
 Kinane
 limbos	10
-kinase
+kinase	29
 limbus
 lineal	76
 linear	126
@@ -30630,7 +30630,7 @@ kinins	35
 lingos
 Jiminy	53
 Jinhua
-lingua
+lingua	10
 limits	127
 jinked	1
 kinked	53
@@ -31525,7 +31525,7 @@ McDuck	79
 McDuff	66
 McEvoy	74
 madura	18
-maduro
+maduro	18
 naevus
 McEwan	79
 obeyed	86
@@ -33485,7 +33485,7 @@ Mwanza
 nyanza	10
 oxbows	44
 Ozarks	66
-myelin
+myelin	1
 nyeman
 Oxford	55
 Owerri
@@ -34952,7 +34952,7 @@ Sesili
 perils	78
 period	155
 repine	10
-serine
+serine	5
 Perion
 resins	87
 serins
@@ -35318,7 +35318,7 @@ Piatra
 pictus
 rictus
 Shazam	25
-shaykh
+shaykh	3
 shawls	74
 sibyls	48
 Shawna	45
@@ -35860,7 +35860,7 @@ pities	55
 shtiks
 SiTime
 riving	30
-siting
+siting	7
 pithos
 qiviut
 Shuler
@@ -41539,7 +41539,7 @@ actinic
 cavings	10
 actinon
 actions	135
-cations
+cations	4
 Batista	82
 batiste	35
 Cathryn	44
@@ -41987,7 +41987,7 @@ Centene
 centers	128
 Benthal	1
 Bentham	70
-benthic
+benthic	7
 centile	28
 centime	54
 centimo	36
@@ -46103,7 +46103,7 @@ dandles	1
 Daneman
 fanfold	21
 Dandong
-fandoms
+fandoms	2
 Famicom	76
 Daniela	70
 Daniele	72
@@ -47511,7 +47511,7 @@ fleuron	27
 Eldwick
 flexile	10
 flexing	75
-flexion
+flexion	3
 flexors	58
 flexure	64
 elicits	71
@@ -50197,7 +50197,7 @@ hirudin
 girthed	15
 girting	15
 histoid
-histone
+histone	8
 history	156
 Hitachi	73
 hitched	66
@@ -51655,7 +51655,7 @@ hydride	49
 hydroid
 hydrops
 hydrous	38
-hydroxy
+hydroxy	9
 iyeyasu	1
 hygeist	1
 Izhevsk	47
@@ -52498,7 +52498,7 @@ lethals	21
 Lethean	1
 leviers
 Letitia	62
-ketones
+ketones	7
 ketonic	38
 ketoses	46
 ketosis	59
@@ -56201,7 +56201,7 @@ oxazine
 myeline
 myelins
 myeloid	74
-myeloma
+myeloma	10
 owenism
 oxfords	28
 Nyerere
@@ -59867,7 +59867,7 @@ podengo
 rodents	100
 sneered	53
 Roderic	54
-podesta
+podesta	16
 Podeswa
 sneezed	50
 sneezer	18
@@ -62550,7 +62550,7 @@ taunted	82
 vaunted	71
 taunter	18
 vaunter	1
-taunton
+taunton	17
 taurine
 Tatsuki
 tautens	1
@@ -65786,7 +65786,7 @@ baldhead	28
 ableisms
 Bakelite	52
 calendar	121
-calender
+calender	2
 baldness	73
 Balfours
 baldpate	1
@@ -70176,7 +70176,7 @@ Brighton	103
 Brigitta	47
 Brigitte	73
 Ashikaga
-arginine
+arginine	8
 Brignone
 Ashleigh	50
 arillode
@@ -70995,7 +70995,7 @@ curbside	67
 curarize
 curassow	35
 curating	63
-curation
+curation	5
 curative	81
 curculio
 curators	82
@@ -74914,7 +74914,7 @@ expunged	74
 expunger
 expunges	23
 dystonia
-dystopia
+dystopia	8
 exudated	1
 exudates	59
 extended	139
@@ -76501,7 +76501,7 @@ gollywog	1
 Holocene	72
 hologram	83
 Holoubek
-holotype
+holotype	8
 holozoic
 inkstand	40
 Holstein	91
@@ -77547,7 +77547,7 @@ hydromel	15
 hydropic
 hydroski	1
 hydrosol
-hydroxyl
+hydroxyl	7
 hygienes	1
 hygienic	74
 gynaecic
@@ -95651,7 +95651,7 @@ corniness	30
 cornishes
 cornhusks	10
 corollary	82
-copolymer
+copolymer	1
 coronachs
 coronated	42
 cornmeals	1
@@ -96591,7 +96591,7 @@ aspirator	46
 assistant	135
 assisters	27
 assisting	110
-assistive
+assistive	3
 arrivisme	1
 arriviste	37
 asphyxial	10
@@ -97962,7 +97962,7 @@ dementias	48
 dementing	31
 demerited	1
 dendrites	78
-dendritic
+dendritic	9
 demesnial	1
 denervate	1
 fenestrae	60
@@ -98811,7 +98811,7 @@ distilled	94
 distiller	66
 dirtiness	44
 distingue
-disulfide
+disulfide	3
 disunited	59
 disunites	1
 distorted	103
@@ -100216,7 +100216,7 @@ frumpiest
 drumrolls	10
 estoppels	36
 drumstick	61
-estradiol
+estradiol	9
 estragons
 estranged	100
 estranges	37
@@ -100718,7 +100718,7 @@ dysphasic
 dysphemia
 dysphonia
 dysphonic	10
-dysphoria
+dysphoria	3
 dysphoric
 dysplasia	4
 dyspnoeas
@@ -101855,7 +101855,7 @@ glowworms	40
 glucagons
 glucoside
 glutamate	93
-glutamine
+glutamine	1
 glutelins
 glutenous	18
 glutinous	50
@@ -108592,7 +108592,7 @@ peepshows	21
 redstarts	41
 reducible	76
 seducible
-reductase
+reductase	8
 reduction	125
 seduction	85
 reductive	81
@@ -109649,7 +109649,7 @@ Shankland
 Shannassy
 phanotron
 shamrocks	50
-ribosomal
+ribosomal	2
 shampooed	25
 ribosomes	43
 shampooer	84
@@ -122857,7 +122857,7 @@ Frontpanel
 frontwards	28
 esophageal	83
 droplights	18
-drosophila
+drosophila	15
 frostbites	25
 frostiness	21
 esoterical	18
@@ -125504,7 +125504,7 @@ hydrophone	58
 hydrophyte
 hydroplane	66
 hydroponic	63
-hydropower
+hydropower	14
 hydrotaxis
 hydroxides	64
 hydrozoans
@@ -129139,7 +129139,7 @@ paroxysmal	61
 sarracenia
 passageway	86
 parrakeets
-parramatta
+parramatta	24
 sappanwood	28
 rappelling	66
 sassenachs
@@ -137464,7 +137464,7 @@ bloodstream	88
 Bloomington	85
 closefisted	1
 blossomings
-clostridium
+clostridium	1
 blotchiness
 cloudbursts	37
 cloudscapes	30
@@ -138295,7 +138295,7 @@ cornhusking
 corollaries	56
 coronagraph
 coronations	73
-coronavirus
+coronavirus	28
 cosmogonies	37
 cosmogonist	1
 cosmography	58
@@ -138832,7 +138832,7 @@ assentation
 apperceived	10
 apperceives
 aspergillum
-aspergillus
+aspergillus	3
 aspermatism	1
 assessments	100
 assessorial	1
@@ -139119,7 +139119,7 @@ attachments	91
 butcherbird	28
 attainments	69
 cutaneously	10
-attendances
+attendances	9
 Attendantly	1
 attempering
 attemptable
@@ -139925,7 +139925,7 @@ fieldworker	39
 dienbienphu
 fiduciaries	39
 fifteenfold	28
-eigenvalues
+eigenvalues	2
 eigenvector
 digestively	10
 digitalised	21
@@ -140502,7 +140502,7 @@ endocranium
 emendations	63
 endodontics
 endodontist
-endometrial
+endometrial	3
 endometrium
 endomorphic
 enforceable	82
@@ -140511,7 +140511,7 @@ endoscopist	15
 endoplasmic	45
 endorsement	104
 endothecium
-endothelial
+endothelial	19
 endothelium
 endothermal
 endothermic	41
@@ -141848,7 +141848,7 @@ glossolalia	38
 glossolalic
 glottalized	64
 gloweringly
-glutathione
+glutathione	7
 glutinosity
 glutinously	1
 gluttonized
@@ -142916,7 +142916,7 @@ hydrometeor
 hydrometers	35
 hydrometric
 hydropathic
-hydrophilic
+hydrophilic	1
 hydrophobia	42
 hydrophobic	91
 hydrophones	59
@@ -143306,7 +143306,7 @@ jinrickshas
 jinrikishas	1
 kinsmanship	10
 Kirkpatrick	75
-lipoprotein
+lipoprotein	6
 liposuction	62
 lissomeness	1
 lipsticking
@@ -151218,7 +151218,7 @@ chordophones	46
 biophysicist	56
 chorusmaster	27
 biosyntheses
-biosynthesis
+biosynthesis	13
 biosynthetic	71
 bioterrorism	64
 agrammatical	1
@@ -151518,7 +151518,7 @@ cohabitation	77
 Angelopoulos
 cogeneration	71
 cohesiveness	67
-angiogenesis
+angiogenesis	1
 boilermakers	48
 boilerplates	35
 anglicanisms
@@ -154215,7 +154215,7 @@ hereditament
 hereditarian	45
 hereditarily	59
 hereinbefore
-gesellschaft
+gesellschaft	5
 geriatrician	30
 heritability	73
 hesitatingly	33
@@ -154332,7 +154332,7 @@ gluttonizing
 gluttonously	18
 glycerinated	1
 glycogenesis
-glycoprotein
+glycoprotein	3
 Glyndebourne	65
 glyphography
 glyptography
@@ -155165,7 +155165,7 @@ hydrogenated	73
 hydrogenates	15
 hydrogeology
 hydrographer
-hydrographic
+hydrographic	6
 hydrokinetic
 hydrological	77
 hydrologists	46
@@ -157888,7 +157888,7 @@ phycologists	18
 sizeableness
 phylacteries	25
 phylloclades
-phylogenetic
+phylogenetic	14
 physicalisms
 physiatrists	32
 physiocratic	33
@@ -158114,7 +158114,7 @@ soporiferous
 possessional	1
 possessively	18
 portableness
-postcolonial
+postcolonial	7
 portcullises	45
 postdiluvian
 postelection	18
@@ -160383,7 +160383,7 @@ Cadiangullong
 Aberdeenshire	76
 acetaldehydes
 acetaminophen	75
-acetylcholine
+acetylcholine	4
 acidification	71
 achlorhydrias
 achromaticity
@@ -162116,7 +162116,7 @@ endangerments	21
 dodecahedrons
 endocrinology	69
 endometrioses
-endometriosis
+endometriosis	8
 endomorphisms	32
 endoparasites
 endopeptidase
@@ -162375,7 +162375,7 @@ extinguishing	79
 extortionists	45
 extracellular	95
 extragalactic	34
-extrajudicial
+extrajudicial	7
 extraordinary	116
 extrapolating	63
 extrapolation	76
@@ -167090,7 +167090,7 @@ asymptotically	79
 crystalization	10
 cryptanalyzing	15
 cryptoanalysis
-cryptocurrency
+cryptocurrency	31
 cryptographers	2
 availabilities	49
 avalokitesvara
@@ -168453,7 +168453,7 @@ monumentalizes
 nontraditional	71
 nontransparent	37
 moralistically	28
-norepinephrine
+norepinephrine	4
 morganatically	54
 oophorectomies
 normalisations	18
@@ -171253,7 +171253,7 @@ multiplicatives	15
 multiprocessing	69
 multiprocessors	46
 multitudinously	10
-musculoskeletal
+musculoskeletal	10
 murderousnesses
 mutualistically
 myelencephalons
@@ -171495,7 +171495,7 @@ simplifications	71
 phosphocreatine
 phosphorescence	60
 phosphoproteins
-phosphorylation
+phosphorylation	19
 photochemically	23
 photobiological	25
 photoconduction
@@ -172304,7 +172304,7 @@ extraventricular	15
 extraterrestrial	96
 extraterritorial	73
 iconoclastically
-gastroenterology
+gastroenterology	5
 gastrointestinal	96
 heliocentrically
 hemagglutination	44
@@ -176413,3 +176413,1751 @@ pps	1
 dorsa	1
 tck	1
 poa	1
+it's	147
+I'm	140
+you're	130
+that's	129
+I've	124
+he's	119
+there's	117
+they're	114
+I'll	113
+we're	112
+I'd	110
+she's	106
+you'll	105
+what's	104
+let's	102
+you've	101
+we've	98
+here's	93
+we'll	92
+who's	90
+you'd	90
+they've	87
+they'll	85
+women's	85
+people's	84
+world's	81
+it'll	80
+he'd	80
+he'll	78
+today's	78
+children's	76
+men's	75
+we'd	75
+one's	73
+they'd	73
+year's	72
+god's	72
+mother's	72
+would've	72
+man's	71
+someone's	70
+company's	70
+everyone's	68
+father's	68
+city's	67
+america's	65
+it'd	65
+she'd	65
+she'll	65
+country's	64
+woman's	64
+should've	61
+team's	61
+where's	61
+could've	60
+state's	60
+week's	60
+person's	59
+family's	59
+king's	59
+obama's	58
+trump's	58
+tx	58
+else's	58
+child's	57
+nation's	57
+government's	57
+girl's	56
+that'll	56
+friend's	56
+how's	56
+other's	55
+president's	55
+party's	55
+club's	54
+china's	54
+mcdonald's	54
+life's	53
+group's	53
+night's	53
+son's	53
+wife's	53
+xd	53
+india's	52
+guy's	52
+husband's	52
+o'brien	52
+school's	52
+earth's	51
+game's	51
+mom's	50
+canada's	50
+dad's	50
+australia's	50
+master's	50
+daughter's	49
+driver's	49
+show's	49
+university's	49
+valentine's	49
+day's	49
+queen's	49
+c'mon	48
+that'd	48
+anyone's	48
+brother's	47
+john's	47
+boy's	47
+baby's	47
+doctor's	47
+who've	46
+britain's	45
+o'neill	45
+alzheimer's	45
+russia's	45
+tonight's	45
+apple's	44
+japan's	44
+paul's	44
+uk's	44
+forex	44
+clinton's	43
+who'd	43
+body's	43
+everybody's	43
+lord's	43
+mf	43
+yesterday's	43
+dog's	43
+kid's	43
+nobody's	43
+devil's	42
+israel's	42
+london's	42
+o'connor	42
+sheriff's	42
+town's	42
+google's	42
+player's	42
+sister's	42
+smith's	42
+tomorrow's	42
+film's	42
+george's	42
+mary's	42
+n't	42
+patient's	42
+season's	41
+band's	41
+everything's	41
+league's	41
+ship's	40
+victim's	40
+month's	40
+court's	40
+germany's	40
+artist's	39
+bachelor's	39
+nl	39
+brown's	39
+europe's	39
+governor's	39
+york's	39
+society's	38
+a's	38
+car's	38
+england's	38
+must've	38
+africa's	38
+church's	38
+peter's	38
+iran's	37
+michael's	37
+pts	37
+jackson's	37
+johnson's	37
+army's	37
+california's	37
+character's	37
+christ's	37
+nv	37
+disney's	36
+general's	36
+joe's	36
+somebody's	36
+victoria's	36
+author's	36
+mhz	36
+sun's	36
+teacher's	35
+there'll	35
+council's	35
+county's	35
+david's	35
+how'd	35
+island's	35
+organization's	35
+sunday's	35
+region's	34
+sam's	34
+something's	34
+area's	34
+bank's	34
+department's	34
+firm's	34
+hitler's	34
+lee's	34
+martin's	34
+avg	33
+friday's	33
+korea's	33
+nb	33
+scott's	33
+luke's	33
+minister's	33
+saturday's	33
+bn	33
+cat's	33
+chicago's	33
+france's	33
+harry's	33
+o'donnell	33
+patrick's	33
+taylor's	33
+administration's	32
+mayor's	32
+o'reilly	32
+owner's	32
+parkinson's	32
+system's	32
+tv's	32
+client's	32
+microsoft's	32
+pakistan's	32
+user's	32
+wilson's	32
+lady's	32
+magazine's	32
+nasa's	32
+student's	32
+who'll	32
+fg	31
+individual's	31
+industry's	31
+miller's	31
+washington's	31
+director's	31
+ireland's	31
+nothing's	31
+site's	31
+bill's	30
+daddy's	30
+didn	30
+nature's	30
+o'connell	30
+park's	30
+putin's	30
+ryan's	30
+there'd	30
+writer's	30
+book's	30
+cpi	30
+girlfriend's	30
+hwy	30
+jack's	30
+might've	30
+partner's	30
+zealand's	30
+attorney's	30
+bush's	30
+community's	30
+faq	30
+network's	30
+parent's	30
+association's	29
+mexico's	29
+building's	29
+civ	29
+district's	29
+heart's	29
+jordan's	29
+mark's	29
+o'malley	29
+scotland's	29
+tsp	29
+dx	28
+farmer's	28
+florida's	28
+majesty's	28
+media's	28
+museum's	28
+nigeria's	28
+officer's	28
+planet's	28
+summer's	28
+t's	28
+tue	28
+union's	28
+agency's	28
+bird's	28
+boyfriend's	28
+couple's	28
+love's	28
+monday's	28
+y'know	28
+bob's	28
+doesn	28
+henry's	28
+kelly's	28
+law's	28
+neighbor's	28
+pty	28
+public's	28
+shakespeare's	28
+amazon's	27
+bbc's	27
+captain's	27
+ford's	27
+ign	27
+ipl	27
+opponent's	27
+tom's	27
+turkey's	27
+yt	27
+adam's	27
+italy's	27
+macy's	27
+phone's	27
+project's	27
+time's	27
+when's	27
+cir	27
+commission's	27
+grandmother's	27
+house's	27
+mum's	27
+prince's	27
+tg	27
+tuesday's	27
+viz	27
+why'd	27
+brazil's	26
+center's	26
+foundation's	26
+lion's	26
+program's	26
+ret	26
+united's	26
+harper's	26
+hero's	26
+ux	26
+west's	26
+abc's	25
+another's	25
+enemy's	25
+ffa	25
+fw	25
+khan's	25
+navy's	25
+otc	25
+pvt	25
+spain's	25
+wd	25
+white's	25
+esq	25
+facebook's	25
+grandfather's	25
+pct	25
+ppm	25
+kim's	25
+marvel's	25
+moore's	25
+fox's	24
+kv	24
+nbc's	24
+brand's	24
+cameron's	24
+editor's	24
+emperor's	24
+fool's	24
+grandma's	24
+hotel's	24
+labour's	24
+stone's	24
+txt	24
+wendy's	24
+winner's	24
+board's	23
+carter's	23
+I's	23
+manager's	23
+mike's	23
+station's	23
+thursday's	23
+walker's	23
+cnn's	23
+dean's	23
+dragon's	23
+egypt's	23
+hill's	23
+judge's	23
+money's	23
+movie's	23
+richard's	23
+seater	23
+spp	23
+sweden's	23
+allen's	23
+charlie's	23
+committee's	23
+cpl	23
+daniel's	23
+frank's	23
+hillary's	23
+music's	23
+seq	23
+soldier's	23
+star's	23
+worker's	23
+anderson's	22
+ben's	22
+customer's	22
+member's	22
+morgan's	22
+singapore's	22
+b's	22
+college's	22
+fbi's	22
+grey's	22
+jane's	22
+kennedy's	22
+may's	22
+moon's	22
+morning's	22
+murphy's	22
+o'leary	22
+o'neal	22
+o'sullivan	22
+pope's	22
+uncle's	22
+vb	22
+winter's	22
+andrew's	22
+bds	22
+cfs	22
+crc	22
+duke's	22
+heaven's	22
+hell's	22
+horse's	22
+howard's	22
+joseph's	22
+leader's	22
+mpg	22
+noah's	22
+perry's	22
+pilot's	22
+rose's	22
+toronto's	22
+weekend's	22
+where'd	22
+alex's	21
+arsenal's	21
+bbl	21
+boston's	21
+collector's	21
+cousin's	21
+cst	21
+iraq's	21
+isn	21
+syria's	21
+virginia's	21
+war's	21
+wednesday's	21
+young's	21
+adv	21
+brain's	21
+cooper's	21
+ecb	21
+ecu	21
+institute's	21
+m's	21
+mtg	21
+story's	21
+adp	20
+baker's	20
+chelsea's	20
+georgia's	20
+hospital's	20
+hunter's	20
+james's	20
+lincoln's	20
+nick's	20
+preorder	20
+reader's	20
+syn	20
+tony's	20
+ya'll	20
+afb	20
+ali's	20
+dup	20
+green's	20
+michigan's	20
+o'neil	20
+shit's	20
+sony's	20
+sydney's	20
+wk	20
+anybody's	20
+asia's	20
+assassin's	20
+bishop's	20
+clark's	20
+g's	20
+gov't	20
+hollywood's	20
+humanity's	20
+nfl's	20
+o'keefe	20
+pes	20
+robert's	20
+simon's	20
+song's	20
+twitter's	20
+website's	20
+why's	20
+wut	20
+yd	20
+aes	19
+bell's	19
+defendant's	19
+eu's	19
+jehovah's	19
+jerry's	19
+lh	19
+liverpool's	19
+parker's	19
+singer's	19
+arthur's	19
+christie's	19
+d's	19
+jim's	19
+lover's	19
+mama's	19
+matt's	19
+sky's	19
+brees	18
+bull's	18
+campbell's	18
+corporation's	18
+hamilton's	18
+kingdom's	18
+martha's	18
+name's	18
+sarah's	18
+seattle's	18
+water's	18
+wayne's	18
+william's	18
+album's	18
+bhp	18
+bieber's	18
+collab	18
+cook's	18
+coroner's	18
+ctr	18
+dylan's	18
+gentleman's	18
+gordon's	18
+kate's	18
+mine's	18
+modi's	18
+paper's	18
+pete's	18
+steve's	18
+alice's	18
+citizen's	18
+dude's	18
+kong's	18
+oliver's	18
+pte	18
+ray's	18
+samsung's	18
+stephen's	18
+what'd	18
+wright's	18
+x's	18
+abv	17
+all's	17
+chef's	17
+dave's	17
+fcs	17
+gray's	17
+hall's	17
+houston's	17
+lowe's	17
+o'rourke	17
+o's	17
+ocean's	17
+prosecutor's	17
+satan's	17
+stewart's	17
+store's	17
+thompson's	17
+turner's	17
+wl	17
+actor's	17
+barry's	17
+boss's	17
+bride's	17
+carolina's	17
+charlotte's	17
+dc's	17
+efl	17
+francisco's	17
+home's	17
+nixon's	17
+now's	17
+old's	17
+vehicle's	17
+xviii	17
+andy's	17
+animal's	17
+blake's	17
+caesar's	17
+gv	17
+jacob's	17
+library's	17
+line's	17
+marshall's	17
+ppi	17
+reagan's	17
+russell's	17
+santa's	17
+storm's	17
+target's	17
+tyler's	17
+xxi	17
+xxiii	17
+c's	16
+cole's	16
+dick's	16
+force's	16
+kenya's	16
+murray's	16
+o'shea	16
+province's	16
+rome's	16
+side's	16
+swift's	16
+unit's	16
+video's	16
+yds	16
+arm's	16
+chief's	16
+drake's	16
+methylation	16
+mitchell's	16
+rachel's	16
+shepherd's	16
+ukraine's	16
+usa's	16
+candidate's	15
+channel's	15
+cohen's	15
+crs	15
+domino's	15
+gop's	15
+leo's	15
+melbourne's	15
+mts	15
+newton's	15
+nintendo's	15
+power's	15
+pq	15
+shaw's	15
+tesla's	15
+this'll	15
+tim's	15
+vincent's	15
+wg	15
+acta	15
+amt	15
+amy's	15
+angel's	15
+anna's	15
+anthony's	15
+buyer's	15
+camera's	15
+cia's	15
+cit	15
+dan's	15
+deg	15
+festival's	15
+hcl	15
+iw	15
+levi's	15
+max's	15
+military's	15
+moment's	15
+norway's	15
+o'toole	15
+poland's	15
+austin's	15
+commissioner's	15
+correa	15
+devs	15
+employee's	15
+esc	15
+ex's	15
+fec	15
+jay's	15
+jimmy's	15
+knight's	15
+market's	15
+mind's	15
+pm's	15
+xix	15
+american's	14
+anne's	14
+destiny's	14
+ed's	14
+einstein's	14
+emily's	14
+espn's	14
+fuck's	14
+graham's	14
+grant's	14
+harm's	14
+hour's	14
+indonesia's	14
+jason's	14
+lx	14
+mac's	14
+robinson's	14
+street's	14
+warren's	14
+what're	14
+academy's	14
+alexander's	14
+biden's	14
+brady's	14
+computer's	14
+franklin's	14
+jersey's	14
+kevin's	14
+lawyer's	14
+oregon's	14
+phil's	14
+plant's	14
+potter's	14
+prs	14
+simpson's	14
+who're	14
+xc	14
+aas	13
+agent's	13
+biennale	13
+black's	13
+campaign's	13
+evening's	13
+jamie's	13
+lisa's	13
+lot's	13
+model's	13
+qe	13
+queensland's	13
+rick's	13
+rock's	13
+sean's	13
+spencer's	13
+thailand's	13
+ult	13
+watson's	13
+cli	13
+cow's	13
+detroit's	13
+history's	13
+ibm's	13
+intel's	13
+internet's	13
+jury's	13
+malaysia's	13
+mtn	13
+service's	13
+sotheby's	13
+tps	13
+un's	13
+vv	13
+will's	13
+wolf's	13
+atlanta's	13
+batman's	13
+beginner's	13
+craig's	13
+death's	13
+elizabeth's	13
+hv	13
+johnny's	13
+jones's	13
+lloyd's	13
+melania	13
+pandora's	13
+post's	13
+restaurant's	13
+river's	13
+spl	13
+suspect's	13
+thing's	13
+aunt's	12
+baloch	12
+bear's	12
+butcher's	12
+ceo's	12
+chara	12
+coach's	12
+colorado's	12
+cpm	12
+e's	12
+emma's	12
+epigenetic	12
+football's	12
+fund's	12
+I'ma	12
+inv	12
+matthew's	12
+nelson's	12
+plane's	12
+radio's	12
+rte	12
+stalin's	12
+studio's	12
+thomas's	12
+ubc	12
+xr	12
+xvii	12
+aren	12
+arizona's	12
+bailey's	12
+darwin's	12
+fan's	12
+moody's	12
+parliament's	12
+trs	12
+v's	12
+valley's	12
+veteran's	12
+voc	12
+aircraft's	12
+argentina's	12
+awd	12
+ball's	12
+blair's	12
+bruce's	12
+clarke's	12
+crohn's	12
+harvey's	12
+latter's	12
+manufacturer's	12
+maria's	12
+nba's	12
+nist	12
+palmer's	12
+robin's	12
+terry's	12
+there're	12
+ward's	12
+wood's	12
+wouldn	12
+z's	12
+aam	11
+allah's	11
+asperger's	11
+baseball's	11
+bps	11
+brian's	11
+crew's	11
+foster's	11
+generation's	11
+guard's	11
+indiana's	11
+int'l	11
+j's	11
+madrid's	11
+mason's	11
+mellitus	11
+miami's	11
+movement's	11
+ontario's	11
+organisation's	11
+smalling	11
+taiwan's	11
+wasn	11
+witcher	11
+ahs	11
+beethoven's	11
+bls	11
+buddy's	11
+cmd	11
+dha	11
+diana's	11
+dj's	11
+employer's	11
+gaon	11
+gm's	11
+hannah's	11
+hart's	11
+hbo's	11
+jake's	11
+logan's	11
+manhattan's	11
+morrison's	11
+o'grady	11
+professor's	11
+republic's	11
+roy's	11
+so's	11
+stm	11
+tiger's	11
+bay's	10
+edward's	10
+engine's	10
+fwd	10
+gandhi's	10
+harrison's	10
+kentucky's	10
+mccain's	10
+netflix's	10
+tiffany's	10
+ubi	10
+wisconsin's	10
+aaron's	10
+ashley's	10
+assad's	10
+billy's	10
+division's	10
+event's	10
+greece's	10
+jessica's	10
+lucy's	10
+mp's	10
+nus	10
+ohio's	10
+personhood	10
+req	10
+senator's	10
+sheep's	10
+sport's	10
+subject's	10
+work's	10
+afd	10
+alabama's	10
+athlete's	10
+bennett's	10
+bobby's	10
+ccm	10
+cd's	10
+csp	10
+cuba's	10
+danny's	10
+don'ts	10
+empire's	10
+fed's	10
+gentlemen's	10
+josh's	10
+machine's	10
+newspaper's	10
+owen's	10
+peterson's	10
+porter's	10
+publisher's	10
+redox	10
+room's	10
+speaker's	10
+airport's	9
+art's	9
+audience's	9
+butler's	9
+centre's	9
+claire's	9
+couldn	9
+do's	9
+eric's	9
+genesee	9
+giant's	9
+head's	9
+jupiter's	9
+justin's	9
+laura's	9
+ma's	9
+maker's	9
+mesothelioma	9
+mib	9
+minnesota's	9
+ppd	9
+reed's	9
+sainsbury's	9
+ted's	9
+venezuela's	9
+vietnam's	9
+wap	9
+ann's	9
+aro	9
+berlin's	9
+carl's	9
+denmark's	9
+denny's	9
+gibson's	9
+hawai'i	9
+jure	9
+kane's	9
+killer's	9
+nurse's	9
+office's	9
+photographer's	9
+pinus	9
+stranger's	9
+superman's	9
+tommy's	9
+tour's	9
+us's	9
+whatever's	9
+airline's	8
+annie's	8
+bureau's	8
+camp's	8
+cfm	8
+chan's	8
+cleveland's	8
+commander's	8
+dca	8
+gaga's	8
+gang's	8
+gold's	8
+helen's	8
+host's	8
+hunt's	8
+jonathan's	8
+leed	8
+play's	8
+prisoner's	8
+r's	8
+regime's	8
+tournament's	8
+two's	8
+vl	8
+beyonce's	8
+boat's	8
+catherine's	8
+churchill's	8
+cif	8
+dante's	8
+don's	8
+fisher's	8
+hawaii's	8
+hudson's	8
+ii's	8
+institution's	8
+jeff's	8
+journal's	8
+lawrence's	8
+lewis's	8
+madonna's	8
+management's	8
+maryland's	8
+messi's	8
+monster's	8
+nathan's	8
+p's	8
+pcm	8
+ra's	8
+rico's	8
+rock'n'roll	8
+sophie's	8
+stockbridge	8
+tech's	8
+theatre's	8
+towson	8
+vancouver's	8
+you's	8
+alaska's	8
+carson's	8
+christian's	8
+cruz's	8
+fisherman's	8
+flynn's	8
+founder's	8
+kyle's	8
+land's	8
+lynch's	8
+pig's	8
+police's	8
+pop's	8
+powell's	8
+property's	8
+quinn's	8
+rubik's	8
+utah's	8
+wf	8
+youtube's	8
+anarcho	7
+april's	7
+barcelona's	7
+bernie's	7
+denver's	7
+diego's	7
+finland's	7
+gary's	7
+ghana's	7
+grandpa's	7
+groom's	7
+harvard's	7
+midseason	7
+mommy's	7
+reid's	7
+report's	7
+roger's	7
+romney's	7
+secretary's	7
+senate's	7
+sullivan's	7
+vardy	7
+wagga	7
+wallace's	7
+ald	7
+armstrong's	7
+arnold's	7
+duncan's	7
+ihs	7
+labor's	7
+lanka's	7
+mourinho's	7
+neighbour's	7
+price's	7
+rps	7
+saturn's	7
+singh's	7
+television's	7
+abbott's	7
+afghanistan's	7
+arabia's	7
+bhd	7
+capital's	7
+chancellor's	7
+floyd's	7
+future's	7
+human's	7
+international's	7
+napoleon's	7
+nolan's	7
+north's	7
+oscar's	7
+pat's	7
+ppt	7
+priest's	7
+riley's	7
+rti	7
+staff's	7
+uber's	7
+whoever's	7
+witch's	7
+xxii	7
+bp's	6
+cie	6
+cuck	6
+davis's	6
+designer's	6
+donald's	6
+freddy's	6
+hts	6
+iceland's	6
+junior's	6
+k's	6
+maine's	6
+mozart's	6
+mueller's	6
+pathophysiology	6
+portugal's	6
+ppr	6
+thor's	6
+tolkien's	6
+train's	6
+village's	6
+zn	6
+ansar	6
+austria's	6
+card's	6
+chen's	6
+dawson's	6
+devel	6
+eagle's	6
+hope's	6
+hungary's	6
+ian's	6
+jesus's	6
+kardashian's	6
+la's	6
+lebron's	6
+left's	6
+lidar	6
+margaret's	6
+mev	6
+michelle's	6
+ministry's	6
+moscow's	6
+mtv's	6
+nancy's	6
+q's	6
+rcd	6
+reporter's	6
+trust's	6
+visitor's	6
+webster's	6
+wizard's	6
+adj	5
+alberta's	5
+authority's	5
+billboard's	5
+bowie's	5
+burton's	5
+bx	5
+casey's	5
+chloe's	5
+columbia's	5
+dealer's	5
+embiid	5
+franchise's	5
+franco's	5
+fut	5
+fv	5
+haye	5
+id's	5
+karting	5
+lauren's	5
+lightroom	5
+lily's	5
+mankind's	5
+monica's	5
+nato's	5
+pennsylvania's	5
+philadelphia's	5
+plan's	5
+plato's	5
+principal's	5
+red's	5
+ross's	5
+stanley's	5
+tree's	5
+wagner's	5
+widow's	5
+boho	5
+bond's	5
+btu	5
+buddha's	5
+castle's	5
+cell's	5
+century's	5
+chile's	5
+crow's	5
+d'souza	5
+device's	5
+dlr	5
+doyle's	5
+fire's	5
+goat's	5
+holland's	5
+karen's	5
+kohl's	5
+leonard's	5
+ltr	5
+mfg	5
+mickey's	5
+mission's	5
+nep	5
+pc's	5
+poet's	5
+pro's	5
+sally's	5
+shop's	5
+stark's	5
+strasburg	5
+todd's	5
+twp	5
+alb	5
+autosomal	5
+bitcoin's	5
+blk	5
+blue's	5
+chris's	5
+coelho	5
+earl's	5
+grace's	5
+gurl	5
+harris's	5
+lake's	5
+maggie's	5
+manning's	5
+ned's	5
+product's	5
+see's	5
+soul's	5
+three's	5
+viewer's	5
+walter's	5
+wea	5
+wwe's	5
+act's	4
+albus	4
+app's	4
+arb	4
+asb	4
+bar's	4
+baraka	4
+chairman's	4
+colombia's	4
+competition's	4
+dft	4
+eddie's	4
+edp	4
+env	4
+epa's	4
+field's	4
+fred's	4
+griffin's	4
+itd	4
+jefferson's	4
+jin's	4
+joke's	4
+jon's	4
+kanye's	4
+keith's	4
+lennon's	4
+marie's	4
+mccarthy's	4
+moc	4
+montreal's	4
+nat'l	4
+newman's	4
+philosopher's	4
+poe's	4
+rihanna's	4
+rob's	4
+romania's	4
+ronaldo's	4
+roosevelt's	4
+ruby's	4
+ruth's	4
+steven's	4
+warrior's	4
+abn	4
+agr	4
+alan's	4
+ambassador's	4
+bee's	4
+belgium's	4
+carroll's	4
+castro's	4
+doll's	4
+eve's	4
+gabriel's	4
+generale	4
+get's	4
+henderson's	4
+homer's	4
+job's	4
+joker's	4
+kerry's	4
+lane's	4
+o'brien's	4
+pir	4
+rey's	4
+shooter's	4
+snyder's	4
+squad's	4
+ulta	4
+arby's	3
+bach's	3
+baltimore's	3
+cair	3
+champion's	3
+demon's	3
+developer's	3
+engl	3
+gowdy	3
+gpm	3
+guardian's	3
+huntington's	3
+jesse's	3
+joyce's	3
+kellogg's	3
+logie	3
+long's	3
+mao's	3
+marx's	3
+molly's	3
+operator's	3
+osc	3
+page's	3
+plaintiff's	3
+portland's	3
+pseudomonas	3
+raven's	3
+road's	3
+snohomish	3
+societe	3
+sov	3
+universe's	3
+victor's	3
+yemen's	3
+applebee's	3
+appt	3
+beck's	3
+boc	3
+burke's	3
+carey's	3
+clerk's	3
+edinburgh's	3
+energy's	3
+erg	3
+federation's	3
+freud's	3
+hayne	3
+key's	3
+kinases	3
+lab's	3
+li's	3
+mario's	3
+monkey's	3
+nhl's	3
+oklahoma's	3
+reese's	3
+right's	3
+ron's	3
+skin's	3
+srinivasan	3
+uts	3
+wade's	3
+yang's	3
+zain	3
+apl	3
+carpenter's	3
+carr's	3
+cox's	3
+engineer's	3
+finn's	3
+greg's	3
+ho's	3
+iowa's	3
+islam's	3
+ken's	3
+larry's	3
+missa	3
+monk's	3
+novel's	3
+okanagan	3
+order's	3
+pittsburgh's	3
+producer's	3
+quinnipiac	3
+rat's	3
+s'mores	3
+south's	3
+surgeon's	3
+traveler's	3
+up's	3
+youngs	3
+zimbabwe's	3
+beijing's	2
+betty's	2
+bradley's	2
+bryan's	2
+consumer's	2
+ctf	2
+curry's	2
+da's	2
+dutchess	2
+eto'o	2
+facility's	2
+holder's	2
+honda's	2
+katie's	2
+kenny's	2
+kent's	2
+knowledgable	2
+l's	2
+lebanon's	2
+liam's	2
+light's	2
+lsc	2
+merkel's	2
+montana's	2
+nash's	2
+platformer	2
+ppa	2
+preordered	2
+prosecution's	2
+rooney's	2
+runner's	2
+sa's	2
+solomon's	2
+technology's	2
+trt	2
+truck's	2
+uganda's	2
+williams's	2
+adelphi	2
+agt	2
+alc	2
+amb	2
+berry's	2
+bpi	2
+brooklyn's	2
+carboxylic	2
+causa	2
+conference's	2
+cop's	2
+culture's	2
+duo's	2
+elec	2
+elephant's	2
+foh	2
+freeman's	2
+hardy's	2
+hogan's	2
+jojo's	2
+ket	2
+li'l	2
+madison's	2
+neighborhood's	2
+norman's	2
+o'callaghan	2
+o'dell	2
+op's	2
+orwell's	2
+pastor's	2
+quebec's	2
+rice's	2
+sherman's	2
+study's	2
+susan's	2
+tokyo's	2
+trudeau's	2
+warner's	2
+wenger's	2
+whitten	2
+al's	2
+amanda's	2
+antonio's	2
+baru	2
+bryant's	2
+chandler's	2
+co's	2
+creator's	2
+divi	2
+dovey	2
+down's	2
+education's	2
+eye's	2
+gallery's	2
+iphone's	2
+jamaica's	2
+joey's	2
+landlord's	2
+louisiana's	2
+mcf	2
+nike's	2
+python's	2
+richmond's	2
+silver's	2
+stevia	2
+trac	2
+wall's	2
+abl	1
+alliance's	1
+angela's	1
+article's	1
+barney's	1
+betis	1
+blackfriars	1
+boyd's	1
+buck's	1
+charity's	1
+creature's	1
+cyl	1
+female's	1
+ferguson's	1
+ferrari's	1
+g'day	1
+galaxy's	1
+gte	1
+hon'ble	1
+infos	1
+itv's	1
+jean's	1
+julia's	1
+lambeau	1
+libya's	1
+maxwell's	1
+microbiota	1
+milan's	1
+missouri's	1
+mkt	1
+nicole's	1
+opera's	1
+photo's	1
+pirate's	1
+qp	1
+rider's	1
+sangh	1
+stg	1
+switzerland's	1
+taa	1
+tribe's	1
+tulare	1
+u's	1
+wang's	1
+wayback	1
+zoo's	1
+angie's	1
+arabidopsis	1
+baldwin's	1
+barbara's	1
+birmingham's	1
+bolden	1
+camel's	1
+carrier's	1
+charles's	1
+clay's	1
+connor's	1
+delhi's	1
+doc's	1
+fish's	1
+fry's	1
+garcia's	1
+gaslighting	1
+jennifer's	1
+joel's	1
+kylo	1
+label's	1
+laden's	1
+m'lady	1
+manchester's	1
+miner's	1
+muhammad's	1
+murdoch's	1
+musk's	1
+myanmar's	1
+nanaimo	1
+nsa's	1
+olivia's	1
+philip's	1
+pitt's	1
+rapper's	1
+rct	1
+snake's	1
+snow's	1
+spider's	1
+stadium's	1
+struct	1
+stuart's	1
+tennessee's	1
+toyota's	1
+vss	1
+what'll	1
+albert's	1
+anything's	1
+bch	1
+bmw's	1
+brussel	1
+business's	1
+cap'n	1
+chang's	1
+chuck's	1
+concours	1
+crowd's	1
+diamond's	1
+dimethyl	1
+elliot's	1
+eminem's	1
+enduro	1
+ens	1
+ethiopia's	1
+farm's	1
+giga	1
+governorate	1
+hair's	1
+haut	1
+health's	1
+hippocampal	1
+holly's	1
+hussein's	1
+I'mma	1
+ignis	1
+kirk's	1
+mate's	1
+myc	1
+neil's	1
+nephew's	1
+o'keeffe	1
+omnium	1
+ppb	1
+punk's	1
+race's	1
+rio's	1
+s's	1
+saddam's	1
+stanford's	1
+swa	1
+titan's	1
+transmembrane	1
+tucker's	1
+uke	1
+yhwh	1
+abp	1
+abraham's	1
+aor	1
+appl	1
+assembly's	1
+avenida	1
+brad's	1
+carol's	1
+cbs's	1
+cima	1
+congress's	1
+crawford's	1
+dentist's	1
+dexter's	1
+ellen's	1
+fletcher's	1
+garcinia	1
+hammond's	1
+hazara	1
+isaac's	1
+major's	1
+mummy's	1
+niantic	1
+orchestra's	1
+pan's	1
+premier's	1
+resort's	1
+sara's	1
+seller's	1
+sharon's	1
+spirit's	1
+stan's	1
+villa's	1
+walt's	1
+xxiv	1
