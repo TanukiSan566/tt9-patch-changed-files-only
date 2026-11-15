@@ -1,6 +1,18 @@
 # TT9 词库自动更新（中文 / 英语 / 日语）
 
-每周一自动（也可手动）运行 GitHub Actions：从开源词库下载**最新**数据 → 合并进 TT9 词典 → 检查 → 提交 → 自动触发 APK 构建。
+GitHub Actions 自动运行：从开源词库下载**最新**数据 → 合并进 TT9 词典 → 检查 → 提交 → 自动触发 APK 构建。
+
+## 什么时候会运行
+
+| 触发 | 说明 |
+|---|---|
+| **上游 APK 更新** | 每天检查一次 `sspanak/tt9` 的最新 release（`UPSTREAM_REPO`，在工作流顶部修改）。出现新版本就强制重建词库、启动 APK 构建，并开一个 Issue 提醒你合并上游源码。没有新版本时，这次检查只花几秒。 |
+| 你自己发布 Release | `release: published` |
+| 外部通知 | `repository_dispatch`，类型 `apk-updated` |
+| 每周一 | 开源词表本身更新很慢，所以每周刷新一次 |
+| 手动 | Actions → Update dictionaries → Run workflow（可选 `dry_run`、`force`、只更新某种语言） |
+
+已记录的上游版本保存在 `state.json` 的 `_apk` 里。
 
 ## 词源
 
@@ -11,6 +23,22 @@
 | 英语 | [FrequencyWords](https://github.com/hermitdave/FrequencyWords)（OpenSubtitles 词频）＋ [dwyl/english-words](https://github.com/dwyl/english-words) 拼写过滤 | 词频表为 2018 年版，基本不再更新 | 英语没有“经常更新”的开放词频源，所以只补充新词、补全缺失的词频，不改已有词频。 |
 
 > 说明：百度、讯飞等商业输入法的云词库没有公开接口，也不能合法抓取后随 APK 分发，所以这里不使用。
+
+## 更宽的词源（`extra_sources`）
+
+主词源之外，每种语言还可以挂任意多个附加词源；附加词源失败不会影响其他词源（会在报告的 Problems 里列出，作业变红，但成功的部分照常提交）。
+
+| 语言 | 附加词源 | 内容 |
+|---|---|---|
+| 中文 | `zh-thuocl` | THUOCL 11 个领域词表（IT、动物、财经、汽车、成语、地名、食物、法律、历史名人、医学、诗词），拼音由 `pypinyin` 生成，词频上限 100 |
+| 中文 | `zh-tencent` | rime-ice 的腾讯词向量词库（无拼音、无词频）。只取全部由 8105 常用字组成的 3–6 字词，按字的常用程度排序后取前 `max_words`（默认 20 万），拼音由 `pypinyin` 生成，词频为 0 |
+| 英文 | `en-wordfreq` | `wordfreq` 多语料词频（`top_n` 15 万，`min_zipf` 2.5），用 dwyl 词表做拼写过滤，默认排除强粗口 |
+| 日语 | `ja-sudachi` | SudachiDict Full（small+core+notcore）里的专有名词和普通名词，片假名读音转罗马字，词频上限 60，不会压过 Mozc 的常用词 |
+
+- 机器生成拼音的词（`generated`）：如果词典里已经有同一个词的人工读音，就**不再**加第二个读音（例如已有「布什 BUSHI」，就不会再加 pypinyin 猜出的错误读音）。
+- 想要更小的词库：调小 `max_words`、`top_n`、`max_cost`，或把某个附加词源的 `"enabled"` 设成 `false`。
+- 修改 `config.json` 里的任何阈值后，下一次运行会自动重新合并（设置也计入指纹）。
+- 需要 `pip install -r scripts/dict-update/requirements.txt`（工作流已自动安装）。
 
 ## 合并规则（不会让词库变小）
 
@@ -49,10 +77,10 @@
 python scripts/dict-update/update_dictionaries.py --dry-run          # 只看报告
 python scripts/dict-update/update_dictionaries.py --languages zh     # 只更新中文
 ```
-只需 Python 3.9+，不需要额外依赖。
+核心更新器只需 Python 3.9+；使用 `zh-thuocl` / `zh-tencent` / `en-wordfreq` 需要 `pip install -r scripts/dict-update/requirements.txt`。
 
 ## 注意
 
-- **许可**：rime-ice 为 GPL-3.0，Mozc 为 BSD-3-Clause，FrequencyWords 内容为 CC-BY-SA。更新后的出处会写入 `docs/dictionaries/auto-update-sources.txt`。如果要公开分发 APK，请先自行确认这些许可对你的要求。
+- **许可**：rime-ice 为 GPL-3.0，Mozc 为 BSD-3-Clause，FrequencyWords 内容为 CC-BY-SA，wordfreq 数据为 CC-BY-SA-4.0，SudachiDict 为 Apache-2.0（数据另有 UniDic 等声明），THUOCL 请看其仓库。更新后的出处会写入 `docs/dictionaries/auto-update-sources.txt`。如果要公开分发 APK，请先自行确认这些许可对你的要求。
 - **仓库体积**：每次真正更新都会提交大文件（日语词典约 47 MB）。GitHub 单文件上限 100 MB，请留意；想减小体积就调低 `max_cost`。
 - **回滚**：不满意就在 GitHub 上 `Revert` 那次 `Update dictionaries` 提交即可。

@@ -1,7 +1,7 @@
 {
-  "_comment": "Which languages the weekly GitHub Action refreshes, and from where. Set \"enabled\" to true to switch a language on. See README.md.",
+  "_comment": "Which languages the GitHub Action refreshes, and from where. 'extra_sources' add breadth on top of each language's main source (a failing extra source never blocks the others). Set \"enabled\" to false on a language or an extra source to switch it off. See README.md.",
   "guards": {
-    "_comment": "Safety nets only: the updater refuses to write a dictionary that shrinks, or that grows by more than this factor in one run. 'max_new_words' of each language is a safety cap per run as well; what really decides how many words are taken are the thresholds in 'params' (weight_floor, min_count, max_cost).",
+    "_comment": "Safety nets only: the updater refuses to write a dictionary that shrinks, or that grows by more than this factor in one run (a language can override it with its own max_growth_ratio). 'max_new_words' of each language is a safety cap per run as well; what really decides how many words are taken are the thresholds in 'params' (weight_floor, min_count, max_cost) and in each extra source.",
     "max_growth_ratio": 1.6
   },
   "languages": {
@@ -10,7 +10,7 @@
       "definition": "ChineseSimplifiedPinyin.yml",
       "source": "zh",
       "frequency_policy": "max",
-      "max_new_words": 100000,
+      "max_new_words": 400000,
       "params": {
         "repo": "iDvel/rime-ice",
         "branch": "main",
@@ -27,14 +27,47 @@
           "8105",
           "others"
         ]
-      }
+      },
+      "max_growth_ratio": 2.0,
+      "extra_sources": [
+        {
+          "source": "zh-thuocl",
+          "params": {
+            "files": [
+              "IT",
+              "animal",
+              "caijing",
+              "car",
+              "chengyu",
+              "diming",
+              "food",
+              "law",
+              "lishimingren",
+              "medical",
+              "poem"
+            ],
+            "min_word_length": 2,
+            "max_word_length": 8,
+            "max_frequency": 100
+          }
+        },
+        {
+          "source": "zh-tencent",
+          "params": {
+            "min_word_length": 3,
+            "max_word_length": 6,
+            "max_words": 200000,
+            "common_chars_file": "8105"
+          }
+        }
+      ]
     },
     "en": {
       "enabled": true,
       "definition": "English.yml",
       "source": "frequencywords",
       "frequency_policy": "fill-missing",
-      "max_new_words": 40000,
+      "max_new_words": 120000,
       "params": {
         "lang": "en",
         "year": 2018,
@@ -64,14 +97,29 @@
           "ve",
           "em"
         ]
-      }
+      },
+      "max_growth_ratio": 1.8,
+      "extra_sources": [
+        {
+          "source": "en-wordfreq",
+          "params": {
+            "lang": "en",
+            "wordlist": "large",
+            "top_n": 150000,
+            "min_zipf": 2.5,
+            "max_frequency": 200,
+            "min_word_length": 2,
+            "reference_wordlist_url": "https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt"
+          }
+        }
+      ]
     },
     "ja": {
       "enabled": true,
       "definition": "Japanese.yml",
       "source": "ja",
       "frequency_policy": "max",
-      "max_new_words": 300000,
+      "max_new_words": 400000,
       "params": {
         "repo": "google/mozc",
         "branch": "master",
@@ -79,7 +127,29 @@
         "best_cost": 2500,
         "max_word_length": 12,
         "max_frequency": 200
-      }
+      },
+      "max_growth_ratio": 1.6,
+      "extra_sources": [
+        {
+          "source": "ja-sudachi",
+          "params": {
+            "editions": [
+              "small",
+              "core",
+              "notcore"
+            ],
+            "pos_prefixes": [
+              "名詞,固有名詞",
+              "名詞,普通名詞"
+            ],
+            "max_cost": 9000,
+            "best_cost": 4000,
+            "max_frequency": 60,
+            "max_word_length": 12,
+            "fallback_version": "20250129"
+          }
+        }
+      ]
     },
     "de": {
       "_comment": "EXAMPLE of an extra language. Alphabetic languages only need a FrequencyWords entry. Turn on after checking German.yml.",

@@ -15,6 +15,7 @@ Merge rules (the existing dictionaries are never shrunk):
 """
 import argparse
 import datetime
+import hashlib
 import json
 import os
 import sys
@@ -31,15 +32,62 @@ def make_source(name, cfg, http, definition):
 	cls = sources.REGISTRY.get(name)
 	if cls is None:
 		raise SystemExit(f"Unknown source '{name}'. Registered sources: {', '.join(sorted(sources.REGISTRY))}")
-	if name == 'frequencywords':
+	if name in ('frequencywords', 'en-wordfreq'):
 		return cls(cfg, http, alphabet=definition.alphabet)
 	return cls(cfg, http)
 
 
-def merge(dictionary, definition, candidates, policy, max_new):
+def fetch_all(code, lang, http, definition, failures):
+	"""Fetches the main source and every `extra_sources` entry of a language and merges them into one candidate list
+	(the highest frequency wins when a word comes from several sources). A failing extra source is reported, but does not
+	stop the other sources: the language is still updated from the ones that worked."""
+	try:
+		main = make_source(lang['source'], lang.get('params', {}), http, definition).fetch()
+	except Exception as e:
+		failures.append(f'{code}: failed to fetch the source: {e}')
+		return None
+
+	best, order, generated = {}, [], set()
+
+	def absorb(items):
+		for word, trans, freq in items:
+			key = (word, trans)
+			if key not in best:
+				order.append(key)
+				best[key] = freq
+			elif freq > best[key]:
+				best[key] = freq
+
+	absorb(main.entries)
+	fingerprints, attribution = [main.fingerprint], list(main.attribution)
+	for extra in lang.get('extra_sources', []):
+		if extra.get('enabled', True) is False:
+			continue
+		name = extra['source']
+		try:
+			result = make_source(name, extra.get('params', {}), http, definition).fetch()
+		except Exception as e:
+			failures.append(f'{code}: extra source {name} failed: {e}')
+			continue
+		absorb(result.entries)
+		generated |= getattr(result, 'generated', set())
+		fingerprints.append(f'{name}:{result.fingerprint}')
+		attribution += result.attribution
+
+	# the settings are part of the fingerprint: after changing a threshold in config.json the next run merges again
+	settings = json.dumps({'params': lang.get('params', {}), 'extra_sources': lang.get('extra_sources', []), 'max_new_words': lang.get('max_new_words')}, sort_keys=True)
+	fingerprint = hashlib.sha256(('|'.join(fingerprints) + settings).encode()).hexdigest()[:16]
+	entries = [(w, t, best[(w, t)]) for (w, t) in order]
+	result = sources.SourceResult(entries, fingerprint, attribution)
+	result.generated = generated
+	return result
+
+
+def merge(dictionary, definition, candidates, policy, max_new, generated=frozenset()):
 	"""Merges candidates into the dictionary. Returns (added, updated, rejected) where added/updated are lists."""
 	updated, new_words, rejected = [], [], 0
 	transcribed = any(c[1] for c in candidates[:50])
+	known_words = {k[0] for k in dictionary.index} if generated else set()
 
 	for word, trans, freq in candidates:
 		entry = dictionary.index.get((word, trans))
@@ -49,6 +97,8 @@ def merge(dictionary, definition, candidates, policy, max_new):
 			elif policy == 'fill-missing' and entry.freq == 0 and freq > 0:
 				updated.append((entry, freq))
 			continue
+		if (word, trans) in generated and word in known_words:
+			continue  # the word is already there with a curated reading, do not add a machine-generated one next to it
 		if not transcribed and word.lower() in dictionary.lower_words:
 			continue  # "Foo" already there, do not add "foo" next to it
 		new_words.append((word, trans, freq))
@@ -116,11 +166,8 @@ def main():
 			failures.append(f'{code}: dictionary file {dictionary_path} does not exist')
 			continue
 
-		try:
-			source = make_source(lang['source'], lang.get('params', {}), http, definition)
-			result = source.fetch()
-		except Exception as e:
-			failures.append(f'{code}: failed to fetch the source: {e}')
+		result = fetch_all(code, lang, http, definition, failures)
+		if result is None:
 			continue
 		attribution[code] = result.attribution
 
@@ -132,14 +179,16 @@ def main():
 		dictionary = dictlib.Dictionary(dictionary_path)
 		before = len(dictionary)
 		added, updated, rejected = merge(
-			dictionary, definition, result.entries, lang.get('frequency_policy', 'fill-missing'), lang.get('max_new_words', 0)
+			dictionary, definition, result.entries, lang.get('frequency_policy', 'fill-missing'), lang.get('max_new_words', 0),
+			getattr(result, 'generated', frozenset())
 		)
 
 		errors = dictlib.validate(dictionary, definition)
 		if errors:
 			failures.append(f'{code}: the merged dictionary is invalid, NOT written. First errors: ' + '; '.join(errors[:5]))
 			continue
-		if len(dictionary) < before or len(dictionary) > before * max_growth:
+		growth = lang.get('max_growth_ratio', max_growth)
+		if len(dictionary) < before or len(dictionary) > before * growth:
 			failures.append(f'{code}: suspicious size change {before} -> {len(dictionary)}, NOT written')
 			continue
 

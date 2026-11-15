@@ -1,10 +1,19 @@
 name: Update dictionaries (Chinese / English / Japanese)
 
-# Every week, fetch the newest open-source word lists, merge them into the TT9 dictionaries, check them,
-# commit the result and start the APK build. Run it by hand from the "Actions" tab whenever you want.
+# Rebuilds the vocabulary database (app/languages/dictionaries) and the APK whenever
+#   1. the upstream TT9 app publishes a new release/APK (sspanak/tt9, checked every day),
+#   2. you publish a release in this repository,
+#   3. someone sends a `repository_dispatch` event of type `apk-updated`,
+#   4. every Monday (the open-source word lists change slowly), or
+#   5. you run it by hand from the "Actions" tab.
+# The daily run is cheap: when nothing new happened it stops after one API call.
 on:
   schedule:
-    - cron: '23 3 * * 1'        # every Monday, 03:23 UTC
+    - cron: '23 3 * * *'        # every day, 03:23 UTC
+  release:
+    types: [published]
+  repository_dispatch:
+    types: [apk-updated]
   workflow_dispatch:
     inputs:
       languages:
@@ -24,18 +33,76 @@ on:
         type: boolean
         default: true
 
+env:
+  UPSTREAM_REPO: sspanak/tt9      # the app whose releases ("APK updates") start a dictionary rebuild
+
 permissions:
   contents: write     # commit the updated dictionaries
   actions: write      # start the APK build workflow
+  issues: write       # open a "merge the new upstream version" reminder
 
 concurrency:
   group: update-dictionaries
   cancel-in-progress: false
 
 jobs:
-  update:
+  # ------------------------------------------------------------------------------------------------------------
+  # Decide whether there is anything to do. One API call, a few seconds.
+  # ------------------------------------------------------------------------------------------------------------
+  check:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.decide.outputs.run }}
+      force: ${{ steps.decide.outputs.force }}
+      upstream_tag: ${{ steps.decide.outputs.upstream_tag }}
+      upstream_new: ${{ steps.decide.outputs.upstream_new }}
+    steps:
+      - name: Checkout (only to read scripts/dict-update/state.json)
+        uses: actions/checkout@v5
+        with:
+          sparse-checkout: scripts/dict-update/state.json
+          sparse-checkout-cone-mode: false
+
+      - name: Decide
+        id: decide
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT: ${{ github.event_name }}
+          FORCE_INPUT: ${{ github.event.inputs.force }}
+        run: |
+          # newest upstream release tag (the APK version); an empty value just means the lookup failed
+          TAG=$(gh api "repos/${UPSTREAM_REPO}/releases/latest" --jq .tag_name 2>/dev/null || true)
+          KNOWN=$(python3 -c "import json;print(json.load(open('scripts/dict-update/state.json')).get('_apk',{}).get('upstream_tag',''))" 2>/dev/null || true)
+          echo "upstream release: '${TAG}', last seen: '${KNOWN}', event: ${EVENT}"
+
+          RUN=false; FORCE=false; NEW=false
+          if [ -n "$TAG" ] && [ "$TAG" != "$KNOWN" ]; then
+            RUN=true
+            if [ -n "$KNOWN" ]; then FORCE=true; NEW=true; fi              # a genuinely new APK: rebuild everything; on the very first run just remember the tag
+          fi
+          case "$EVENT" in
+            workflow_dispatch|release|repository_dispatch) RUN=true ;;
+            schedule) if [ "$(date -u +%u)" = "1" ]; then RUN=true; fi ;;   # Monday: the weekly refresh of the word lists
+          esac
+          if [ "$FORCE_INPUT" = "true" ]; then FORCE=true; fi
+
+          echo "run=$RUN"                 >> "$GITHUB_OUTPUT"
+          echo "force=$FORCE"             >> "$GITHUB_OUTPUT"
+          echo "upstream_tag=$TAG"        >> "$GITHUB_OUTPUT"
+          echo "upstream_new=$NEW"        >> "$GITHUB_OUTPUT"
+          {
+            echo "### Dictionary update check"
+            echo "- event: \`$EVENT\`, upstream \`$UPSTREAM_REPO\` release: \`${TAG:-unknown}\` (last seen \`${KNOWN:-none}\`)"
+            echo "- run: **$RUN**, force: **$FORCE**"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # ------------------------------------------------------------------------------------------------------------
+  update:
+    needs: check
+    if: needs.check.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
     steps:
       - name: Checkout project sources
         uses: actions/checkout@v5
@@ -46,15 +113,21 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+          cache: pip
+          cache-dependency-path: scripts/dict-update/requirements.txt
 
-      # The updater only needs the Python standard library.
+      # pypinyin (Chinese readings for THUOCL / Tencent words) and wordfreq (English frequencies)
+      - name: Install the Python helpers
+        run: pip install -r scripts/dict-update/requirements.txt
+
       - name: Fetch the newest word lists and merge them into the dictionaries
         id: update
         continue-on-error: true
         env:
           LANGUAGES: ${{ github.event.inputs.languages }}
-          FORCE: ${{ github.event.inputs.force }}
+          FORCE: ${{ needs.check.outputs.force }}
           DRY_RUN: ${{ github.event.inputs.dry_run }}
+          GITHUB_TOKEN: ${{ github.token }}      # lets the Sudachi source look up the newest release without rate limits
         run: |
           ARGS="--report $RUNNER_TEMP/report.md"
           [ -n "$LANGUAGES" ] && ARGS="$ARGS --languages $LANGUAGES"
@@ -66,6 +139,20 @@ jobs:
         if: always()
         run: |
           if [ -f "$RUNNER_TEMP/report.md" ]; then cat "$RUNNER_TEMP/report.md" >> "$GITHUB_STEP_SUMMARY"; fi
+
+      # Remember which upstream APK version these dictionaries belong to, so the next daily check stays quiet.
+      - name: Remember the upstream APK version
+        if: github.event.inputs.dry_run != 'true' && needs.check.outputs.upstream_tag != ''
+        env:
+          TAG: ${{ needs.check.outputs.upstream_tag }}
+        run: |
+          python3 - <<'PY'
+          import datetime, json, os
+          p = 'scripts/dict-update/state.json'
+          state = json.load(open(p, encoding='utf-8'))
+          state['_apk'] = {'upstream_tag': os.environ['TAG'], 'updated': datetime.date.today().isoformat()}
+          open(p, 'w', encoding='utf-8', newline='\n').write(json.dumps(state, indent=2, ensure_ascii=False, sort_keys=True) + '\n')
+          PY
 
       # Second, independent check: the very same validation the APK build runs. A broken dictionary is never committed.
       - name: Setup Java
@@ -87,28 +174,61 @@ jobs:
 
       - name: Commit the updated dictionaries
         id: commit
-        if: steps.update.outputs.changed == 'true' && github.event.inputs.dry_run != 'true'
+        if: github.event.inputs.dry_run != 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add app/languages/dictionaries scripts/dict-update/state.json docs/dictionaries/auto-update-sources.txt
           if git diff --cached --quiet; then
             echo "pushed=false" >> "$GITHUB_OUTPUT"
+            echo "dictionaries=false" >> "$GITHUB_OUTPUT"
           else
+            if git diff --cached --quiet -- app/languages/dictionaries; then
+              echo "dictionaries=false" >> "$GITHUB_OUTPUT"
+            else
+              echo "dictionaries=true" >> "$GITHUB_OUTPUT"
+            fi
             git commit -m "Update dictionaries ($(date -u +%F))"
             git push origin "HEAD:${GITHUB_REF_NAME}"
             echo "pushed=true" >> "$GITHUB_OUTPUT"
           fi
 
       # A push made with the default token does not start other workflows, so the build is started explicitly.
+      # It runs when the words changed, and also for a new upstream APK even if no word changed.
       - name: Start the APK build
-        if: steps.commit.outputs.pushed == 'true' && github.event.inputs.build_apk != 'false'
+        if: github.event.inputs.build_apk != 'false' && (steps.commit.outputs.dictionaries == 'true' || (needs.check.outputs.upstream_new == 'true' && github.event.inputs.dry_run != 'true'))
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh workflow run build.yml --ref "${GITHUB_REF_NAME}"
 
-      - name: Fail the job when a language could not be updated
+      # The finished vocabulary database in TT9 format (word TAB transcription TAB frequency), ready to inspect or reuse.
+      - name: Keep a copy of the dictionaries
+        if: steps.commit.outputs.dictionaries == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: tt9-dictionaries-${{ github.run_number }}
+          path: |
+            app/languages/dictionaries/zh-simplified-pinyin.csv
+            app/languages/dictionaries/ja-romaji.csv
+            app/languages/dictionaries/en-utf8.csv
+            docs/dictionaries/auto-update-sources.txt
+          retention-days: 30
+
+      # Upstream has a new APK: its code, language definitions and dictionary format may have changed too.
+      # This workflow only refreshes the vocabulary; merging the upstream source into your fork stays a manual decision.
+      - name: Remind me to merge the new upstream version
+        if: needs.check.outputs.upstream_new == 'true' && github.event.inputs.dry_run != 'true'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ needs.check.outputs.upstream_tag }}
+        run: |
+          gh issue create \
+            --title "Upstream TT9 ${TAG} was released" \
+            --body "A new APK of ${UPSTREAM_REPO} (${TAG}) is out. The dictionaries here were refreshed and the APK build was started. Merge the upstream source into this fork if you want the new app features: https://github.com/${UPSTREAM_REPO}/releases/tag/${TAG}"
+
+      - name: Fail the job when a language or a word source could not be updated
         if: steps.update.outputs.failed == 'true' || steps.update.outcome == 'failure'
         run: |
-          echo "At least one language failed, see the report above. The languages that succeeded were still committed."
+          echo "At least one language or word source failed, see the report above. Everything that succeeded was still committed."
           exit 1
