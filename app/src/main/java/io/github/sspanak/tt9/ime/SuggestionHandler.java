@@ -162,7 +162,9 @@ abstract public class SuggestionHandler extends TypingHandler {
 		}
 
 		final ArrayList<String> suggestions = mInputMode.getSuggestions();
-		textField.setComposingForLanguage(mLanguage != null && mLanguage.isTranscribed());
+		// Customized build: the keypad-only abc mode of Pinyin / Japanese types plain Latin letters, so the letter
+		// must be visible in the field, like in English. Only the transcribed predictive modes stay hidden.
+		textField.setComposingForLanguage(mLanguage != null && mLanguage.isTranscribed() && !InputModeKind.isABC(mInputMode));
 		suggestionOps.set(suggestions, mInputMode.getRecommendedSuggestionIdx(), mInputMode.containsGeneratedSuggestions());
 		suggestionOps.setSoundRow(mInputMode.getSoundRow(), mInputMode.getSoundRowSelected(), mInputMode.isSelectingSound());
 
