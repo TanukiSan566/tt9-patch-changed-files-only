@@ -1,5 +1,5 @@
 Words added by the automatic dictionary update (.github/workflows/update-dictionaries.yml).
-The sources below were merged into the dictionaries of the listed languages. Last run: 2026-11-15
+The sources below were merged into the dictionaries of the listed languages. Last run: 2026-11-16
 
 [en]
 en: FrequencyWords (OpenSubtitles), https://github.com/hermitdave/FrequencyWords
