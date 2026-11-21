@@ -57,6 +57,11 @@
 			app:key="pref_clear_insets"
 			app:title="@string/pref_hack_always_on_top" />
 
+		<io.github.sspanak.tt9.preferences.screens.appearance.SwitchWhenVisibleLayout
+			app:key="pref_auto_fit_bottom"
+			app:title="@string/pref_auto_fit_bottom"
+			app:summary="@string/pref_auto_fit_bottom_summary" />
+
 	</PreferenceCategory>
 
 </PreferenceScreen>

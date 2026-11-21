@@ -89,6 +89,7 @@ public class AppearanceScreen extends ScreenWithPreviewKeyboardHeaderFragment {
 				.addOnChangePreference(findPreference(SwitchShowArrowsUpDown.NAME))
 				.addOnChangePreference(leftRightArrows)
 				.addOnChangePreference(findPreference("pref_clear_insets"))
+				.addOnChangePreference(findPreference("pref_auto_fit_bottom"))
 				.addOnChangePreference(doubleTapResize)
 				.addOnChangePreference(dragResize)
 				.addOnChangePreference(findPreference("pref_suggestion_smooth_scroll"));
@@ -155,7 +156,8 @@ public class AppearanceScreen extends ScreenWithPreviewKeyboardHeaderFragment {
 
 		ItemSwitch[] items = {
 			new ItemAlternativeSuggestionScrolling(findPreference(ItemAlternativeSuggestionScrolling.NAME), activity.getSettings()),
-			new ItemClearInsets(findPreference(ItemClearInsets.NAME), activity.getSettings())
+			new ItemClearInsets(findPreference(ItemClearInsets.NAME), activity.getSettings()),
+			new ItemAutoFitBottom(findPreference(ItemAutoFitBottom.NAME), activity.getSettings())
 		};
 
 		for (ItemSwitch item : items) {

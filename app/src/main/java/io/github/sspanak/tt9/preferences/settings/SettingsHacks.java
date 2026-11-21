@@ -92,6 +92,13 @@ class SettingsHacks extends SettingsAddedWords {
 		return prefs.getBoolean("pref_clear_insets", DeviceInfo.isSonimGen2(context));
 	}
 
+	/**
+	 * Lifts the keyboard when the system places it partially below the screen edge (hidden gesture bar, etc.).
+	 */
+	public boolean getAutoFitBottom() {
+		return prefs.getBoolean("pref_auto_fit_bottom", true);
+	}
+
 	public boolean getHapticFeedbackProblematic() {
 		return prefs.getBoolean(SwitchHapticFeedback.HACK_NAME, SwitchHapticFeedback.HACK_DEFAULT);
 	}

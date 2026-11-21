@@ -4,6 +4,10 @@ import android.graphics.Color;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
+import android.util.DisplayMetrics;
+import android.graphics.Rect;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.widget.LinearLayout;
@@ -36,11 +40,19 @@ import io.github.sspanak.tt9.ui.main.keys.SoftKeyShowEmojis;
 import io.github.sspanak.tt9.ui.main.keys.SoftKeyEditText;
 import io.github.sspanak.tt9.ui.main.keys.SoftKeyTogglePredictiveMode;
 import io.github.sspanak.tt9.ui.main.keys.SoftKeyVoiceInput;
+import io.github.sspanak.tt9.util.Logger;
 import io.github.sspanak.tt9.util.ThemedContextBuilder;
 import io.github.sspanak.tt9.util.sys.DeviceInfo;
 
 abstract public class BaseMainLayout {
+	private static final String FIT_LOG_TAG = "BottomFit";
+	private static final int FIT_TOLERANCE_PX = 2;
+	private static final int FIT_MAX_ADJUSTMENTS = 6;
+
 	private int lastLandscapeBottomInset = -1;
+	/** Extra bottom padding (px) measured from how far the view hangs below the physical screen edge. */
+	private int autoFitBottomPx = 0;
+	private int autoFitAdjustments = 0;
 
 	protected final TraditionalT9 tt9;
 	private final int xml;
@@ -90,6 +102,13 @@ abstract public class BaseMainLayout {
 				.build();
 			view = View.inflate(themedContext, xml, null);
 			view.setOnApplyWindowInsetsListener(this::onApplyInsets);
+			view.getViewTreeObserver().addOnGlobalLayoutListener(this::fitToScreenBottom);
+			view.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+				@Override public void onViewAttachedToWindow(@NonNull View v) {
+					autoFitAdjustments = 0;
+				}
+				@Override public void onViewDetachedFromWindow(@NonNull View v) {}
+			});
 		}
 
 		return view;
@@ -126,7 +145,7 @@ abstract public class BaseMainLayout {
 			bottomPadding = tt9.getSettings().getBottomPaddingPortraitPx();
 		}
 
-		v.setPadding(insets.left, 0, insets.right, bottomPadding);
+		v.setPadding(insets.left, 0, insets.right, Math.max(bottomPadding, getAutoFitBottomPx()));
 	}
 
 
@@ -142,16 +161,88 @@ abstract public class BaseMainLayout {
 		int bottomPadding;
 
 		if (DeviceInfo.isLandscapeOrientation(tt9)) {
-			bottomPadding = lastLandscapeBottomInset >= 0 ? lastLandscapeBottomInset : view.getPaddingBottom();
+			bottomPadding = lastLandscapeBottomInset >= 0 ? lastLandscapeBottomInset : Math.max(0, view.getPaddingBottom() - autoFitBottomPx);
 		} else {
 			bottomPadding = tt9.getSettings().getBottomPaddingPortraitPx();
 		}
 
-		view.setPadding(view.getPaddingLeft(), 0, view.getPaddingRight(), bottomPadding);
+		view.setPadding(view.getPaddingLeft(), 0, view.getPaddingRight(), Math.max(bottomPadding, getAutoFitBottomPx()));
+	}
+
+
+	private int getAutoFitBottomPx() {
+		return tt9 != null && tt9.getSettings().getAutoFitBottom() ? autoFitBottomPx : 0;
+	}
+
+
+	/**
+	 * Some ROMs (for example, ones with the gesture bar hidden using a resource overlay) report no
+	 * bottom inset, but still place the keyboard window partially below the physical screen edge.
+	 * Then the bottom row of the keyboard is cut off and no fixed padding value fits every device.
+	 * Here we measure how many pixels the view hangs below the screen and lift the content by that much.
+	 */
+	private void fitToScreenBottom() {
+		if (tt9 == null || view == null || !view.isShown() || view.getHeight() <= 0) {
+			return;
+		}
+
+		if (!tt9.getSettings().getAutoFitBottom()) {
+			if (autoFitBottomPx != 0) {
+				autoFitBottomPx = 0;
+				setPadding();
+			}
+			return;
+		}
+
+		final int screenBottom = getScreenBottom();
+		if (screenBottom <= 0) {
+			return;
+		}
+
+		final int[] location = new int[2];
+		view.getLocationOnScreen(location);
+		final int overflow = location[1] + view.getHeight() - screenBottom;
+
+		// ignore nonsense values, e.g. when the window is still being moved or is in a floating mode
+		final int maxFit = Math.round(tt9.getResources().getDisplayMetrics().heightPixels * 0.2f);
+		final int wanted = overflow > FIT_TOLERANCE_PX ? Math.min(overflow, maxFit) : 0;
+
+		if (Math.abs(wanted - autoFitBottomPx) <= FIT_TOLERANCE_PX || autoFitAdjustments >= FIT_MAX_ADJUSTMENTS) {
+			return;
+		}
+
+		autoFitAdjustments++;
+		Logger.d(FIT_LOG_TAG, "viewBottom: " + (location[1] + view.getHeight()) + " screenBottom: " + screenBottom + " overflow: " + overflow + " -> extra bottom padding: " + wanted + "px");
+		autoFitBottomPx = wanted;
+		setPadding();
+	}
+
+
+	@SuppressWarnings("deprecation")
+	private int getScreenBottom() {
+		try {
+			final WindowManager wm = tt9.getSystemService(WindowManager.class);
+			if (wm == null) {
+				return 0;
+			}
+
+			if (DeviceInfo.AT_LEAST_ANDROID_11) {
+				final Rect bounds = wm.getMaximumWindowMetrics().getBounds();
+				return bounds.bottom;
+			}
+
+			final DisplayMetrics metrics = new DisplayMetrics();
+			wm.getDefaultDisplay().getRealMetrics(metrics);
+			return metrics.heightPixels;
+		} catch (Exception e) {
+			Logger.d(FIT_LOG_TAG, "Could not read the screen size. " + e.getMessage());
+			return 0;
+		}
 	}
 
 
 	void requestPreventEdgeToEdge() {
+		autoFitAdjustments = 0;
 		if (view != null && DeviceInfo.AT_LEAST_ANDROID_15) {
 			view.requestApplyInsets();
 		}
