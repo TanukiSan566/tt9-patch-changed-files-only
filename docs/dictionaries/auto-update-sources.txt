@@ -1,5 +1,5 @@
 Words added by the automatic dictionary update (.github/workflows/update-dictionaries.yml).
-The sources below were merged into the dictionaries of the listed languages. Last run: 2026-11-16
+The sources below were merged into the dictionaries of the listed languages. Last run: 2026-11-21
 
 [en]
 en: FrequencyWords (OpenSubtitles), https://github.com/hermitdave/FrequencyWords
@@ -25,3 +25,9 @@ Simplified Chinese (extra): THUOCL, https://github.com/thunlp/THUOCL
 Simplified Chinese (extra): rime-ice tencent.dict.yaml (Tencent AI Lab vocabulary), https://github.com/iDvel/rime-ice
   pinyin generated with pypinyin; only words made of the 8105 common characters, no frequency
   license: GPL-3.0 (rime-ice); Tencent AI Lab embedding data: see https://ai.tencent.com/ailab/nlp/zh/embedding.html
+Simplified Chinese (extra): fcitx5-pinyin-zhwiki 0.3.1, https://github.com/felixonmars/fcitx5-pinyin-zhwiki
+  Chinese Wikipedia titles + web slang; only words made of the 8105 common characters, pinyin as published there
+  license: Unlicense (the tool), the Wikipedia titles are CC BY-SA 4.0
+Simplified Chinese (extra): CC-CEDICT, https://www.mdbg.net/chinese/export/cedict/cedict_1_0_ts_utf-8_mdbg.zip (dated 2026-11-21T03:53:28Z)
+  only the simplified word and its pinyin (tones removed); only words made of the 8105 common characters, no frequency
+  license: CC BY-SA 4.0, https://creativecommons.org/licenses/by-sa/4.0/ , (c) the CC-CEDICT contributors and MDBG
