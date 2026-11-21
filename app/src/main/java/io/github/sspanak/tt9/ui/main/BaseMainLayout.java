@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.util.DisplayMetrics;
 import android.graphics.Rect;
@@ -24,6 +23,7 @@ import io.github.sspanak.tt9.ime.TraditionalT9;
 import io.github.sspanak.tt9.ime.helpers.Key;
 import io.github.sspanak.tt9.preferences.settings.SettingsStore;
 import io.github.sspanak.tt9.ui.main.keys.SoftKey;
+import io.github.sspanak.tt9.ui.tray.PinyinBar;
 import io.github.sspanak.tt9.ui.main.keys.SoftKeyAddWord;
 import io.github.sspanak.tt9.ui.main.keys.SoftKeyArrow;
 import io.github.sspanak.tt9.ui.main.keys.SoftKeyBackspace;
@@ -279,7 +279,17 @@ abstract public class BaseMainLayout {
 
 	int getKeyboardHeight() {
 		View keyboard = view != null ? view.findViewById(R.id.keyboard_container) : null;
-		return keyboard != null ? keyboard.getMeasuredHeight() : 0;
+		return keyboard != null ? Math.max(0, keyboard.getMeasuredHeight() - getPinyinRowHeight()) : 0;
+	}
+
+
+	/**
+	 * Customized build: the Pinyin row (small layout only) is not part of the calculated keyboard
+	 * height, so we must add it on top, while it is visible. Otherwise, the soft keys get cut off.
+	 */
+	private int getPinyinRowHeight() {
+		View pinyinBar = view != null ? view.findViewById(R.id.pinyin_bar) : null;
+		return pinyinBar != null && pinyinBar.getVisibility() == View.VISIBLE ? PinyinBar.getRowHeight(pinyinBar) : 0;
 	}
 
 
@@ -294,7 +304,7 @@ abstract public class BaseMainLayout {
 			return false;
 		}
 
-		params.height = height;
+		params.height = height + getPinyinRowHeight();
 		keyboard.setLayoutParams(params);
 		return true;
 	}

@@ -2,6 +2,7 @@ package io.github.sspanak.tt9.ui.tray;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,47 @@ public class PinyinBar {
 			view.setLayoutManager(new LinearLayoutManager(view.getContext(), RecyclerView.HORIZONTAL, false));
 			view.setAdapter(adapter);
 			view.setItemAnimator(null);
-			view.setVisibility(View.GONE);
+			view.setVisibility(View.GONE); // the container is not resized here, because it has not been sized yet
+		}
+	}
+
+
+	/**
+	 * The height of the Pinyin row. The keyboard container has a fixed height (see
+	 * BaseMainLayout.setKeyboardHeight()), that does not account for this row. Without making room
+	 * for it, the row pushes the soft keys below the container edge and they get cut off.
+	 */
+	public static int getRowHeight(@NonNull View bar) {
+		final float density = bar.getResources().getDisplayMetrics().density;
+		final Paint paint = new Paint();
+		paint.setTextSize(bar.getResources().getDimension(R.dimen.status_bar_text_size));
+		final Paint.FontMetrics metrics = paint.getFontMetrics();
+		// the text line + the 3dp top and bottom padding of pinyin_list_item.xml + a little safety margin
+		return Math.round(metrics.bottom - metrics.top + 6 * density + 2 * density);
+	}
+
+
+	/**
+	 * Shows or hides the row and grows or shrinks the fixed-height keyboard container accordingly.
+	 */
+	private void setRowVisible(boolean visible) {
+		if (view == null) {
+			return;
+		}
+
+		final boolean wasVisible = view.getVisibility() == View.VISIBLE;
+		view.setVisibility(visible ? View.VISIBLE : View.GONE);
+
+		if (wasVisible == visible || !(view.getParent() instanceof View)) {
+			return;
+		}
+
+		final View container = (View) view.getParent();
+		final ViewGroup.LayoutParams params = container.getLayoutParams();
+		if (params != null && params.height > 0) {
+			final int rowHeight = getRowHeight(view);
+			params.height = Math.max(0, params.height + (visible ? rowHeight : -rowHeight));
+			container.setLayoutParams(params);
 		}
 	}
 
@@ -89,7 +130,7 @@ public class PinyinBar {
 		if (rows == null || rows.isEmpty()) {
 			selected = -1;
 			adapter.notifyDataSetChanged();
-			view.setVisibility(View.GONE);
+			setRowVisible(false);
 			showArrows(false);
 			return;
 		}
@@ -97,7 +138,7 @@ public class PinyinBar {
 		items.addAll(rows);
 		selected = newSelected;
 		adapter.notifyDataSetChanged();
-		view.setVisibility(View.VISIBLE);
+		setRowVisible(true);
 		showArrows(true);
 
 		if (selected >= 0 && selected < items.size()) {
