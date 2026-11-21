@@ -23,6 +23,8 @@ GitHub Actions 自动运行：从开源词库下载**最新**数据 → 合并�
 | 英语 | [FrequencyWords](https://github.com/hermitdave/FrequencyWords)（OpenSubtitles 词频）＋ [dwyl/english-words](https://github.com/dwyl/english-words) 拼写过滤 | 词频表为 2018 年版，基本不再更新 | 英语没有“经常更新”的开放词频源，所以只补充新词、补全缺失的词频，不改已有词频。 |
 
 > 说明：百度、讯飞等商业输入法的云词库没有公开接口，也不能合法抓取后随 APK 分发，所以这里不使用。
+>
+> 没有收录的：`rime-community/rime-hotdict` 和 `outloudvi/moegirl-fcitx5` 这两个仓库不存在（`outloudvi/mw2fcitx` 只是生成工具，不是现成词库）；万象拼音的拼音列带辅助码、格式不同，需要另写解析器；汉典禁止批量抓取。
 
 ## 更宽的词源（`extra_sources`）
 
@@ -32,6 +34,9 @@ GitHub Actions 自动运行：从开源词库下载**最新**数据 → 合并�
 |---|---|---|
 | 中文 | `zh-thuocl` | THUOCL 11 个领域词表（IT、动物、财经、汽车、成语、地名、食物、法律、历史名人、医学、诗词），拼音由 `pypinyin` 生成，词频上限 100 |
 | 中文 | `zh-tencent` | rime-ice 的腾讯词向量词库（无拼音、无词频）。只取全部由 8105 常用字组成的 3–6 字词，按字的常用程度排序后取前 `max_words`（默认 20 万），拼音由 `pypinyin` 生成，词频为 0 |
+| 中文 | `zh-zhwiki` | fcitx5-pinyin-zhwiki 每月发布的中文维基词条标题（人名、地名、机构、作品、术语），以及同一发布里的 `web-slang` 网络流行语（内卷、躺平……）。词条没有词频，按“字的常用程度”排序后取前 `max_words`（默认 6 万）；网络流行语词频为 `slang_frequency`（默认 60），排在普通维基词之前。拼音是机器生成的，所以词典里已有人工读音的词不会再多出一个猜的读音 |
+| 中文 | `zh-cedict` | CC-CEDICT（MDBG，约每周更新）。只取简体词和它的拼音（去掉声调；释义不用），只收全部由 8105 常用字组成的 2–6 字词，儿化词（`r5`）跳过。主要补多音字的人工读音和 rime-ice 没有的词。许可 CC BY-SA 4.0，署名会写进 `docs/dictionaries/auto-update-sources.txt` |
+| 中文（默认关闭） | `zh`（rime-frost 白霜） | 版式和 rime-ice 一样、词频重新统计。想要更大的词库时，把 `config.json` 里那一项的 `enabled` 改成 `true` |
 | 英文 | `en-wordfreq` | `wordfreq` 多语料词频（`top_n` 15 万，`min_zipf` 2.5），用 dwyl 词表做拼写过滤，默认排除强粗口 |
 | 日语 | `ja-sudachi` | SudachiDict Full（small+core+notcore）里的专有名词和普通名词，片假名读音转罗马字，词频上限 60，不会压过 Mozc 的常用词 |
 

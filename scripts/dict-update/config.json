@@ -59,6 +59,46 @@
             "max_words": 200000,
             "common_chars_file": "8105"
           }
+        },
+        {
+          "source": "zh-zhwiki",
+          "params": {
+            "files": [
+              "zhwiki",
+              "web-slang"
+            ],
+            "min_word_length": 3,
+            "max_word_length": 8,
+            "max_words": 60000,
+            "slang_frequency": 60,
+            "common_chars_file": "8105"
+          }
+        },
+        {
+          "source": "zh-cedict",
+          "params": {
+            "min_word_length": 2,
+            "max_word_length": 6,
+            "max_words": 120000,
+            "common_chars_file": "8105"
+          }
+        },
+        {
+          "source": "zh",
+          "enabled": false,
+          "_comment": "OPTIONAL, off by default: rime-frost (白霜) has the same layout as rime-ice, but its word frequencies were recounted on a big corpus. Turn it on for a larger vocabulary.",
+          "params": {
+            "repo": "gaboolic/rime-frost",
+            "branch": "master",
+            "files": [
+              "base",
+              "ext"
+            ],
+            "max_word_length": 10,
+            "weight_floor": 100,
+            "max_frequency": 255,
+            "curated_files": []
+          }
         }
       ]
     },

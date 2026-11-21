@@ -72,3 +72,5 @@ def fingerprint_of(http, urls):
 from . import zh_rime_ice, ja_mozc, frequency_words  # noqa: E402,F401  (registers the built-in sources)
 
 from . import zh_extra, en_wordfreq, ja_sudachi  # noqa: E402,F401  (extra, broader sources)
+
+from . import zh_wiki  # noqa: E402,F401  (Chinese Wikipedia titles, web slang, CC-CEDICT)
