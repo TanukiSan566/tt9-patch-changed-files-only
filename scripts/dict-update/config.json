@@ -100,7 +100,23 @@
             "curated_files": []
           }
         }
-      ]
+      ],
+      "abbreviations": {
+        "_comment": "简拼 / 混拼: adds rows such as 周杰伦[ZJL] and 周杰伦[ZHOUJL] for the common words, so typing the initials (9-5-5) finds them. See README.md.",
+        "enabled": true,
+        "patterns": [
+          "initials",
+          "head_full"
+        ],
+        "min_word_length": 3,
+        "max_word_length": 6,
+        "min_frequency": 60,
+        "two_character_min_frequency": 150,
+        "two_character_max_words": 3000,
+        "initials_frequency_factor": 0.5,
+        "head_full_frequency_factor": 0.3,
+        "max_entries": 80000
+      }
     },
     "en": {
       "enabled": true,

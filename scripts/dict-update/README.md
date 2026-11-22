@@ -89,3 +89,29 @@ python scripts/dict-update/update_dictionaries.py --languages zh     # 只更新
 - **许可**：rime-ice 为 GPL-3.0，Mozc 为 BSD-3-Clause，FrequencyWords 内容为 CC-BY-SA，wordfreq 数据为 CC-BY-SA-4.0，SudachiDict 为 Apache-2.0（数据另有 UniDic 等声明），THUOCL 请看其仓库。更新后的出处会写入 `docs/dictionaries/auto-update-sources.txt`。如果要公开分发 APK，请先自行确认这些许可对你的要求。
 - **仓库体积**：每次真正更新都会提交大文件（日语词典约 47 MB）。GitHub 单文件上限 100 MB，请留意；想减小体积就调低 `max_cost`。
 - **回滚**：不满意就在 GitHub 上 `Revert` 那次 `Update dictionaries` 提交即可。
+
+## 简拼 / 混拼（提高 T9 命中率）
+
+TT9 靠“按键数字序列”查词，词典里只有全拼：周杰伦 = `ZHOUJIELUN`，所以按 `zjl`（9-5-5）或 `zhoujl` 找不到它。
+更新时（`scripts/dict-update/abbreviations.py`）会给常用词额外生成两种行，例如：
+
+```
+周杰伦	ZJL       # 每个音节的首字母
+周杰伦	ZHOUJL    # 第一个音节全拼，后面取首字母（只对 3 字以上的词）
+```
+
+这些是普通的“词 + 拼音 + 词频”行，App 不需要任何改动；选中后 App 会像普通词一样学习词频。每次更新都会重新检查：已有的行保留，只在词频变高时抬高。
+
+`config.json` → `languages.zh.abbreviations`：
+
+| 设置 | 默认 | 说明 |
+|---|---|---|
+| `enabled` | `true` | 总开关 |
+| `patterns` | `initials`, `head_full` | 生成哪几种 |
+| `min_frequency` | 60 | 3 字以上的词词频不低于它才生成（词典里有很多“在充分”“给朋友”这类短语碎片，所以不放得太低） |
+| `two_character_min_frequency` / `two_character_max_words` | 150 / 3000 | 2 字词（北京=BJ）最容易和别的词、和真实拼音（WM=96=WO）撞键，只给最常用的 |
+| `skip_prefixes` / `skip_suffixes` | 在把被给让从向与就 / 了的地着过吗呢吧么 | 这类开头或结尾的词不生成 |
+| `initials_frequency_factor` / `head_full_frequency_factor` | 0.5 / 0.3 | 简拼行的词频 = 原词频 × 系数，所以同样按键下全拼词排在前面 |
+| `max_entries` | 80000 | 最多生成多少行 |
+
+已知的取舍：同样的按键下，简拼词会和别的词一起出现在候选里（比如按 `ZJL` 会有 总经理、周杰伦、主教练……），按词频排序；拼音行里也会出现 `zjl` 这样的“音”。想关掉就把 `enabled` 设为 `false`（已生成的行不会自动删除）。

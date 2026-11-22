@@ -24,6 +24,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 
+import abbreviations  # noqa: E402
 import dictlib  # noqa: E402
 import sources  # noqa: E402
 
@@ -171,6 +172,12 @@ def main():
 			continue
 		attribution[code] = result.attribution
 
+		abbreviation_cfg = lang.get('abbreviations') or {}
+		abbreviations_on = bool(abbreviation_cfg) and abbreviation_cfg.get('enabled', True)
+		if abbreviations_on:
+			# the abbreviation settings are part of the fingerprint too: changing them makes the next run rebuild the rows
+			result.fingerprint = hashlib.sha256((result.fingerprint + json.dumps(abbreviation_cfg, sort_keys=True)).encode()).hexdigest()[:16]
+
 		if not args.force and state.get(code, {}).get('fingerprint') == result.fingerprint:
 			print(f'   sources unchanged since {state[code].get("updated")}, skipping')
 			report.append(f'## {code}\nSources unchanged since {state[code].get("updated")}, nothing to do.\n')
@@ -182,6 +189,10 @@ def main():
 			dictionary, definition, result.entries, lang.get('frequency_policy', 'fill-missing'), lang.get('max_new_words', 0),
 			getattr(result, 'generated', frozenset())
 		)
+
+		abbreviations_added = abbreviations_raised = abbreviations_rejected = 0
+		if abbreviations_on:
+			abbreviations_added, abbreviations_raised, abbreviations_rejected = abbreviations.apply(dictionary, definition, abbreviation_cfg)
 
 		errors = dictlib.validate(dictionary, definition)
 		if errors:
@@ -199,10 +210,13 @@ def main():
 			f'- new words: {len(added):,}, frequencies raised: {len(updated):,}, rejected by validation: {rejected:,}',
 			f'- source fingerprint: `{result.fingerprint}`',
 			'- examples of new words: ' + ', '.join(w if not t else f'{w}[{t}]' for w, t, _ in added[:15]),
-			'',
 		]
+		if abbreviations_on:
+			report.append(f'- abbreviation rows (简拼/混拼, e.g. 周杰伦[ZJL]): {abbreviations_added:,} added, {abbreviations_raised:,} frequencies raised, {abbreviations_rejected:,} rejected by validation')
+			print(f'   abbreviations: {abbreviations_added} added, {abbreviations_raised} raised, {abbreviations_rejected} rejected')
+		report.append('')
 
-		if added or updated:
+		if added or updated or abbreviations_added or abbreviations_raised:
 			changed_any = True
 			if not args.dry_run:
 				dictionary.save()
