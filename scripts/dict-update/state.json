@@ -1,6 +1,6 @@
 {
   "_apk": {
-    "updated": "2026-11-16",
+    "updated": "2026-11-21",
     "upstream_tag": "v64.0"
   },
   "en": {
@@ -12,7 +12,7 @@
     "updated": "2026-11-15"
   },
   "zh": {
-    "fingerprint": "e76282028f1641c0",
-    "updated": "2026-11-15"
+    "fingerprint": "350d31654810ec09",
+    "updated": "2026-11-21"
   }
 }
