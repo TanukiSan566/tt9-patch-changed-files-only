@@ -1,18 +1,18 @@
 {
   "_apk": {
-    "updated": "2026-11-23",
-    "upstream_tag": "v64.0"
+    "updated": "2026-11-26",
+    "upstream_tag": "v65.0"
   },
   "en": {
     "fingerprint": "3919c86725c06df6",
-    "updated": "2026-11-15"
+    "updated": "2026-11-26"
   },
   "ja": {
     "fingerprint": "d7e181983a820bd7",
-    "updated": "2026-11-15"
+    "updated": "2026-11-26"
   },
   "zh": {
-    "fingerprint": "c965754701c83a7e",
-    "updated": "2026-11-23"
+    "fingerprint": "37c9e37c40f3b378",
+    "updated": "2026-11-26"
   }
 }
